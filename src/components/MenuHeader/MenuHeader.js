@@ -28,9 +28,10 @@ class MenuHeader extends Component {
       //       </li>
       //     );
       //   }
+      var {name} = item;
       return (
         <li key={index} className="category">
-          {item.idParent.length > 0 ? <a href="samsung">{item.name}</a> : 
+          {item.idParent.length > 0 ? <a href={name.toLowerCase()}>{item.name}</a> : 
             <span>{item.name}</span>
           }
           
@@ -48,7 +49,6 @@ class MenuHeader extends Component {
     this.props.onCategory();
   }
   createCategories = (categories, idParent = null) => {
-    console.log(categories);
     const categoryList = [];
     let category;
     if (idParent === null) {
@@ -58,7 +58,6 @@ class MenuHeader extends Component {
     } else {
       category = categories.filter((cat) => cat.idParent === idParent);
     }
-    console.log(category);
     for (let cate of category) {
       categoryList.push({
         id: cate.id,
@@ -67,14 +66,11 @@ class MenuHeader extends Component {
         children: this.createCategories(categories, cate.id),
       });
     }
-    console.log(categoryList);
     return categoryList;
   };
   render() {
     var { category } = this.props;
-    console.log(category);
     var categorySort = this.createCategories(category);
-    console.log(categorySort);
     return (
       <div>
         <Container fluid>

@@ -34,6 +34,7 @@ span:hover {
     position: absolute;
     left: 0;
     right: 0;
+    z-index: 9999;
     display: none;
     background: #fff;
     border: 1px solid #cecece;
@@ -55,6 +56,8 @@ dùng float: left để ép từng thằng con lớn theo trái sau mỗi lần 
 /* thẻ a đầu tiên của mỗi object sau khi đệ quy*/
 .menuHeader > ul > li > ul > li > a {
     font-weight: bold;
+    cursor: default;
+    pointer-events: none;
 }
 .menuHeader > ul > li > ul > li a {
     color: #707070;
