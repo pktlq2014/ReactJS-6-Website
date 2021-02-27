@@ -1,0 +1,64 @@
+.menuHeader {
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    border-bottom: 1px solid #cecece;
+    box-shadow: 0 2px 2px -2px #333;
+}
+.textAlign-justify {
+    text-align: justify;
+}
+.menuHeader ul {
+    list-style: none;
+    padding: 0;
+}
+/* chỉ sét css cho những thằng ul đầu tiên (những thằng cha) , còn những 
+//thằng ul con bên trong thẻ li con bên trong sau khi gọi đệ quy thì không dùng */
+/* thẻ ul đầu tiên */
+.menuHeader > ul {
+    display: flex;
+    margin: 0 5rem;
+    position: relative;
+}
+span {
+    /* display: block; */
+    cursor: pointer;
+    line-height: 2.5rem;
+    padding: 0 2rem;
+    font-size: 1rem;
+}
+span:hover {
+    color: #2874f0;
+}
+.menuHeader > ul > li > ul {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: none;
+    background: #fff;
+    border: 1px solid #cecece;
+}
+/* dòng này là lọc hiển thị ra UI nè
+hover vào thẻ li đầu tiên */
+.menuHeader > ul > li:hover ul{
+    display: block;
+}
+/* thằng cha có con lớn và con nhỏ
+mỗi 1 đệ quy gọi lại sẽ lấy ra được 1 thằng con lớn
+dùng float: left để ép từng thằng con lớn theo trái sau mỗi lần đệ quy */
+/* thẻ li đầu tiên của mỗi object sau khi đệ quy*/
+.menuHeader > ul > li > ul > li {
+    margin: 0 2rem;
+    float: left;
+    min-width: 4.5rem;
+}
+/* thẻ a đầu tiên của mỗi object sau khi đệ quy*/
+.menuHeader > ul > li > ul > li > a {
+    font-weight: bold;
+}
+.menuHeader > ul > li > ul > li a {
+    color: #707070;
+    text-decoration: none;
+    font-size: 12px;
+}
+
