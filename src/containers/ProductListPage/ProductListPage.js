@@ -5,15 +5,25 @@ import { Card, Button } from "react-bootstrap";
 import * as actions from "./../../actions/index";
 import Layout from "./../../components/Layout/layout";
 class ProductListPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sortPrice: [
+        {
+          price: 500,
+        },
+        {
+          price: 1000,
+        },
+      ],
+    };
+  }
   componentDidMount() {
     this.props.onProductAPI();
     this.props.onCategoryAPI();
   }
-  render() {
-    var { product, match, category } = this.props;
-    var slug = "";
-    console.log(category);
-    var showProduct = product.map((values, index) => {
+  showProduct = (product, category, match, slug) => {
+    var result = product.map((values, index) => {
       category.forEach((categoryValues, index) => {
         if (values.categoryID === categoryValues.id) {
           console.log(categoryValues.name.toLowerCase());
@@ -46,10 +56,10 @@ class ProductListPage extends Component {
                 {values.name}
               </Card.Title>
               <div className="productInfo_display">
-                <Card.Text>{values.quantity}</Card.Text>
                 <Card.Text>5000</Card.Text>
+                <Card.Text>{values.quantity}</Card.Text>
               </div>
-              <Card.Text className="productPrice">{values.price}</Card.Text>
+              <Card.Text className="productPrice">{values.price}$</Card.Text>
               <Button variant="primary">Go somewhere</Button>
             </Card.Body>
           </Card>
@@ -58,20 +68,42 @@ class ProductListPage extends Component {
         return null;
       }
     });
-    return (
-      <Layout>
-        <Card>
+    return result;
+  };
+  render() {
+    var { product, match, category } = this.props;
+    var { sortPrice } = this.state;
+    var slug = "";
+    var array1 = [];
+    var array2 = [];
+    var result = product.filter((values, index) => {
+      if (values.price >= 0 && values.price <= 500) {
+        return array1.push(values);
+      } else if (values.price > 500 && values.price <= 1000) {
+        return array2.push(values);
+      }
+    });
+    console.log(array1);
+    console.log(array2);
+    var showProduct = sortPrice.map((valuessss, index3) => {
+      return (
+        <Card key={index3}>
           <Card.Header as="h5" className="cardHeader">
             <Card.Text className="cartHeader_marginTop">
-              {match.params.slug} under 10k
+              {match.params.slug} - under {valuessss.price}$
             </Card.Text>
             <Button variant="primary">View All</Button>
           </Card.Header>
 
-          <Card.Body className="show_product">{showProduct}</Card.Body>
+          <Card.Body className="show_product">
+            {valuessss.price >= 0 && valuessss.price <= 500
+              ? this.showProduct(array1, category, match, slug)
+              : this.showProduct(array2, category, match, slug)}
+          </Card.Body>
         </Card>
-      </Layout>
-    );
+      );
+    });
+    return <Layout>{showProduct}</Layout>;
   }
 }
 const mapStateToProps = (state) => {
