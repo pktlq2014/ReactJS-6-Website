@@ -4,6 +4,9 @@ import "./styles.css";
 import { Card, Button } from "react-bootstrap";
 import * as actions from "./../../actions/index";
 import Layout from "./../../components/Layout/layout";
+import Star from "@material-ui/icons/Star";
+import StarBorder from "@material-ui/icons/StarBorder";
+import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 class ProductListPage extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +21,16 @@ class ProductListPage extends Component {
       ],
     };
   }
+  showStar = (data) => {
+    var result = [];
+    for (var i = 0; i < data; i++) {
+      result.push(<Star className="star" />);
+    }
+    for (var i = 0; i < 5 - data; i++) {
+      result.push(<StarBorder />);
+    }
+    return result;
+  };
   componentDidMount() {
     this.props.onProductAPI();
     this.props.onCategoryAPI();
@@ -32,7 +45,24 @@ class ProductListPage extends Component {
       });
       if (match.params.slug === slug) {
         return (
-          <Card key={index} border="primary" style={{ width: "18rem" }}>
+          <Card
+            key={index}
+            border="primary"
+            className="card_parent"
+            style={{ width: "18rem" }}
+          >
+            <div class="home-product-item__favourite">
+              <CheckCircleOutline
+                className="checkOutline"
+                style={{ fontSize: 17.5 }}
+              />
+              favourite
+            </div>
+
+            <div class="home-product-item__sale-off">
+              <span class="home-product-item__sale-off-percent">{values.sales}%</span>
+              <span class="home-product-item__sale-off-label">SALE</span>
+            </div>
             <div className="productImgContainer">
               {values.productPictures.map((valuess, index3) => {
                 var index = valuess.img.indexOf("samsung");
@@ -56,10 +86,15 @@ class ProductListPage extends Component {
                 {values.name}
               </Card.Title>
               <div className="productInfo_display">
-                <Card.Text>5000</Card.Text>
-                <Card.Text>{values.quantity}</Card.Text>
+                <Card.Text>{this.showStar(values.star)}</Card.Text>
+                <Card.Text className="showQuantity">
+                  ({values.quantity})
+                </Card.Text>
               </div>
-              <Card.Text className="productPrice">{values.price}$</Card.Text>
+              <Card.Text className="productPrice">
+                <p>{values.price}$</p>
+                <p className="Oldprice">{values.price * 2}$</p>
+              </Card.Text>
               <Button variant="primary">Go somewhere</Button>
             </Card.Body>
           </Card>
