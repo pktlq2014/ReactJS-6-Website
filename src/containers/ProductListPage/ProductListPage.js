@@ -92,7 +92,7 @@ class ProductListPage extends Component {
                 </Card.Text>
               </div>
               <Card.Text className="productPrice">
-                <p>{values.price}$</p>
+                <p>{(values.price * 2 * ((100 - values.sales) / 100))}$</p>
                 <p className="Oldprice">{values.price * 2}$</p>
               </Card.Text>
               <Button variant="primary">Go somewhere</Button>
