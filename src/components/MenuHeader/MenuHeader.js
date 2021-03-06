@@ -31,7 +31,7 @@ class MenuHeader extends Component {
       var {name} = item;
       return (
         <li key={index} className="category">
-          {item.idParent.length > 0 ? <a href={name.toLowerCase()}>{item.name}</a> : 
+          {item.idParent.length > 0 ? <a href={`/${name.toLowerCase()}?cid=${item.id}&type=${item.type}`}>{item.name}</a> : 
             <span>{item.name}</span>
           }
           
@@ -63,6 +63,7 @@ class MenuHeader extends Component {
         id: cate.id,
         name: cate.name,
         idParent: cate.idParent,
+        type: cate.type,
         children: this.createCategories(categories, cate.id),
       });
     }
@@ -70,7 +71,9 @@ class MenuHeader extends Component {
   };
   render() {
     var { category } = this.props;
+    console.log(category);
     var categorySort = this.createCategories(category);
+    console.log(categorySort);
     return (
       <div>
         <Container fluid>
