@@ -38,6 +38,7 @@ span:hover {
     display: none;
     background: #fff;
     border: 1px solid #cecece;
+    padding-bottom: 1.25rem;
 }
 /* dòng này là lọc hiển thị ra UI nè
 hover vào thẻ li đầu tiên */
@@ -58,10 +59,16 @@ dùng float: left để ép từng thằng con lớn theo trái sau mỗi lần 
     font-weight: bold;
     cursor: default;
     pointer-events: none;
+    text-align: justify;
 }
 .menuHeader > ul > li > ul > li a {
     color: #707070;
     text-decoration: none;
-    font-size: 12px;
+    display: flex;
+    font-size: 12.5px;
+    margin-top: 1rem;
+}
+.menuHeader > ul > li > ul > li a:hover {
+    color: #2874f0;
 }
 
