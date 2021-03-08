@@ -29,3 +29,17 @@ export const categoryAPI = () => {
           data : data
       }
   }
+  export const typeAPI = () => {
+    return async (dispatch) => {
+      return API('page', 'GET', null).then(res => {
+          console.log(res);
+          dispatch(typeReducers(res.data));
+      });
+    };
+  };
+  export const typeReducers = (data) => {
+      return {
+          type : types.authConstants.TYPE,
+          data : data
+      }
+  }
