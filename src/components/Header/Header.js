@@ -23,19 +23,19 @@ class Header extends Component {
       active1: "active",
       active2: "",
       temp: 0,
-      register_active : ''
+      register_active: "",
     };
   }
   onClose = () => {
     this.setState({
-      register_active : ''
-    })
-  }
+      register_active: "",
+    });
+  };
   registerActive = () => {
     this.setState({
-      register_active : 'register_active'
-    })
-  }
+      register_active: "register_active",
+    });
+  };
   onActive = () => {
     if (this.state.temp === 0) {
       this.setState({
@@ -59,7 +59,7 @@ class Header extends Component {
             <div className="col-md-3 register-left">
               <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
               <h3>Welcome</h3>
-              <p>You are 30 seconds away from earning your own money!</p>
+              <p>Shopee respectfully greet customers.</p>
               {/* <input type="submit" name="" value="Login"/><br/> */}
             </div>
             <div className="col-md-9 register-right">
@@ -293,10 +293,6 @@ class Header extends Component {
           </div>
         </div>
 
-
-
-
-
         <div className="header">
           <div className="grid wide">
             <nav className="nav__navbar hide-on-tablet-mobile">
@@ -517,7 +513,10 @@ class Header extends Component {
                   </a>
                 </li>
 
-                <li onClick={this.registerActive} className="header__navbar-signed header__navbar-item-link header__navbar-control header__navbar-item header__navbar-item--saparate">
+                <li
+                  onClick={this.registerActive}
+                  className="header__navbar-signed header__navbar-item-link header__navbar-control header__navbar-item header__navbar-item--saparate"
+                >
                   <AccountCircleIcon className="header__navbar-icon" />
                   Signup
                 </li>
