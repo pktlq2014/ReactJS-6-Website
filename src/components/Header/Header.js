@@ -32,9 +32,15 @@ class Header extends Component {
       phone: "",
       email: "",
       data: -1,
-      emailSignin : '',
-      passwordSignin : ''
+      emailSignin: "",
+      passwordSignin: "",
+      status: 0,
+      emailStatus : ''
     };
+  }
+  onSignout = () => {
+    //localStorage.clear();
+    localStorage.removeItem('statusLogin');
   }
   componentDidMount() {
     this.props.onLogin();
@@ -80,7 +86,10 @@ class Header extends Component {
         radio: "",
       });
     } else if (this.state.data === 1) {
-      if (this.state.emailSignin.length > 0 && this.state.passwordSignin.length > 0) {
+      if (
+        this.state.emailSignin.length > 0 &&
+        this.state.passwordSignin.length > 0
+      ) {
         var { signin } = this.props;
         console.log(signin);
         signin.forEach((values, index) => {
@@ -88,15 +97,21 @@ class Header extends Component {
             values.email === this.state.emailSignin &&
             values.password === this.state.passwordSignin
           ) {
-            alert("dang nhap thanh cong");
+            const user = {
+              email: this.state.emailSignin,
+              password: this.state.passwordSignin,
+            };
+            localStorage.setItem("statusLogin", JSON.stringify(user));
+            this.props.onStatusLogin(user);
           }
         });
       } else {
+
       }
       this.setState({
-        emailSignin: "",
-        passwordSignin: "",
-      });
+        emailSignin : '',
+        passwordSignin : ''
+      })
     }
     console.log(this.state);
   };
@@ -133,6 +148,23 @@ class Header extends Component {
     }
   };
   render() {
+    var { signin, statusLogin } = this.props;
+    console.log(statusLogin);
+    // var statusLogin = signin.map((values, index) => {
+    //   if (
+    //     values.email === this.state.emailSignin &&
+    //     values.password === this.state.passwordSignin
+    //   ) {
+    //     const user = {
+    //       email: this.state.emailSignin,
+    //       password: this.state.passwordSignin,
+    //     };
+    //     localStorage.setItem("statusLogin", JSON.stringify(user));
+    //   }
+    //   else {
+
+    //   }
+    // });
     return (
       <div className="app">
         <div className={`container register ${this.state.register_active}`}>
@@ -568,38 +600,45 @@ class Header extends Component {
                   </a>
                 </li>
 
-                <li
-                  onClick={this.registerActive}
-                  className="header__navbar-signed header__navbar-item-link header__navbar-control header__navbar-item header__navbar-item--saparate"
-                >
-                  <AccountCircleIcon className="header__navbar-icon" />
-                  Signup
-                </li>
-
-                <li className="header__navbar-item header__navbar-user">
-                  <img src={users} className="header__navbar-user-img" alt="" />
-                  <p className="header__navbar-user-name">Văn Tỷ</p>
-                  <ul className="header__navbar-user-list">
-                    <li className="header__navbar-user-item">
-                      <a href="#" className="header__navbar-user-link">
-                        My Account
-                      </a>
-                    </li>
-                    <li className="header__navbar-user-item">
-                      <a href="#" className="header__navbar-user-link">
-                        My Address
-                      </a>
-                    </li>
-                    <li className="header__navbar-user-item">
-                      <a
-                        href=""
-                        className="header__navbar-user-link header__navbar-user-log-out"
-                      >
-                        Signout
-                      </a>
-                    </li>
-                  </ul>
-                </li>
+                {statusLogin ? (
+                  <li className="header__navbar-item header__navbar-user">
+                    <img
+                      src={users}
+                      className="header__navbar-user-img"
+                      alt=""
+                    />
+                    <p className="header__navbar-user-name">{statusLogin.email}</p>
+                    <ul className="header__navbar-user-list">
+                      <li className="header__navbar-user-item">
+                        <a href="#" className="header__navbar-user-link">
+                          My Account
+                        </a>
+                      </li>
+                      <li className="header__navbar-user-item">
+                        <a href="#" className="header__navbar-user-link">
+                          My Address
+                        </a>
+                      </li>
+                      <li className="header__navbar-user-item">
+                        <a
+                          href=""
+                          onClick={this.onSignout}
+                          className="header__navbar-user-link header__navbar-user-log-out"
+                        >
+                          Signout
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                ) : (
+                  <li
+                    onClick={this.registerActive}
+                    className="header__navbar-signed header__navbar-item-link header__navbar-control header__navbar-item header__navbar-item--saparate"
+                  >
+                    <AccountCircleIcon className="header__navbar-icon" />
+                    Signup
+                  </li>
+                )}
               </ul>
             </nav>
           </div>
@@ -703,6 +742,7 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     signin: state.signin,
+    statusLogin: state.statusLogin,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -710,9 +750,12 @@ const mapDispatchToProps = (dispatch, props) => {
     onAccount: (data) => {
       dispatch(actions.signUpAPI(data));
     },
-    onLogin : () => {
+    onLogin: () => {
       dispatch(actions.signinAPI());
-    }
+    },
+    onStatusLogin: (data) => {
+      dispatch(actions.statusLogin(data));
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
