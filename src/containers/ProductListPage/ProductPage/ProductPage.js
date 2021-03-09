@@ -18,11 +18,11 @@ class ProductPage extends Component {
     return (
       <div>
         {type.map((values, index) => {
-          return <h3>{values.title}</h3>;
+          return <h3 key={index}>{values.title}</h3>;
         })}
         {type.map((values, index) => {
           return (
-            <Carousel renderThumbs={() => {}}>
+            <Carousel key={index} renderThumbs={() => {}}>
               {values.banners &&
                 values.banners.map((valuess, index) => {
                   console.log(valuess.img);
