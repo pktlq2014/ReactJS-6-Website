@@ -100,7 +100,7 @@ class Header extends Component {
                   role="tabpanel"
                   aria-labelledby="home-tab"
                 >
-                  <h3 className="register-heading">Apply as a Employee</h3>
+                  <h3 className="register-heading">Sign-up</h3>
                   <div className="row register-form">
                     <div className="col-md-6">
                       <div className="form-group">
@@ -111,6 +111,7 @@ class Header extends Component {
                           value=""
                         />
                       </div>
+
                       <div className="form-group">
                         <input
                           type="text"
@@ -119,6 +120,7 @@ class Header extends Component {
                           value=""
                         />
                       </div>
+
                       <div className="form-group">
                         <input
                           type="password"
@@ -127,14 +129,7 @@ class Header extends Component {
                           value=""
                         />
                       </div>
-                      <div className="form-group">
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Confirm Password *"
-                          value=""
-                        />
-                      </div>
+
                       <div className="form-group">
                         <div className="maxl">
                           <label className="radio inline">
@@ -153,6 +148,7 @@ class Header extends Component {
                         </div>
                       </div>
                     </div>
+
                     <div className="col-md-6">
                       <div className="form-group">
                         <input
@@ -174,29 +170,29 @@ class Header extends Component {
                         />
                       </div>
                       <div className="form-group">
-                        <select className="form-control">
-                          <option className="hidden" selected disabled>
-                            Please select your Sequrity Question
-                          </option>
-                          <option>What is your Birthdate?</option>
-                          <option>What is Your old Phone Number</option>
-                          <option>What is your Pet Name?</option>
-                        </select>
-                      </div>
-                      <div className="form-group">
                         <input
-                          type="text"
+                          type="password"
                           className="form-control"
-                          placeholder="Enter Your Answer *"
+                          placeholder="Confirm Password *"
                           value=""
                         />
                       </div>
-                      <input
-                        type="submit"
-                        onClick={this.onClose}
-                        className="btnRegister"
-                        value="Close"
-                      />
+                      <div className="btn_signup">
+                        <button
+                          type="submit"
+                          onClick={this.onClose}
+                          className="btnRegister"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="submit"
+                          onClick={this.onClose}
+                          className="btnRegister"
+                        >
+                          Submit
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -206,40 +202,14 @@ class Header extends Component {
                   role="tabpanel"
                   aria-labelledby="profile-tab"
                 >
-                  <h3 className="register-heading">Apply as a Hirer</h3>
+                  <h3 className="register-heading">Sign-in</h3>
                   <div className="row register-form">
                     <div className="col-md-6">
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="First Name *"
-                          value=""
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Last Name *"
-                          value=""
-                        />
-                      </div>
                       <div className="form-group">
                         <input
                           type="email"
                           className="form-control"
                           placeholder="Email *"
-                          value=""
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          maxlength="10"
-                          minlength="10"
-                          className="form-control"
-                          placeholder="Phone *"
                           value=""
                         />
                       </div>
@@ -253,38 +223,22 @@ class Header extends Component {
                           value=""
                         />
                       </div>
-                      <div className="form-group">
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Confirm Password *"
-                          value=""
-                        />
+                      <div className="btn_signup">
+                        <button
+                          type="submit"
+                          onClick={this.onClose}
+                          className="btnRegister"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="submit"
+                          onClick={this.onClose}
+                          className="btnRegister"
+                        >
+                          Submit
+                        </button>
                       </div>
-                      <div className="form-group">
-                        <select className="form-control">
-                          <option className="hidden" selected disabled>
-                            Please select your Sequrity Question
-                          </option>
-                          <option>What is your Birthdate?</option>
-                          <option>What is Your old Phone Number</option>
-                          <option>What is your Pet Name?</option>
-                        </select>
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="`Answer *"
-                          value=""
-                        />
-                      </div>
-                      <input
-                        type="submit"
-                        onClick={this.onClose}
-                        className="btnRegister"
-                        value="Close"
-                      />
                     </div>
                   </div>
                 </div>

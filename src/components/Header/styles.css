@@ -1532,7 +1532,7 @@ body {
 .register {
   background: -webkit-linear-gradient(left, #3931af, #00c6ff);
   position: fixed;
-  top: 11%;
+  top: 15%;
   left: 6%;
   /* toàn bộ cái popup màu xám */
   z-index: 99999999999;
@@ -1616,8 +1616,12 @@ body {
   background: #0062cc;
   color: #fff;
   font-weight: 600;
-  width: 50%;
+  width: 45%;
   cursor: pointer;
+}
+.btn_signup {
+  display: flex;
+  justify-content: space-between;
 }
 .register .nav-tabs {
   margin-top: 3%;
