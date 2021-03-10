@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./styles.css";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import * as actions from "./../../../actions/index";
 import Star from "@material-ui/icons/Star";
+import { Link, Redirect } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 import StarBorder from "@material-ui/icons/StarBorder";
 import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 class ProductStore extends Component {
@@ -20,6 +22,10 @@ class ProductStore extends Component {
       ],
     };
   }
+  // onClick = (id, slug) => {
+  //   alert("aaa");
+  //   return <Redirect to={`/${slug}/${id}/p`}></Redirect>;
+  // }
   showStar = (data) => {
     var result = [];
     for (var i = 0; i < data; i++) {
@@ -34,7 +40,7 @@ class ProductStore extends Component {
     this.props.onProductAPI();
     this.props.onCategoryAPI();
   }
-  showProduct = (product, category, match, slug) => {
+  showProduct = (product, category, match, slug, slugProduct) => {
     var result = product.map((values, index) => {
       category.forEach((categoryValues, index) => {
         if (values.categoryID === categoryValues.id) {
@@ -50,53 +56,57 @@ class ProductStore extends Component {
             className="card_parent"
             style={{ width: "18rem" }}
           >
-            <div className="home-product-item__favourite">
+            <di className="home-product-item__favourite product">
               <CheckCircleOutline
                 className="checkOutline"
                 style={{ fontSize: 17.5 }}
               />
               favourite
-            </div>
+            </di>
 
-            <div className="home-product-item__sale-off">
+            <di className="home-product-item__sale-off product">
               <span className="home-product-item__sale-off-percent">
                 {values.sales}%
               </span>
               <span className="home-product-item__sale-off-label">SALE</span>
-            </div>
-            <div className="productImgContainer">
-              {values.productPictures.map((valuess, index3) => {
-                var index = valuess.img.indexOf("samsung");
-                if (index === 1) {
-                }
-                //var image = require(`./../../assets/images/${values.productPictures[index].img}`);
-                var image = require(`./../../../assets/images/${valuess.img}`);
-                return (
-                  <img
-                    key={index3}
-                    className="img"
-                    //src={`${process.env.PUBLIC_URL}/${truoc}`}
-                    src={image.default}
-                    alt="logo"
-                  />
-                );
-              })}
-            </div>
-            <Card.Body className="productInfo">
-              <Card.Title className="productInfo_name">
-                {values.name}
-              </Card.Title>
-              <div className="productInfo_display">
-                <Card.Text>{this.showStar(values.star)}</Card.Text>
-                <Card.Text className="showQuantity">
-                  ({values.quantity})
-                </Card.Text>
+            </di>
+            <Link style={{ textDecoration: 'none' }} to={`/${match.params.slug}/${values.id}/p`}>
+              <div className="productImgContainer product">
+                {values.productPictures.map((valuess, index3) => {
+                  var index = valuess.img.indexOf("samsung");
+                  if (index === 1) {
+                  }
+                  //var image = require(`./../../assets/images/${values.productPictures[index].img}`);
+                  var image = require(`./../../../assets/images/${valuess.img}`);
+                  return (
+                    <img
+                      key={index3}
+                      className="img"
+                      //src={`${process.env.PUBLIC_URL}/${truoc}`}
+                      src={image.default}
+                      alt="logo"
+                    />
+                  );
+                })}
               </div>
-              <Card.Text className="productPrice">
-                <p>{values.price * 2 * ((100 - values.sales) / 100)}$</p>
-                <p className="Oldprice">{values.price * 2}$</p>
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
+            </Link>
+            <Card.Body className="productInfo">
+              <Link style={{ textDecoration: 'none' }} to={`/${match.params.slug}/${values.id}/p`}>
+                <Card.Title className="productInfo_name product">
+                  {values.name}
+                </Card.Title>
+                <div className="productInfo_display product">
+                  <Card.Text>{this.showStar(values.star)}</Card.Text>
+                  <Card.Text className="showQuantity">
+                    ({values.quantity})
+                  </Card.Text>
+                </div>
+                <Card.Text className="productPrice product">
+                  <p>{values.price * ((100 - values.sales) / 100)}$</p>
+                  <p className="Oldprice">{values.price}$</p>
+                </Card.Text>
+              </Link>
+              <button className="add_to_cart">Add To Cart</button>
             </Card.Body>
           </Card>
         );
@@ -124,19 +134,33 @@ class ProductStore extends Component {
     console.log(array1);
     console.log(array2);
     var showProduct = sortPrice.map((valuessss, index3) => {
+      console.log(match.params.slug);
+      console.log(slug);
       return (
         <Card key={index3}>
           <Card.Header as="h5" className="cardHeader">
             <Card.Text className="cartHeader_marginTop">
               {match.params.slug} - under {valuessss.price}$
             </Card.Text>
-            <Button variant="primary">View All</Button>
+            <button className="add_to_cart">View All</button>
           </Card.Header>
 
           <Card.Body className="show_product">
             {valuessss.price >= 0 && valuessss.price <= 500
-              ? this.showProduct(array1, category, match, slug)
-              : this.showProduct(array2, category, match, slug)}
+              ? this.showProduct(
+                  array1,
+                  category,
+                  match,
+                  slug,
+                  match.params.slug
+                )
+              : this.showProduct(
+                  array2,
+                  category,
+                  match,
+                  slug,
+                  match.params.slug
+                )}
           </Card.Body>
         </Card>
       );

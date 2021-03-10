@@ -77,8 +77,8 @@
     left: 0;
     font-weight: 500;
     text-transform: uppercase;
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
   }
   .checkOutline {
     margin-right: 0.5rem;
@@ -133,7 +133,20 @@
     color: #fff;
     text-align: center;
     font-size: 1rem;
+    padding-left: 0;
+    margin-left: 0;
     position: absolute;
     bottom: 3px;
   }
-  
+  .add_to_cart {
+    background-color: #2874f0;
+    border: none;
+    color: white;
+    padding: 0.5rem 2rem;
+  }
+  .add_to_cart:hover {
+    background-color: #1707f1;
+  }
+  /* .product:hover {
+    text-decoration: none;
+  } */
