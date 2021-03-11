@@ -17,7 +17,8 @@ class ProductDetailsPage extends Component {
   }
   render() {
     var { productId } = this.props.match.params;
-    var { product } = this.props;
+    var { product, category } = this.props;
+    console.log(category);
     console.log(this.props);
     console.log(productId);
     console.log(product);
@@ -26,7 +27,31 @@ class ProductDetailsPage extends Component {
         return values;
       }
     });
+    // lấy ra object thằng cha của thằng sp này để lấy ra name
+    var objectNameCategory = {};
+    var objectNameIdParent = {};
+    var nameCurrent, nameIdParent, idParent;
+    category.forEach((values, index) => {
+      data.forEach((valuess , index) => {
+        if(values.id === valuess.categoryID) {
+          objectNameCategory = values;
+        }
+      })
+    });
+    console.log(objectNameCategory);
+    nameCurrent = objectNameCategory.name;
+    idParent = objectNameCategory.idParent;
+    category.forEach((values, index) => {
+      if(values.id === idParent) {
+        objectNameIdParent = values;
+      }
+    });
+    console.log(objectNameIdParent);
+    nameIdParent = objectNameIdParent.name;
+    console.log(nameIdParent);
+    console.log(nameCurrent);
     console.log(data);
+    
     var result = data.map((values, index) => {
       console.log(values.productPictures);
       var resultImage = values.productPictures.map((valuess, index) => {
@@ -87,130 +112,94 @@ class ProductDetailsPage extends Component {
               </div>
             </div>
           </div>
-          <div>
-            {/* home > category > subCategory > productName */}
-            <div className="breed">
-              <ul>
-                <li>
-                  <a href="#">Home</a>
-                  <IoIosArrowForward />
-                </li>
-                <li>
-                  <a href="#">Mobiles</a>
-                  <IoIosArrowForward />
-                </li>
-                <li>
-                  <a href="#">Samsung</a>
-                  <IoIosArrowForward />
-                </li>
-                <li>
-                  <a href="#">
-                    {" "}
-                    <div>
-                      {data.map((values, index) => {
-                        return values.name;
-                      })}
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* product description */}
-            <div className="productDetails">
-              <p className="productTitle">
-                <div>
-                  {data.map((values, index) => {
-                    return values.name;
-                  })}
+          {data.map((values, index) => {
+            console.log(values);
+            return (
+              <div>
+                <div className="breed">
+                  <ul>
+                    <li>
+                      <a href="#">Home</a>
+                      <IoIosArrowForward />
+                    </li>
+                    <li>
+                      <a href="#">{nameIdParent}</a>
+                      <IoIosArrowForward />
+                    </li>
+                    <li>
+                      <a href="#">{nameCurrent}</a>
+                      <IoIosArrowForward />
+                    </li>
+                    <li>
+                      <a href="#">
+                        <div>{values.name}</div>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-              </p>
-              <div>
-                <span className="ratingCount">
-                  {
-                    data.map((values, index) => {
-                      return (
-                        values.star
-                      )
-                    })
-                  } <IoIosStar />
-                </span>
-                <span className="ratingNumbersReviews">
-                  72,234 Ratings & 8,140 Reviews
-                </span>
+                <div className="productDetails">
+                  <p className="productTitle">
+                    <div>{values.name}</div>
+                  </p>
+                  <div>
+                    <span className="ratingCount">
+                      {values.star}
+                      <IoIosStar />
+                    </span>
+                    <span className="ratingNumbersReviews">
+                      72,234 Ratings & 8,140 Reviews
+                    </span>
+                  </div>
+                  <div className="extraOffer">
+                    Quantity
+                    {values.quantity}
+                  </div>
+                  <div className="flexRow priceContainer">
+                    <span className="price">
+                      Price
+                      {values.price}
+                    </span>
+                    <span className="discount" style={{ margin: "0 10px" }}>
+                      {values.sales}% off
+                    </span>
+                    {/* <span>i</span> */}
+                  </div>
+                  <div>
+                    <p
+                      style={{
+                        color: "#212121",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Available Offers
+                    </p>
+                    <p style={{ display: "flex" }}>
+                      <span
+                        style={{
+                          width: "100px",
+                          fontSize: "12px",
+                          color: "#878787",
+                          fontWeight: "600",
+                          marginRight: "20px",
+                        }}
+                      >
+                        Description
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "#212121",
+                        }}
+                      >
+                        {values.description}
+                      </span>
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="extraOffer">
-                Quantity
-                {
-                  data.map((values, index) => {
-                    return (
-                      values.quantity
-                    )
-                  })
-                }
-              </div>
-              <div className="flexRow priceContainer">
-                <span className="price">
-                  Price 
-                  {
-                    data.map((values, index) => {
-                      return (
-                        values.price
-                      )
-                    })
-                  }
-                </span>
-                <span className="discount" style={{ margin: "0 10px" }}>
-                  {
-                    data.map((values, index) => {
-                      return (
-                        values.sales
-                      )
-                    })
-                  }
-                  % off
-                </span>
-                {/* <span>i</span> */}
-              </div>
-              <div>
-                <p
-                  style={{
-                    color: "#212121",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                  }}
-                >
-                  Available Offers
-                </p>
-                <p style={{ display: "flex" }}>
-                  <span
-                    style={{
-                      width: "100px",
-                      fontSize: "12px",
-                      color: "#878787",
-                      fontWeight: "600",
-                      marginRight: "20px",
-                    }}
-                  >
-                    Description
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#212121",
-                    }}
-                  >
-                    {
-                      data.map((values, index) => {
-                        return (
-                          values.description
-                        )
-                      })
-                    }
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </Layout>
     );
@@ -219,6 +208,7 @@ class ProductDetailsPage extends Component {
 const mapStateToProps = (state) => {
   return {
     product: state.product,
+    category : state.category
   };
 };
 const mapDispatchToProps = (dispatch, props) => {

@@ -29,12 +29,12 @@ class MenuHeader extends Component {
       //     );
       //   }
       var {name} = item;
+      console.log(item);
       return (
         <li key={index} className="category">
           {item.idParent.length > 0 ? <a href={`/${name.toLowerCase()}?cid=${item.id}&type=${item.type}`}>{item.name}</a> : 
             <span>{item.name}</span>
           }
-          
           {
             <ul>
               {this.getMenu(item.children)}
