@@ -183,10 +183,13 @@
   padding-bottom: 1rem;
   border-bottom: 0.5px solid var(--grey3);
 }
-.product-detail__content p {
+.product-detail__content > p {
   font-size: 1.25rem;
   color: var(--black2);
   line-height: 1.75rem;
+  height: 6.75rem;
+  padding: 0 0.5rem 0.5rem 0;
+  overflow: scroll;
   text-align: justify;
 }
 
@@ -301,4 +304,7 @@
     font-size: 1rem;
     font-weight: 600;
     margin-right: 0.5rem;
+}
+.priceOld_product {
+  text-decoration: line-through;
 }

@@ -119,91 +119,94 @@ class ProductDetailsPage extends Component {
                 </div>
 
                 <div className="product-detail__right">
-                  <div className="product-detail__content">
-                  <div className="breed">
-                  <ul>
-                    <li>
-                      <a href="#">Home</a>
-                      <IoIosArrowForward />
-                    </li>
-                    <li>
-                      <a href="#">{nameIdParent}</a>
-                      <IoIosArrowForward />
-                    </li>
-                    <li>
-                      <a href="#">{nameCurrent}</a>
-                      <IoIosArrowForward />
-                    </li>
-                    <li>
-                      <a href="#">
-                        <div>aaa</div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                    <h3 className="title_product">Apple iPhone XR</h3>
+                  {data.map((values, index) => {
+                    return (
+                      <div className="product-detail__content">
+                        <div className="breed">
+                          <ul>
+                            <li>
+                              <a href="#">Home</a>
+                              <IoIosArrowForward />
+                            </li>
+                            <li>
+                              <a href="#">{nameIdParent}</a>
+                              <IoIosArrowForward />
+                            </li>
+                            <li>
+                              <a href="#">{nameCurrent}</a>
+                              <IoIosArrowForward />
+                            </li>
+                            <li>
+                              <a href="#">
+                                <div>{values.name}</div>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <h3 className="title_product">{values.name}</h3>
 
-                    <div className="price">
-                      <span className="new__price price_product">250.99$</span>
-                    </div>
+                        <div className="price">
+                          <span className="new__price price_product">
+                          {values.price * ((100 - values.sales) / 100)}$
+                          </span>
+                        </div>
 
-                    <div className="product__review">
-                      <div className="rating">
-                        <Star className="star_color" />
-                        <StarBorder className="star_color" />
+                        <div className="product__review">
+                          <div className="rating">
+                            <Star className="star_color" />
+                            <StarBorder className="star_color" />
+                          </div>
+                          <a href="#" className="rating__quatity">
+                            {values.star} reviews
+                          </a>
+                        </div>
+
+                        <p>
+                          {values.description}
+                        </p>
+
+                        <div className="product__info-container">
+                          <ul className="product__info">
+                            <li>
+                              <p>Old Price:</p>
+                              <a href="#" className="priceOld_product">
+                                {values.price}$
+                              </a>
+                            </li>
+                            <li>
+                              <p>Quantity:</p>
+                              <a className="origin_product" href="#">
+                                {values.quantity}
+                              </a>
+                            </li>
+                            <li>
+                              <p>Product Type:</p>
+                              <a className="category_product" href="#">
+                                {nameCurrent}
+                              </a>
+                            </li>
+                            <li>
+                              <p>Availability:</p>
+                              <a href="#" className="in-stock">
+                                In Stock (7 Items)
+                              </a>
+                            </li>
+                          </ul>
+
+                          <div className="product-info__btn">
+                            <a href="#">
+                              <LocalShippingIcon className="margin-right-10" />
+                              Shipping
+                            </a>
+                            <a href="#">
+                              <EmailIcon className="margin-right-10" />
+                              Ask About This Product
+                            </a>
+                          </div>
+                        </div>
                       </div>
-                      <a href="#" className="rating__quatity">
-                        3 reviews
-                      </a>
-                    </div>
-
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sunt a doloribus iste natus et facere? dolor sit amet
-                      consectetur adipisicing elit. Sunt a doloribus iste natus
-                      et facere?
-                    </p>
-
-                    <div className="product__info-container">
-                      <ul className="product__info">
-                        <li>
-                          <p>Old Price:</p>
-                          <a href="#" className="priceOld_product">
-                            $250.99
-                          </a>
-                        </li>
-                        <li>
-                          <p>Origin:</p>
-                          <a className="origin_product" href="#">
-                            Apple
-                          </a>
-                        </li>
-                        <li>
-                          <p>Product Type:</p>
-                          <a className="category_product" href="#">
-                            Phone
-                          </a>
-                        </li>
-                        <li>
-                          <p>Availability:</p>
-                          <a href="#" className="in-stock">
-                            In Stock (7 Items)
-                          </a>
-                        </li>
-                      </ul>
-
-                      <div className="product-info__btn">
-                        <a href="#">
-                          <LocalShippingIcon className="margin-right-10"/>
-                          Shipping
-                        </a>
-                        <a href="#">
-                          <EmailIcon className="margin-right-10"/>
-                          Ask About This Product
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
               </div>
             </section>
