@@ -308,3 +308,7 @@
 .priceOld_product {
   text-decoration: line-through;
 }
+.priceOld_product:hover {
+  text-decoration: none;
+  text-decoration: line-through;
+}

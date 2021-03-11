@@ -21,6 +21,16 @@ class ProductDetailsPage extends Component {
   componentDidMount() {
     this.props.onProductAPI();
   }
+  showStar = (data) => {
+    var result = [];
+    for (var i = 0; i < data; i++) {
+      result.push(<Star className="star" />);
+    }
+    for (var j = 0; j < 5 - data; j++) {
+      result.push(<StarBorder />);
+    }
+    return result;
+  };
   render() {
     var { productId } = this.props.match.params;
     var { product, category } = this.props;
@@ -153,8 +163,7 @@ class ProductDetailsPage extends Component {
 
                         <div className="product__review">
                           <div className="rating">
-                            <Star className="star_color" />
-                            <StarBorder className="star_color" />
+                            {this.showStar(values.star)}
                           </div>
                           <a href="#" className="rating__quatity">
                             {values.star} reviews
