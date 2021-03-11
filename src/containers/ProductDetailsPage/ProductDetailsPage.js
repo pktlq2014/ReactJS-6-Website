@@ -4,7 +4,13 @@ import { connect } from "react-redux";
 import { IoIosArrowForward, IoIosStar, IoMdCart } from "react-icons/io";
 import * as actions from "./../../actions/index";
 import { BiRupee } from "react-icons/bi";
+import EmailIcon from "@material-ui/icons/Email";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { AiFillThunderbolt } from "react-icons/ai";
+import StarBorder from "@material-ui/icons/StarBorder";
+import Star from "@material-ui/icons/Star";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
 import { MaterialButton } from "./../../components/MaterialUI/materialUI";
 import "./styles.css";
 class ProductDetailsPage extends Component {
@@ -32,17 +38,17 @@ class ProductDetailsPage extends Component {
     var objectNameIdParent = {};
     var nameCurrent, nameIdParent, idParent;
     category.forEach((values, index) => {
-      data.forEach((valuess , index) => {
-        if(values.id === valuess.categoryID) {
+      data.forEach((valuess, index) => {
+        if (values.id === valuess.categoryID) {
           objectNameCategory = values;
         }
-      })
+      });
     });
     console.log(objectNameCategory);
     nameCurrent = objectNameCategory.name;
     idParent = objectNameCategory.idParent;
     category.forEach((values, index) => {
-      if(values.id === idParent) {
+      if (values.id === idParent) {
         objectNameIdParent = values;
       }
     });
@@ -51,14 +57,20 @@ class ProductDetailsPage extends Component {
     console.log(nameIdParent);
     console.log(nameCurrent);
     console.log(data);
-    
+
     var result = data.map((values, index) => {
       console.log(values.productPictures);
       var resultImage = values.productPictures.map((valuess, index) => {
         var image = require(`./../../assets/images/${valuess.img}`);
         return (
-          <div key={index} className="thumbnail">
-            <img src={image.default} alt={valuess.img} />
+          <div className="pictures__container">
+            <img
+              className="picture"
+              id="pic1"
+              key={index}
+              src={image.default}
+              alt={valuess.img}
+            />
           </div>
         );
       });
@@ -66,57 +78,49 @@ class ProductDetailsPage extends Component {
     });
     return (
       <Layout>
-        <div className="productDescriptionContainer">
-          <div className="flexRow">
-            <div className="verticalImageStack">{result}</div>
-            <div className="productDescContainer">
-              <div className="productDescImgContainer">
-                {data.map((values, index) => {
-                  var image = require(`./../../assets/images/${values.productPictures[0].img}`);
-                  return (
-                    <img
-                      key={index}
-                      src={image.default}
-                      alt={`${values.productPictures[0].img}`}
-                    />
-                  );
-                })}
-              </div>
+        <main id="watch_product_main">
+          <div className="watch_product_body">
+            <section className="product-details__section">
+              <div className="product-detail__container">
+                <div className="product-detail__left">
+                  <div className="details__container--left">
+                    <div className="product__pictures">{result}</div>
 
-              {/* action buttons */}
-              <div className="flexRow">
-                <MaterialButton
-                  title="ADD TO CART"
-                  bgColor="#ff9f00"
-                  textColor="#ffffff"
-                  style={{
-                    marginRight: "5px",
-                  }}
-                  icon={<IoMdCart />}
-                  //   onClick={() => {
-                  //     const { _id, name, price } = product.productDetails;
-                  //     const img = product.productDetails.productPictures[0].img;
-                  //     dispatch(addToCart({ _id, name, price, img }));
-                  //     props.history.push(`/cart`);
-                  //   }}
-                />
-                <MaterialButton
-                  title="BUY NOW"
-                  bgColor="#fb641b"
-                  textColor="#ffffff"
-                  style={{
-                    marginLeft: "5px",
-                  }}
-                  icon={<AiFillThunderbolt />}
-                />
-              </div>
-            </div>
-          </div>
-          {data.map((values, index) => {
-            console.log(values);
-            return (
-              <div>
-                <div className="breed">
+                    <div className="product__picture" id="product__picture">
+                      <div className="picture__container">
+                        {data.map((values, index) => {
+                          var image = require(`./../../assets/images/${values.productPictures[0].img}`);
+                          return (
+                            <img
+                              className="image_product_watch"
+                              key={index}
+                              id="pic"
+                              src={image.default}
+                              alt={`${values.productPictures[0].img}`}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="zoom" id="zoom"></div>
+                  </div>
+
+                  <div className="product-details__btn">
+                    <a className="product__btn_product add" data-id="" href="#">
+                      <ShoppingCartIcon className="margin-right-10" />
+                      ADD TO CART
+                    </a>
+                    <a className="buy_now buy" href="./cart.html">
+                      <CreditCardIcon className="margin-right-10" />
+                      BUY NOW
+                    </a>
+                  </div>
+                </div>
+
+                <div className="product-detail__right">
+                  <div className="product-detail__content">
+                  <div className="breed">
                   <ul>
                     <li>
                       <a href="#">Home</a>
@@ -132,75 +136,79 @@ class ProductDetailsPage extends Component {
                     </li>
                     <li>
                       <a href="#">
-                        <div>{values.name}</div>
+                        <div>aaa</div>
                       </a>
                     </li>
                   </ul>
                 </div>
-                <div className="productDetails">
-                  <p className="productTitle">
-                    <div>{values.name}</div>
-                  </p>
-                  <div>
-                    <span className="ratingCount">
-                      {values.star}
-                      <IoIosStar />
-                    </span>
-                    <span className="ratingNumbersReviews">
-                      72,234 Ratings & 8,140 Reviews
-                    </span>
-                  </div>
-                  <div className="extraOffer">
-                    Quantity
-                    {values.quantity}
-                  </div>
-                  <div className="flexRow priceContainer">
-                    <span className="price">
-                      Price
-                      {values.price}
-                    </span>
-                    <span className="discount" style={{ margin: "0 10px" }}>
-                      {values.sales}% off
-                    </span>
-                    {/* <span>i</span> */}
-                  </div>
-                  <div>
-                    <p
-                      style={{
-                        color: "#212121",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Available Offers
+                    <h3 className="title_product">Apple iPhone XR</h3>
+
+                    <div className="price">
+                      <span className="new__price price_product">250.99$</span>
+                    </div>
+
+                    <div className="product__review">
+                      <div className="rating">
+                        <Star className="star_color" />
+                        <StarBorder className="star_color" />
+                      </div>
+                      <a href="#" className="rating__quatity">
+                        3 reviews
+                      </a>
+                    </div>
+
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Sunt a doloribus iste natus et facere? dolor sit amet
+                      consectetur adipisicing elit. Sunt a doloribus iste natus
+                      et facere?
                     </p>
-                    <p style={{ display: "flex" }}>
-                      <span
-                        style={{
-                          width: "100px",
-                          fontSize: "12px",
-                          color: "#878787",
-                          fontWeight: "600",
-                          marginRight: "20px",
-                        }}
-                      >
-                        Description
-                      </span>
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "#212121",
-                        }}
-                      >
-                        {values.description}
-                      </span>
-                    </p>
+
+                    <div className="product__info-container">
+                      <ul className="product__info">
+                        <li>
+                          <p>Old Price:</p>
+                          <a href="#" className="priceOld_product">
+                            $250.99
+                          </a>
+                        </li>
+                        <li>
+                          <p>Origin:</p>
+                          <a className="origin_product" href="#">
+                            Apple
+                          </a>
+                        </li>
+                        <li>
+                          <p>Product Type:</p>
+                          <a className="category_product" href="#">
+                            Phone
+                          </a>
+                        </li>
+                        <li>
+                          <p>Availability:</p>
+                          <a href="#" className="in-stock">
+                            In Stock (7 Items)
+                          </a>
+                        </li>
+                      </ul>
+
+                      <div className="product-info__btn">
+                        <a href="#">
+                          <LocalShippingIcon className="margin-right-10"/>
+                          Shipping
+                        </a>
+                        <a href="#">
+                          <EmailIcon className="margin-right-10"/>
+                          Ask About This Product
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </section>
+          </div>
+        </main>
       </Layout>
     );
   }
@@ -208,7 +216,7 @@ class ProductDetailsPage extends Component {
 const mapStateToProps = (state) => {
   return {
     product: state.product,
-    category : state.category
+    category: state.category,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
