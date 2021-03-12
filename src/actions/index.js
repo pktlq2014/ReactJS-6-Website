@@ -5,7 +5,9 @@ export const categoryAPI = () => {
   return async (dispatch) => {
     return API("category", "GET", null).then((res) => {
       console.log(res);
-      dispatch(categoryReducers(res.data));
+      if(res && res.data) {
+        dispatch(categoryReducers(res.data));
+      }
     });
   };
 };
@@ -19,7 +21,9 @@ export const productAPI = () => {
   return async (dispatch) => {
     return API("product", "GET", null).then((res) => {
       console.log(res);
-      dispatch(productReducers(res.data));
+      if(res && res.data) {
+        dispatch(productReducers(res.data));
+      }
     });
   };
 };
@@ -33,7 +37,9 @@ export const typeAPI = () => {
   return async (dispatch) => {
     return API("page", "GET", null).then((res) => {
       console.log(res);
-      dispatch(typeReducers(res.data));
+      if(res && res.data) {
+        dispatch(typeReducers(res.data));
+      }
     });
   };
 };
@@ -53,7 +59,9 @@ export const signUpAPI = (data) => {
     // giúp fetch dữ liệu xong mới dispatch actions
     return API("api", "POST", data).then((res) => {
       console.log(data);
-      dispatch(signUpReducers(res.data));
+      if(res && res.data) {
+        dispatch(signUpReducers(res.data));
+      }
     });
   };
 };
@@ -73,7 +81,9 @@ export const signinAPI = (data) => {
     // giúp fetch dữ liệu xong mới dispatch actions
     return API("api", "GET", null).then((res) => {
       console.log(data);
-      dispatch(signinReducers(res.data));
+      if(res && res.data) {
+        dispatch(signinReducers(res.data));
+      }
     });
   };
 };
@@ -86,6 +96,12 @@ export const signinReducers = (data) => {
 export const statusLogin = (data) => {
   return {
     type: types.authConstants.STATUS_LOGIN,
+    data: data,
+  };
+};
+export const cartReducers = (data) => {
+  return {
+    type: types.authConstants.CART,
     data: data,
   };
 };

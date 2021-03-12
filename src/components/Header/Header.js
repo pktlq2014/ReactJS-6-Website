@@ -676,7 +676,7 @@ class Header extends Component {
             <div className="header__cart">
               <div className="header__cart-container">
                 <ShoppingCartIcon className="cart_icon" />
-                <span className="header__cart-notice">0</span>
+                <span className="header__cart-notice">{this.props.cart.length}</span>
 
                 {/* <div className="header__cart-list">
                   <img
@@ -743,6 +743,7 @@ const mapStateToProps = (state) => {
   return {
     signin: state.signin,
     statusLogin: state.statusLogin,
+    cart : state.cart
   };
 };
 const mapDispatchToProps = (dispatch, props) => {

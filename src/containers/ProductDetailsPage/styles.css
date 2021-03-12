@@ -129,11 +129,14 @@
 .product-details__btn .add,
 .product-details__btn .buy {
   display: flex;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   transition: 0.3s;
 }
-
+.product__btn_product:hover {
+  text-decoration: none;
+}
 .product-details__btn .add span,
 .product-details__btn .buy span {
 
@@ -311,4 +314,10 @@
 .priceOld_product:hover {
   text-decoration: none;
   text-decoration: line-through;
+}
+.product-details__btn .show {
+  display: block;
+}
+.product-details__btn .hidden {
+  display: none;
 }

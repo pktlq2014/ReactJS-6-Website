@@ -5,4 +5,5 @@ export const authConstants = {
   ACCOUNT : 'ACCOUNT',
   LOGIN : 'LOGIN',
   STATUS_LOGIN : 'STATUS_LOGIN',
+  CART : 'CART'
 };

@@ -16,8 +16,54 @@ import "./styles.css";
 class ProductDetailsPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      arrayCart: [],
+      productStatus: 0,
+      show: "show",
+      hidden: "hidden",
+    };
   }
+  onClickByNow = (data) => {
+    var object = {};
+    console.log(data);
+    data.forEach((values, index) => {
+      object = {
+        id: values.id,
+        name: values.name,
+        price: values.price,
+        img: values.productPictures[0].img,
+      };
+    });
+    this.props.onCart(object);
+    var { cart } = this.props;
+    //var status = 0;
+    cart.forEach((values, index) => {
+      if (values.id === object.id) {
+        this.setState({
+          productStatus: 1,
+          show: "hidden",
+          hidden: "show",
+        });
+        //status = 1;
+        localStorage.setItem("productStatus", JSON.stringify(values.id));
+      }
+    });
+    // console.log(cart);
+    // if (cart.length === 0) {
+    //   cart.push(object);
+    // } else {
+    //   cart.map((values, index) => {
+    //     if (values.id !== object.id) {
+    //       return cart.push(object);
+    //     }
+    //   });
+    // }
+    // this.setState({
+    //   arrayCart : arrayCart
+    // })
+    //localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(object);
+  };
   componentDidMount() {
     this.props.onProductAPI();
   }
@@ -33,7 +79,12 @@ class ProductDetailsPage extends Component {
   };
   render() {
     var { productId } = this.props.match.params;
+    console.log(productId);
+    var temp = 0;
     var { product, category } = this.props;
+    var status = JSON.parse(localStorage.getItem("productStatus"));
+    var cart = JSON.parse(localStorage.getItem("cart"));
+    var productStatus = status ? status : 0;
     console.log(category);
     console.log(this.props);
     console.log(productId);
@@ -73,7 +124,7 @@ class ProductDetailsPage extends Component {
       var resultImage = values.productPictures.map((valuess, index) => {
         var image = require(`./../../assets/images/${valuess.img}`);
         return (
-          <div className="pictures__container">
+          <div key={index} className="pictures__container">
             <img
               className="picture"
               id="pic1"
@@ -117,11 +168,48 @@ class ProductDetailsPage extends Component {
                   </div>
 
                   <div className="product-details__btn">
-                    <a className="product__btn_product add" data-id="" href="#">
+                    {cart && cart.map((values, index) => {
+                      if (values.id === productId) {
+                        temp = 1;
+                        return (
+                          <a className={`product__btn_product`} data-id="">
+                            <ShoppingCartIcon className="margin-right-10" />
+                            IN CART
+                          </a>
+                        );
+                      }
+                    })}
+                    {temp === 0 ? (
+                      <a
+                        onClick={() => this.onClickByNow(data)}
+                        className={`product__btn_product add`}
+                        data-id=""
+                      >
+                        <ShoppingCartIcon className="margin-right-10" />
+                        ADD TO CART
+                      </a>
+                    ) : (
+                      ""
+                    )}
+                    {/* <a
+                      onClick={() => this.onClickByNow(data)}
+                      className={`product__btn_product add ${this.state.show}`}
+                      data-id=""
+                    >
                       <ShoppingCartIcon className="margin-right-10" />
                       ADD TO CART
                     </a>
-                    <a className="buy_now buy" href="./cart.html">
+                    <a
+                      className={`product__btn_product ${this.state.hidden}`}
+                      data-id=""
+                    >
+                      <ShoppingCartIcon className="margin-right-10" />
+                      IN CART
+                    </a> */}
+                    <a
+                      className="buy_now buy"
+                      // onClick={() => this.onClickByNow(data)}
+                    >
                       <CreditCardIcon className="margin-right-10" />
                       BUY NOW
                     </a>
@@ -131,7 +219,7 @@ class ProductDetailsPage extends Component {
                 <div className="product-detail__right">
                   {data.map((values, index) => {
                     return (
-                      <div className="product-detail__content">
+                      <div key={index} className="product-detail__content">
                         <div className="breed">
                           <ul>
                             <li>
@@ -157,7 +245,7 @@ class ProductDetailsPage extends Component {
 
                         <div className="price">
                           <span className="new__price price_product">
-                          {values.price * ((100 - values.sales) / 100)}$
+                            {values.price * ((100 - values.sales) / 100)}$
                           </span>
                         </div>
 
@@ -170,9 +258,7 @@ class ProductDetailsPage extends Component {
                           </a>
                         </div>
 
-                        <p>
-                          {values.description}
-                        </p>
+                        <p>{values.description}</p>
 
                         <div className="product__info-container">
                           <ul className="product__info">
@@ -229,12 +315,16 @@ const mapStateToProps = (state) => {
   return {
     product: state.product,
     category: state.category,
+    cart: state.cart,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
   return {
     onProductAPI: () => {
       dispatch(actions.productAPI());
+    },
+    onCart: (data) => {
+      dispatch(actions.cartReducers(data));
     },
   };
 };
