@@ -5,6 +5,7 @@ import { IoIosArrowForward, IoIosStar, IoMdCart } from "react-icons/io";
 import * as actions from "./../../actions/index";
 import { BiRupee } from "react-icons/bi";
 import EmailIcon from "@material-ui/icons/Email";
+import { Link, Redirect } from "react-router-dom";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { AiFillThunderbolt } from "react-icons/ai";
@@ -23,7 +24,31 @@ class ProductDetailsPage extends Component {
       hidden: "hidden",
     };
   }
-  onClickByNow = (data) => {
+  onClickByNow = (data, temp, nameIdParent) => {
+    var object = {};
+    console.log(data);
+    if(temp === 0) {
+      data.forEach((values, index) => {
+        object = {
+          id: values.id,
+          name: values.name,
+          price: values.price,
+          img: values.productPictures[0].img,
+          quantity : 1,
+          nameIdParent : nameIdParent
+        };
+      });
+      this.props.onCart(object);
+      this.props.history.push(`/cart`);
+      //return <Redirect to="/cart"></Redirect>;
+    }
+    else {
+      //return <Redirect to="/cart"></Redirect>;
+      this.props.history.push(`/cart`);
+    }
+    console.log(object);
+  };
+  onClickAddToCart = (data) => {
     var object = {};
     console.log(data);
     data.forEach((values, index) => {
@@ -35,33 +60,6 @@ class ProductDetailsPage extends Component {
       };
     });
     this.props.onCart(object);
-    var { cart } = this.props;
-    //var status = 0;
-    cart.forEach((values, index) => {
-      if (values.id === object.id) {
-        this.setState({
-          productStatus: 1,
-          show: "hidden",
-          hidden: "show",
-        });
-        //status = 1;
-        localStorage.setItem("productStatus", JSON.stringify(values.id));
-      }
-    });
-    // console.log(cart);
-    // if (cart.length === 0) {
-    //   cart.push(object);
-    // } else {
-    //   cart.map((values, index) => {
-    //     if (values.id !== object.id) {
-    //       return cart.push(object);
-    //     }
-    //   });
-    // }
-    // this.setState({
-    //   arrayCart : arrayCart
-    // })
-    //localStorage.setItem("cart", JSON.stringify(cart));
     console.log(object);
   };
   componentDidMount() {
@@ -172,7 +170,7 @@ class ProductDetailsPage extends Component {
                       if (values.id === productId) {
                         temp = 1;
                         return (
-                          <a className={`product__btn_product`} data-id="">
+                          <a key={index} className={`product__btn_product`} data-id="">
                             <ShoppingCartIcon className="margin-right-10" />
                             IN CART
                           </a>
@@ -181,7 +179,7 @@ class ProductDetailsPage extends Component {
                     })}
                     {temp === 0 ? (
                       <a
-                        onClick={() => this.onClickByNow(data)}
+                        onClick={() => this.onClickAddToCart(data)}
                         className={`product__btn_product add`}
                         data-id=""
                       >
@@ -191,24 +189,9 @@ class ProductDetailsPage extends Component {
                     ) : (
                       ""
                     )}
-                    {/* <a
-                      onClick={() => this.onClickByNow(data)}
-                      className={`product__btn_product add ${this.state.show}`}
-                      data-id=""
-                    >
-                      <ShoppingCartIcon className="margin-right-10" />
-                      ADD TO CART
-                    </a>
-                    <a
-                      className={`product__btn_product ${this.state.hidden}`}
-                      data-id=""
-                    >
-                      <ShoppingCartIcon className="margin-right-10" />
-                      IN CART
-                    </a> */}
                     <a
                       className="buy_now buy"
-                      // onClick={() => this.onClickByNow(data)}
+                      onClick={() => this.onClickByNow(data, temp, nameIdParent)}
                     >
                       <CreditCardIcon className="margin-right-10" />
                       BUY NOW

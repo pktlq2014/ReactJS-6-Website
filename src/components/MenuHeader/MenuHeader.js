@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./styles.css";
 import { Row, Col, Container, Button, Modal, Form } from "react-bootstrap";
 import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import * as actions from "./../../actions/index";
 class MenuHeader extends Component {
   constructor(props) {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./styles.css";
-import { Card } from "react-bootstrap";
+import { Card, ThemeProvider } from "react-bootstrap";
 import * as actions from "./../../../actions/index";
 import Star from "@material-ui/icons/Star";
 import { Link, Redirect } from "react-router-dom";
@@ -26,6 +26,35 @@ class ProductStore extends Component {
   //   alert("aaa");
   //   return <Redirect to={`/${slug}/${id}/p`}></Redirect>;
   // }
+  onClick = (values) => {
+    var object = {};
+    var {match, category} = this.props;
+    var name = match.params.slug;
+    var idParent;
+    var type;
+    category.forEach((values, index) => {
+      if(values.name.toLowerCase() === name) {
+        idParent = values.idParent;
+      }
+    });
+    console.log(idParent);
+    category.forEach((values, index) => {
+      if(values.id === idParent) {
+        type = values.name;
+      }
+    });
+    console.log(values);
+    object = {
+      id: values.id,
+      name: values.name,
+      price: values.price,
+      img: values.productPictures[0].img,
+      quantity : 1,
+      nameIdParent : type
+    };
+    console.log(object);
+    this.props.onCart(object);
+  }
   showStar = (data) => {
     var result = [];
     for (var i = 0; i < data; i++) {
@@ -40,8 +69,9 @@ class ProductStore extends Component {
     this.props.onProductAPI();
     this.props.onCategoryAPI();
   }
-  showProduct = (product, category, match, slug, slugProduct) => {
+  showProduct = (product, category, match, slug, slugProduct, cart) => {
     var result = product.map((values, index) => {
+      var temp = 0;
       category.forEach((categoryValues, index) => {
         if (values.categoryID === categoryValues.id) {
           console.log(categoryValues.name.toLowerCase());
@@ -70,7 +100,10 @@ class ProductStore extends Component {
               </span>
               <span className="home-product-item__sale-off-label">SALE</span>
             </di>
-            <Link style={{ textDecoration: 'none' }} to={`/${match.params.slug}/${values.id}/p`}>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/${match.params.slug}/${values.id}/p`}
+            >
               <div className="productImgContainer product">
                 {values.productPictures.map((valuess, index3) => {
                   var index = valuess.img.indexOf("samsung");
@@ -91,7 +124,10 @@ class ProductStore extends Component {
               </div>
             </Link>
             <Card.Body className="productInfo">
-              <Link style={{ textDecoration: 'none' }} to={`/${match.params.slug}/${values.id}/p`}>
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/${match.params.slug}/${values.id}/p`}
+              >
                 <Card.Title className="productInfo_name product">
                   {values.name}
                 </Card.Title>
@@ -106,7 +142,21 @@ class ProductStore extends Component {
                   <p className="Oldprice">{values.price}$</p>
                 </Card.Text>
               </Link>
-              <button className="add_to_cart">Add To Cart</button>
+              {cart && cart.map((valuessss, index6) => {
+                if (valuessss.id === values.id) {
+                  temp = 1;
+                  return (
+                    <button key={index6} disabled className="add_to_cart in_cart">
+                      In Cart
+                    </button>
+                  );
+                }
+              })}
+              {temp === 0 ? (
+                <button className="add_to_cart" onClick={() => this.onClick(values)}>Add To Cart</button>
+              ) : (
+                ""
+              )}
             </Card.Body>
           </Card>
         );
@@ -117,11 +167,12 @@ class ProductStore extends Component {
     return result;
   };
   render() {
-    var { product, match, category } = this.props;
+    var { product, match, category, cart } = this.props;
     console.log(this.props);
     console.log(match);
     var { sortPrice } = this.state;
     var slug = "";
+    var temp = 0, temp2 = 0;
     var array1 = [];
     var array2 = [];
     var result = product.filter((values, index) => {
@@ -152,14 +203,16 @@ class ProductStore extends Component {
                   category,
                   match,
                   slug,
-                  match.params.slug
+                  match.params.slug,
+                  cart
                 )
               : this.showProduct(
                   array2,
                   category,
                   match,
                   slug,
-                  match.params.slug
+                  match.params.slug,
+                  cart
                 )}
           </Card.Body>
         </Card>
@@ -174,6 +227,7 @@ const mapStateToProps = (state) => {
   return {
     product: state.product,
     category: state.category,
+    cart : state.cart
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -184,6 +238,9 @@ const mapDispatchToProps = (dispatch, props) => {
     onCategoryAPI: () => {
       dispatch(actions.categoryAPI());
     },
+    onCart : (data) => {
+      dispatch(actions.cartReducers(data));
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductStore);

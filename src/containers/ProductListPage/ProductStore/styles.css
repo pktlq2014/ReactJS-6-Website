@@ -150,3 +150,6 @@
   /* .product:hover {
     text-decoration: none;
   } */
+  .in_cart {
+    cursor: not-allowed;
+  }
