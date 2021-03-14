@@ -14,6 +14,10 @@ class ProductListPage extends Component {
         content = <ProductStore {...this.props}/>;
         break;
       }
+      case "product" : {
+        content = <ProductStore {...this.props}/>;
+        break;
+      }
       case "page" : {
         content = <ProductPage {...this.props}/>;
         break;
