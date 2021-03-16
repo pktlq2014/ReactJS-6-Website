@@ -8,6 +8,17 @@ var category = (state = initialState, action) => {
       state = action.data;
       return state;
     }
+    // case types.authConstants.QUESTION: {
+    //   console.log(action);
+    //   //var data = [...state];
+    //   state.forEach((values, index) => {
+    //     if(values.id === action.data.id) {
+    //       values = action.data;
+    //     }
+    //   });
+    //   console.log(state);
+    //   return [...state];
+    // }
     default: return state;
   }
 };

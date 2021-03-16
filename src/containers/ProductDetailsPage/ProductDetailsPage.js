@@ -4,45 +4,180 @@ import { connect } from "react-redux";
 import { IoIosArrowForward, IoIosStar, IoMdCart } from "react-icons/io";
 import * as actions from "./../../actions/index";
 import { BiRupee } from "react-icons/bi";
+import Form from "react-bootstrap/Form";
 import EmailIcon from "@material-ui/icons/Email";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import { Link, Redirect } from "react-router-dom";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { AiFillThunderbolt } from "react-icons/ai";
 import StarBorder from "@material-ui/icons/StarBorder";
+import Button from "@material-ui/core/Button";
+import Button1 from "react-bootstrap/Button";
+import TextField from "@material-ui/core/TextField";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 import Star from "@material-ui/icons/Star";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import { MaterialButton } from "./../../components/MaterialUI/materialUI";
+import Avatar from "@material-ui/core/Avatar";
+import Chip from "@material-ui/core/Chip";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import FaceIcon from "@material-ui/icons/Face";
+import store from "./../../assets/images/store.jpg";
+import DoneIcon from "@material-ui/icons/Done";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ImageIcon from "@material-ui/icons/Image";
+import WorkIcon from "@material-ui/icons/Work";
+import BeachAccessIcon from "@material-ui/icons/BeachAccess";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import PhoneIcon from "@material-ui/icons/Phone";
+import PersonPinIcon from "@material-ui/icons/PersonPin";
+import FeedbackIcon from "@material-ui/icons/Feedback";
+import HelpIcon from "@material-ui/icons/Help";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import Badge from "@material-ui/core/Badge";
+import MailIcon from "@material-ui/icons/Mail";
+import ShoppingBasket from "@material-ui/icons/ShoppingBasket";
+import ThumbDown from "@material-ui/icons/ThumbDown";
+import ThumbUp from "@material-ui/icons/ThumbUp";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import "./styles.css";
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-force-tabpanel-${index}`}
+      aria-labelledby={`scrollable-force-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-force-tab-${index}`,
+    "aria-controls": `scrollable-force-tabpanel-${index}`,
+  };
+}
+
 class ProductDetailsPage extends Component {
   constructor(props) {
     super(props);
+    var today = new Date(),
+      date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
     this.state = {
       arrayCart: [],
       productStatus: 0,
       show: "show",
       hidden: "hidden",
+      value: 0,
+      currentDateTime: new Date().toLocaleString(),
+      question: "",
+      array: [],
     };
   }
+  onChange = (e) => {
+    var { target } = e;
+    var name = target.name;
+    var value = target.type === "checkbox" ? target.checked : target.value;
+    this.setState({
+      [name]: value,
+    });
+  };
+  onSubmit = (e) => {
+    e.preventDefault();
+    var local = JSON.parse(localStorage.getItem("statusLogin"));
+    console.log(this.state.question);
+    var { product } = this.props;
+    var { productId } = this.props.match.params;
+    if (local) {
+      var object = {
+        data: this.state.question,
+        date: this.state.currentDateTime,
+        img: local.img,
+        email: local.email,
+      };
+      console.log(object);
+      this.state.array.push(object);
+      product.forEach((values, index) => {
+        if (values.id === productId) {
+          //values.question = this.state.array;
+          values.question.push(object);
+          console.log(values);
+          this.props.onQuestion(values);
+        }
+      });
+    } else {
+      alert("You need to be signin before executing this function ");
+    }
+    this.setState({
+      question: "",
+    });
+  };
+  handleDelete = () => {
+    console.info("You clicked the delete icon.");
+  };
+
+  handleClick = () => {
+    console.info("You clicked the Chip.");
+  };
+  handleChangeIndex = (index) => {
+    this.setState({
+      value: index,
+    });
+  };
+  handleChange = (event, newValue) => {
+    this.setState({
+      value: newValue,
+    });
+  };
   onClickByNow = (data, temp, nameIdParent) => {
     var object = {};
     console.log(data);
-    if(temp === 0) {
+    if (temp === 0) {
       data.forEach((values, index) => {
         object = {
           id: values.id,
           name: values.name,
           price: values.price,
           img: values.productPictures[0].img,
-          quantity : 1,
-          nameIdParent : nameIdParent
+          quantity: 1,
+          nameIdParent: nameIdParent,
         };
       });
       this.props.onCart(object);
       this.props.history.push(`/cart`);
       //return <Redirect to="/cart"></Redirect>;
-    }
-    else {
+    } else {
       //return <Redirect to="/cart"></Redirect>;
       this.props.history.push(`/cart`);
     }
@@ -76,7 +211,10 @@ class ProductDetailsPage extends Component {
     return result;
   };
   render() {
+    var resultSplit, resultDateSplitNow, count;
     var { productId } = this.props.match.params;
+    var date = [...this.state.currentDateTime];
+    var saveDate = [...date];
     console.log(productId);
     var temp = 0;
     var { product, category } = this.props;
@@ -166,17 +304,22 @@ class ProductDetailsPage extends Component {
                   </div>
 
                   <div className="product-details__btn">
-                    {cart && cart.map((values, index) => {
-                      if (values.id === productId) {
-                        temp = 1;
-                        return (
-                          <a key={index} className={`product__btn_product`} data-id="">
-                            <ShoppingCartIcon className="margin-right-10" />
-                            IN CART
-                          </a>
-                        );
-                      }
-                    })}
+                    {cart &&
+                      cart.map((values, index) => {
+                        if (values.id === productId) {
+                          temp = 1;
+                          return (
+                            <a
+                              key={index}
+                              className={`product__btn_product`}
+                              data-id=""
+                            >
+                              <ShoppingCartIcon className="margin-right-10" />
+                              IN CART
+                            </a>
+                          );
+                        }
+                      })}
                     {temp === 0 ? (
                       <a
                         onClick={() => this.onClickAddToCart(data)}
@@ -191,7 +334,9 @@ class ProductDetailsPage extends Component {
                     )}
                     <a
                       className="buy_now buy"
-                      onClick={() => this.onClickByNow(data, temp, nameIdParent)}
+                      onClick={() =>
+                        this.onClickByNow(data, temp, nameIdParent)
+                      }
                     >
                       <CreditCardIcon className="margin-right-10" />
                       BUY NOW
@@ -287,6 +432,257 @@ class ProductDetailsPage extends Component {
                   })}
                 </div>
               </div>
+
+              {data.map((values, index) => {
+                var image = require(`./../../assets/images/${values.productPictures[0].img}`);
+                return (
+                  <div className="root">
+                    <AppBar position="static" color="default">
+                      <Tabs
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                        variant="scrollable"
+                        scrollButtons="on"
+                        indicatorColor="primary"
+                        textColor="primary"
+                        aria-label="scrollable force tabs example"
+                      >
+                        <Tab
+                          label="Contact"
+                          icon={<PhoneIcon />}
+                          {...a11yProps(0)}
+                        />
+                        <Tab
+                          label="Product Details "
+                          icon={<ListAltIcon />}
+                          {...a11yProps(1)}
+                        />
+                        <Tab
+                          label="Question"
+                          icon={<HelpIcon />}
+                          {...a11yProps(2)}
+                        />
+                        <Tab
+                          label="Feedback"
+                          icon={<FeedbackIcon />}
+                          {...a11yProps(3)}
+                        />
+                        <Tab
+                          label="Favourite"
+                          icon={<FavoriteIcon />}
+                          {...a11yProps(4)}
+                        />
+                        <Tab
+                          label="Item Six"
+                          icon={<ThumbDown />}
+                          {...a11yProps(5)}
+                        />
+                        <Tab
+                          label="Item Seven"
+                          icon={<ThumbUp />}
+                          {...a11yProps(6)}
+                        />
+                      </Tabs>
+                    </AppBar>
+                    <TabPanel
+                      className="parent_tab"
+                      value={this.state.value}
+                      index={0}
+                    >
+                      <List className="child_tab">
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <img src={store} alt="" />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <div className="content">
+                            <div className="content_tab">{values.contact}</div>
+                            <div>{values.currentTime}</div>
+                          </div>
+                        </ListItem>
+                      </List>
+                    </TabPanel>
+                    <TabPanel
+                      className="parent_tab"
+                      value={this.state.value}
+                      index={1}
+                    >
+                      <List className="child_tab">
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <img
+                                className="description_tab"
+                                src={image.default}
+                                alt=""
+                              />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <div className="content">
+                            <div className="content_tab">
+                              {values.description}
+                            </div>
+                            {values.currentTime}
+                          </div>
+                        </ListItem>
+                      </List>
+                    </TabPanel>
+                    <TabPanel
+                      className="parent_tab"
+                      value={this.state.value}
+                      index={2}
+                    >
+                      <List className="child_tab">
+                        <form
+                          onSubmit={this.onSubmit}
+                          className="form_question"
+                        >
+                          <input
+                            type="text"
+                            className="question_input"
+                            name="question"
+                            value={this.state.question}
+                            onChange={this.onChange}
+                            placeholder="Question input here.."
+                          />
+                          <button type="submit" class="button">
+                            Sent
+                          </button>
+                        </form>
+                        {values.question.map((valuesssss, index) => {
+                          var image = require(`./../../assets/images/${valuesssss.img}`);
+                          return (
+                            <ListItem className="list_question" key={index}>
+                              <img
+                                className="question_image"
+                                src={image.default}
+                                alt=""
+                              />
+                              <div className="content">
+                                <div className="content_tab">
+                                  {valuesssss.email} : {valuesssss.data}
+                                </div>
+                                <div>{valuesssss.date}</div>
+                              </div>
+                            </ListItem>
+                          );
+                        })}
+                      </List>
+                    </TabPanel>
+                    <TabPanel value={this.state.value} index={3}>
+                      <List className="child_tab">
+                        <form className="form_question">
+                          <input
+                            type="text"
+                            name="search"
+                            placeholder="Question input here.."
+                          />
+                          <button class="button">Sent</button>
+                        </form>
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <ImageIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <div className="content">
+                            <div className="content_tab">
+                              asdhasdkajdhadsadas{saveDate}
+                              ddddsadajkdalksjkjlkjljhsdasdjasdhaskdshasdhsajkasdhdkashdaskjdhasdkahsddaskdjhasjassdasda
+                            </div>
+                            <div>{saveDate}</div>
+                          </div>
+                        </ListItem>
+                      </List>
+                    </TabPanel>
+                    <TabPanel value={this.state.value} index={4}>
+                      <div className="heard">
+                        <div className="heard_title">Click</div>
+                        <div className="header__cart-container_heard">
+                          <FavoriteIcon className="cart_icon_heard" />
+                          <span className="header__cart-notice_heard">0</span>
+                        </div>
+                        <div className="heard_title">
+                          to vote for this product
+                        </div>
+                      </div>
+                      <List className="child_tab">
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <ImageIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <div className="content">
+                            <div className="content_tab">
+                              asdhasdkajdhadsadas{saveDate}
+                              ddddsadajkdalksjkjlkjljhsdasdjasdhaskdshasdhsajkasdhdkashdaskjdhasdkahsddaskdjhasjassdasda
+                            </div>
+                            <div>{saveDate}</div>
+                          </div>
+                        </ListItem>
+                      </List>
+                    </TabPanel>
+                    <TabPanel value={this.state.value} index={5}>
+                      <div className="heard">
+                        <div className="heard_title">Click</div>
+                        <div className="header__cart-container_heard">
+                          <ThumbUpAltIcon className="cart_icon_heard" />
+                          <span className="header__cart-notice_heard">0</span>
+                        </div>
+                        <div className="heard_title">
+                          to vote for this product
+                        </div>
+                      </div>
+                      <List className="child_tab">
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <ImageIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <div className="content">
+                            <div className="content_tab">
+                              asdhasdkajdhadsadas{saveDate}
+                              ddddsadajkdalksjkjlkjljhsdasdjasdhaskdshasdhsajkasdhdkashdaskjdhasdkahsddaskdjhasjassdasda
+                            </div>
+                            <div>{saveDate}</div>
+                          </div>
+                        </ListItem>
+                      </List>
+                    </TabPanel>
+                    <TabPanel value={this.state.value} index={6}>
+                      <div className="heard">
+                        <div className="heard_title">Click</div>
+                        <div className="header__cart-container_heard">
+                          <ThumbDownIcon className="cart_icon_heard" />
+                          <span className="header__cart-notice_heard">0</span>
+                        </div>
+                        <div className="heard_title">
+                          to vote for this product
+                        </div>
+                      </div>
+                      <List className="child_tab">
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <ImageIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <div className="content">
+                            <div className="content_tab">
+                              asdhasdkajdhadsadas{saveDate}
+                              ddddsadajkdalksjkjlkjljhsdasdjasdhaskdshasdhsajkasdhdkashdaskjdhasdkahsddaskdjhasjassdasda
+                            </div>
+                            <div>{saveDate}</div>
+                          </div>
+                        </ListItem>
+                      </List>
+                    </TabPanel>
+                  </div>
+                );
+              })}
             </section>
           </div>
         </main>
@@ -308,6 +704,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onCart: (data) => {
       dispatch(actions.cartReducers(data));
+    },
+    onQuestion: (data) => {
+      dispatch(actions.questionAPI(data));
     },
   };
 };

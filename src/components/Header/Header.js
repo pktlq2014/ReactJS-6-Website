@@ -101,6 +101,7 @@ class Header extends Component {
             const user = {
               email: this.state.emailSignin,
               password: this.state.passwordSignin,
+              img : 'users.jpg'
             };
             localStorage.setItem("statusLogin", JSON.stringify(user));
             this.props.onStatusLogin(user);
