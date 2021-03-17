@@ -101,7 +101,7 @@ class Header extends Component {
             const user = {
               email: this.state.emailSignin,
               password: this.state.passwordSignin,
-              img : 'user.png'
+              img: "user.png",
             };
             var array = [];
             // array.push(user);
@@ -435,6 +435,7 @@ class Header extends Component {
                     <header className="header__notify-header">
                       <h5>Latest notification</h5>
                     </header>
+                    <div className="space"></div>
                     <ul className="header__notify-list">
                       <li className="header__notify-item header__notify-item-viewed">
                         <a className="header__notify-link" href="#">
@@ -454,121 +455,6 @@ class Header extends Component {
                           </div>
                         </a>
                       </li>
-
-                      <li className="header__notify-item header__notify-item-viewed">
-                        <a className="header__notify-link" href="#">
-                          <img
-                            className="header__notify-img"
-                            src={mypham}
-                            alt=""
-                          />
-                          <div className="header__notify-info">
-                            <span className="header__notify-name">
-                              Loyalty program
-                            </span>
-                            <span className="header__notify-description">
-                              To thank our customers for their support and love
-                              for us, the loyalty program was launched.
-                            </span>
-                          </div>
-                        </a>
-                      </li>
-
-                      <li className="header__notify-item header__notify-item-viewed">
-                        <a className="header__notify-link" href="#">
-                          <img
-                            className="header__notify-img"
-                            src={mypham}
-                            alt=""
-                          />
-                          <div className="header__notify-info">
-                            <span className="header__notify-name">
-                              Loyalty program
-                            </span>
-                            <span className="header__notify-description">
-                              To thank our customers for their support and love
-                              for us, the loyalty program was launched.
-                            </span>
-                          </div>
-                        </a>
-                      </li>
-
-                      <li className="header__notify-item header__notify-item-viewed">
-                        <a className="header__notify-link" href="#">
-                          <img
-                            className="header__notify-img"
-                            src={mypham}
-                            alt=""
-                          />
-                          <div className="header__notify-info">
-                            <span className="header__notify-name">
-                              Loyalty program
-                            </span>
-                            <span className="header__notify-description">
-                              To thank our customers for their support and love
-                              for us, the loyalty program was launched.
-                            </span>
-                          </div>
-                        </a>
-                      </li>
-
-                      <li className="header__notify-item header__notify-item-viewed">
-                        <a className="header__notify-link" href="#">
-                          <img
-                            className="header__notify-img"
-                            src={mypham}
-                            alt=""
-                          />
-                          <div className="header__notify-info">
-                            <span className="header__notify-name">
-                              Loyalty program
-                            </span>
-                            <span className="header__notify-description">
-                              To thank our customers for their support and love
-                              for us, the loyalty program was launched.
-                            </span>
-                          </div>
-                        </a>
-                      </li>
-
-                      <li className="header__notify-item header__notify-item-viewed">
-                        <a className="header__notify-link" href="#">
-                          <img
-                            className="header__notify-img"
-                            src={mypham}
-                            alt=""
-                          />
-                          <div className="header__notify-info">
-                            <span className="header__notify-name">
-                              Loyalty program
-                            </span>
-                            <span className="header__notify-description">
-                              To thank our customers for their support and love
-                              for us, the loyalty program was launched.
-                            </span>
-                          </div>
-                        </a>
-                      </li>
-
-                      <li className="header__notify-item header__notify-item-viewed">
-                        <a className="header__notify-link" href="#">
-                          <img
-                            className="header__notify-img"
-                            src={mypham}
-                            alt=""
-                          />
-                          <div className="header__notify-info">
-                            <span className="header__notify-name">
-                              Loyalty program
-                            </span>
-                            <span className="header__notify-description">
-                              To thank our customers for their support and love
-                              for us, the loyalty program was launched.
-                            </span>
-                          </div>
-                        </a>
-                      </li>
-
                       <li className="header__notify-item header__notify-item-viewed">
                         <a className="header__notify-link" href="#">
                           <img
@@ -611,11 +497,6 @@ class Header extends Component {
                       <li className="header__navbar-user-item">
                         <a href="#" className="header__navbar-user-link">
                           My Account
-                        </a>
-                      </li>
-                      <li className="header__navbar-user-item">
-                        <a href="#" className="header__navbar-user-link">
-                          My Address
                         </a>
                       </li>
                       <li className="header__navbar-user-item">
@@ -727,7 +608,9 @@ class Header extends Component {
                             <div className="header__cart-item-body">
                               <div className="header__cart-item-description">
                                 <div>Category: </div>
-                                <div className="name_product">{values.nameIdParent}</div>
+                                <div className="name_product">
+                                  {values.nameIdParent}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -768,7 +651,6 @@ const mapDispatchToProps = (dispatch, props) => {
     onStatusLogin: (data) => {
       dispatch(actions.statusLogin(data));
     },
-
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
