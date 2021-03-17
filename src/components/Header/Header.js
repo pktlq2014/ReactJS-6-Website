@@ -103,6 +103,9 @@ class Header extends Component {
               password: this.state.passwordSignin,
               img : 'users.jpg'
             };
+            var array = [];
+            // array.push(user);
+            // localStorage.setItem("favourite", JSON.stringify(array));
             localStorage.setItem("statusLogin", JSON.stringify(user));
             this.props.onStatusLogin(user);
           }
@@ -772,6 +775,7 @@ const mapDispatchToProps = (dispatch, props) => {
     onStatusLogin: (data) => {
       dispatch(actions.statusLogin(data));
     },
+
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

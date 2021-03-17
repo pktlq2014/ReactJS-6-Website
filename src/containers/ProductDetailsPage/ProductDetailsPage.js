@@ -102,9 +102,211 @@ class ProductDetailsPage extends Component {
       value: 0,
       currentDateTime: new Date().toLocaleString(),
       question: "",
+      feedback: "",
       array: [],
+      countFavourite: 0,
+      countDislike: 0,
+      countLike: 0,
+      localArray: [],
     };
   }
+  onClickLike = () => {
+    this.setState({
+      countLike: this.state.countLike + 1,
+    });
+    var { product, signin } = this.props;
+    var { productId } = this.props.match.params;
+    var local = JSON.parse(localStorage.getItem("statusLogin"));
+    this.props.onFavourite(local);
+    console.log(signin);
+    var data = product.filter((values, index) => {
+      if (values.id === productId) {
+        return values;
+      }
+    });
+    var temp1 = 0,
+      temp2 = 0;
+    if (local) {
+      data.forEach((values, index) => {
+        if (values.like.length <= 0) {
+          var object = {
+            date: this.state.currentDateTime,
+            img: local.img,
+            email: local.email,
+          };
+          console.log(object);
+          this.state.array.push(object);
+          product.forEach((values, index) => {
+            if (values.id === productId) {
+              //values.question = this.state.array;
+              values.like.push(object);
+              console.log(values);
+              this.props.onQuestion(values);
+            }
+          });
+        } else {
+          values.like.forEach((valuess, index) => {
+            if (valuess.email.toLowerCase() === local.email.toLowerCase()) {
+              temp1 = 1;
+            } else {
+              temp2 = 1;
+            }
+          });
+        }
+      });
+      if (temp1 === 0 && temp2 === 1) {
+        var object = {
+          date: this.state.currentDateTime,
+          img: local.img,
+          email: local.email,
+        };
+        console.log(object);
+        this.state.array.push(object);
+        product.forEach((values, index) => {
+          if (values.id === productId) {
+            //values.question = this.state.array;
+            values.like.push(object);
+            console.log(values);
+            this.props.onQuestion(values);
+          }
+        });
+      }
+    } else {
+      alert("You need to be signin before executing this function ");
+    }
+  };
+  onClickDislike = () => {
+    this.setState({
+      countDislike: this.state.countDislike + 1,
+    });
+    var { product, signin } = this.props;
+    var { productId } = this.props.match.params;
+    var local = JSON.parse(localStorage.getItem("statusLogin"));
+    this.props.onFavourite(local);
+    console.log(signin);
+    var data = product.filter((values, index) => {
+      if (values.id === productId) {
+        return values;
+      }
+    });
+    var temp1 = 0,
+      temp2 = 0;
+    if (local) {
+      data.forEach((values, index) => {
+        if (values.dislike.length <= 0) {
+          var object = {
+            date: this.state.currentDateTime,
+            img: local.img,
+            email: local.email,
+          };
+          console.log(object);
+          this.state.array.push(object);
+          product.forEach((values, index) => {
+            if (values.id === productId) {
+              //values.question = this.state.array;
+              values.dislike.push(object);
+              console.log(values);
+              this.props.onQuestion(values);
+            }
+          });
+        } else {
+          values.dislike.forEach((valuess, index) => {
+            if (valuess.email.toLowerCase() === local.email.toLowerCase()) {
+              temp1 = 1;
+            } else {
+              temp2 = 1;
+            }
+          });
+        }
+      });
+      if (temp1 === 0 && temp2 === 1) {
+        var object = {
+          date: this.state.currentDateTime,
+          img: local.img,
+          email: local.email,
+        };
+        console.log(object);
+        this.state.array.push(object);
+        product.forEach((values, index) => {
+          if (values.id === productId) {
+            //values.question = this.state.array;
+            values.dislike.push(object);
+            console.log(values);
+            this.props.onQuestion(values);
+          }
+        });
+      }
+    } else {
+      alert("You need to be signin before executing this function ");
+    }
+  };
+  onClickFavourite = () => {
+    this.setState({
+      countFavourite: this.state.countFavourite + 1,
+    });
+    var { product, signin } = this.props;
+    var { productId } = this.props.match.params;
+    var local = JSON.parse(localStorage.getItem("statusLogin"));
+    this.props.onFavourite(local);
+    console.log(signin);
+    var array = [];
+
+    var data = product.filter((values, index) => {
+      if (values.id === productId) {
+        return values;
+      }
+    });
+    var temp1 = 0,
+      temp2 = 0;
+    if (local) {
+      data.forEach((values, index) => {
+        if (values.favourite.length <= 0) {
+          var object = {
+            date: this.state.currentDateTime,
+            img: local.img,
+            email: local.email,
+          };
+          console.log(object);
+          this.state.array.push(object);
+          product.forEach((values, index) => {
+            if (values.id === productId) {
+              //values.question = this.state.array;
+              values.favourite.push(object);
+              console.log(values);
+              this.props.onQuestion(values);
+            }
+          });
+        } else {
+          values.favourite.forEach((valuess, index) => {
+            if (valuess.email.toLowerCase() === local.email.toLowerCase()) {
+              temp1 = 1;
+            } else {
+              temp2 = 1;
+            }
+          });
+        }
+      });
+      if (temp1 === 0 && temp2 === 1) {
+        var object = {
+          date: this.state.currentDateTime,
+          img: local.img,
+          email: local.email,
+        };
+        console.log(object);
+        this.state.array.push(object);
+        product.forEach((values, index) => {
+          if (values.id === productId) {
+            //values.question = this.state.array;
+            values.favourite.push(object);
+            console.log(values);
+            this.props.onQuestion(values);
+          }
+        });
+      }
+    } else {
+      alert("You need to be signin before executing this function ");
+    }
+  };
   onChange = (e) => {
     var { target } = e;
     var name = target.name;
@@ -113,7 +315,7 @@ class ProductDetailsPage extends Component {
       [name]: value,
     });
   };
-  onSubmit = (e) => {
+  onSubmitQuestion = (e) => {
     e.preventDefault();
     var local = JSON.parse(localStorage.getItem("statusLogin"));
     console.log(this.state.question);
@@ -141,6 +343,35 @@ class ProductDetailsPage extends Component {
     }
     this.setState({
       question: "",
+    });
+  };
+  onSubmitFeedback = (e) => {
+    e.preventDefault();
+    var local = JSON.parse(localStorage.getItem("statusLogin"));
+    var { product } = this.props;
+    var { productId } = this.props.match.params;
+    if (local) {
+      var object = {
+        data: this.state.feedback,
+        date: this.state.currentDateTime,
+        img: local.img,
+        email: local.email,
+      };
+      console.log(object);
+      this.state.array.push(object);
+      product.forEach((values, index) => {
+        if (values.id === productId) {
+          //values.question = this.state.array;
+          values.feedback.push(object);
+          console.log(values);
+          this.props.onQuestion(values);
+        }
+      });
+    } else {
+      alert("You need to be signin before executing this function ");
+    }
+    this.setState({
+      feedback: "",
     });
   };
   handleDelete = () => {
@@ -535,7 +766,7 @@ class ProductDetailsPage extends Component {
                     >
                       <List className="child_tab">
                         <form
-                          onSubmit={this.onSubmit}
+                          onSubmit={this.onSubmitQuestion}
                           className="form_question"
                         >
                           <input
@@ -550,137 +781,188 @@ class ProductDetailsPage extends Component {
                             Sent
                           </button>
                         </form>
-                        {values.question.map((valuesssss, index) => {
-                          var image = require(`./../../assets/images/${valuesssss.img}`);
-                          return (
-                            <ListItem className="list_question" key={index}>
-                              <img
-                                className="question_image"
-                                src={image.default}
-                                alt=""
-                              />
-                              <div className="content">
-                                <div className="content_tab">
-                                  {valuesssss.email} : {valuesssss.data}
+                        {values.question &&
+                          values.question.map((valuesssss, index) => {
+                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            return (
+                              <ListItem className="list_question" key={index}>
+                                <img
+                                  className="question_image"
+                                  src={image.default}
+                                  alt=""
+                                />
+                                <div className="content">
+                                  <div className="content_tab">
+                                    {valuesssss.email} : {valuesssss.data}
+                                  </div>
+                                  <div>{valuesssss.date}</div>
                                 </div>
-                                <div>{valuesssss.date}</div>
-                              </div>
-                            </ListItem>
-                          );
-                        })}
+                              </ListItem>
+                            );
+                          })}
                       </List>
                     </TabPanel>
-                    <TabPanel value={this.state.value} index={3}>
+                    <TabPanel
+                      className="parent_tab"
+                      value={this.state.value}
+                      index={3}
+                    >
                       <List className="child_tab">
-                        <form className="form_question">
+                        <form
+                          onSubmit={this.onSubmitFeedback}
+                          className="form_question"
+                        >
                           <input
                             type="text"
-                            name="search"
-                            placeholder="Question input here.."
+                            className="question_input"
+                            name="feedback"
+                            value={this.state.feedback}
+                            onChange={this.onChange}
+                            placeholder="Feedback input here.."
                           />
-                          <button class="button">Sent</button>
+                          <button type="submit" class="button">
+                            Sent
+                          </button>
                         </form>
-                        <ListItem>
-                          <ListItemAvatar>
-                            <Avatar>
-                              <ImageIcon />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <div className="content">
-                            <div className="content_tab">
-                              asdhasdkajdhadsadas{saveDate}
-                              ddddsadajkdalksjkjlkjljhsdasdjasdhaskdshasdhsajkasdhdkashdaskjdhasdkahsddaskdjhasjassdasda
-                            </div>
-                            <div>{saveDate}</div>
-                          </div>
-                        </ListItem>
+                        {values.feedback &&
+                          values.feedback.map((valuesssss, index) => {
+                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            return (
+                              <ListItem className="list_question" key={index}>
+                                <img
+                                  className="question_image"
+                                  src={image.default}
+                                  alt=""
+                                />
+                                <div className="content">
+                                  <div className="content_tab">
+                                    {valuesssss.email} : {valuesssss.data}
+                                  </div>
+                                  <div>{valuesssss.date}</div>
+                                </div>
+                              </ListItem>
+                            );
+                          })}
                       </List>
                     </TabPanel>
                     <TabPanel value={this.state.value} index={4}>
                       <div className="heard">
                         <div className="heard_title">Click</div>
-                        <div className="header__cart-container_heard">
+                        <div
+                          onClick={this.onClickFavourite}
+                          className="header__cart-container_heard"
+                        >
                           <FavoriteIcon className="cart_icon_heard" />
-                          <span className="header__cart-notice_heard">0</span>
+                          <span className="header__cart-notice_heard">
+                            {values.favourite.length}
+                          </span>
                         </div>
                         <div className="heard_title">
                           to vote for this product
                         </div>
                       </div>
                       <List className="child_tab">
-                        <ListItem>
-                          <ListItemAvatar>
-                            <Avatar>
-                              <ImageIcon />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <div className="content">
-                            <div className="content_tab">
-                              asdhasdkajdhadsadas{saveDate}
-                              ddddsadajkdalksjkjlkjljhsdasdjasdhaskdshasdhsajkasdhdkashdaskjdhasdkahsddaskdjhasjassdasda
-                            </div>
-                            <div>{saveDate}</div>
-                          </div>
-                        </ListItem>
+                        {values.favourite &&
+                          values.favourite.map((valuesssss, index) => {
+                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            return (
+                              <ListItem className="list_question" key={index}>
+                                <img
+                                  className="question_image"
+                                  src={image.default}
+                                  alt=""
+                                />
+                                <div className="content">
+                                  <div className="content_tab">
+                                    {valuesssss.email} : voted 1 favorite for
+                                    this product
+                                  </div>
+                                  <div>{valuesssss.date}</div>
+                                </div>
+                              </ListItem>
+                            );
+                          })}
                       </List>
                     </TabPanel>
                     <TabPanel value={this.state.value} index={5}>
                       <div className="heard">
                         <div className="heard_title">Click</div>
-                        <div className="header__cart-container_heard">
-                          <ThumbUpAltIcon className="cart_icon_heard" />
-                          <span className="header__cart-notice_heard">0</span>
+                        <div
+                          onClick={this.onClickDislike}
+                          className="header__cart-container_heard"
+                        >
+                          <ThumbDownIcon className="cart_icon_heard" />
+                          <span className="header__cart-notice_heard">
+                            {values.dislike.length}
+                          </span>
                         </div>
                         <div className="heard_title">
                           to vote for this product
                         </div>
                       </div>
                       <List className="child_tab">
-                        <ListItem>
-                          <ListItemAvatar>
-                            <Avatar>
-                              <ImageIcon />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <div className="content">
-                            <div className="content_tab">
-                              asdhasdkajdhadsadas{saveDate}
-                              ddddsadajkdalksjkjlkjljhsdasdjasdhaskdshasdhsajkasdhdkashdaskjdhasdkahsddaskdjhasjassdasda
-                            </div>
-                            <div>{saveDate}</div>
-                          </div>
-                        </ListItem>
+                        {values.dislike &&
+                          values.dislike.map((valuesssss, index) => {
+                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            return (
+                              <ListItem className="list_question" key={index}>
+                                <img
+                                  className="question_image"
+                                  src={image.default}
+                                  alt=""
+                                />
+                                <div className="content">
+                                  <div className="content_tab">
+                                    {valuesssss.email} : voted 1 dislike for
+                                    this product
+                                  </div>
+                                  <div>{valuesssss.date}</div>
+                                </div>
+                              </ListItem>
+                            );
+                          })}
                       </List>
                     </TabPanel>
                     <TabPanel value={this.state.value} index={6}>
                       <div className="heard">
                         <div className="heard_title">Click</div>
-                        <div className="header__cart-container_heard">
-                          <ThumbDownIcon className="cart_icon_heard" />
-                          <span className="header__cart-notice_heard">0</span>
+                        <div
+                          onClick={this.onClickLike}
+                          className="header__cart-container_heard"
+                        >
+                          <ThumbUpAltIcon className="cart_icon_heard" />
+                          <span className="header__cart-notice_heard">
+                            {values.like.length}
+                          </span>
                         </div>
                         <div className="heard_title">
                           to vote for this product
                         </div>
                       </div>
                       <List className="child_tab">
-                        <ListItem>
-                          <ListItemAvatar>
-                            <Avatar>
-                              <ImageIcon />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <div className="content">
-                            <div className="content_tab">
-                              asdhasdkajdhadsadas{saveDate}
-                              ddddsadajkdalksjkjlkjljhsdasdjasdhaskdshasdhsajkasdhdkashdaskjdhasdkahsddaskdjhasjassdasda
-                            </div>
-                            <div>{saveDate}</div>
-                          </div>
-                        </ListItem>
+                        {values.like &&
+                          values.like.map((valuesssss, index) => {
+                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            return (
+                              <ListItem className="list_question" key={index}>
+                                <img
+                                  className="question_image"
+                                  src={image.default}
+                                  alt=""
+                                />
+                                <div className="content">
+                                  <div className="content_tab">
+                                    {valuesssss.email} : voted 1 like for
+                                    this product
+                                  </div>
+                                  <div>{valuesssss.date}</div>
+                                </div>
+                              </ListItem>
+                            );
+                          })}
                       </List>
                     </TabPanel>
-                  </div>
+ </div>
                 );
               })}
             </section>
@@ -695,6 +977,8 @@ const mapStateToProps = (state) => {
     product: state.product,
     category: state.category,
     cart: state.cart,
+    favourite: state.favourite,
+    signin: state.signin,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -707,6 +991,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onQuestion: (data) => {
       dispatch(actions.questionAPI(data));
+    },
+    onFavourite: (data) => {
+      dispatch(actions.favouriteReducers(data));
     },
   };
 };

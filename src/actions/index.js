@@ -127,3 +127,9 @@ export const questionReducers = (data) => {
     data: data,
   };
 };
+export const favouriteReducers = (data) => {
+  return {
+    type: types.authConstants.FAVOURITE,
+    data: data,
+  };
+};
