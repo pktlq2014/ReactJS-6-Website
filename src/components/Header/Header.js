@@ -2,7 +2,7 @@ import "./styles.css";
 import QRcode from "./../../assets/images/QRcode.png";
 import AppStore from "./../../assets/images/AppStore.png";
 import Google_play from "./../../assets/images/google_play.png";
-import users from "./../../assets/images/users.jpg";
+import users from "./../../assets/images/user.png";
 import mypham from "./../../assets/images/mypham.png";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -101,7 +101,7 @@ class Header extends Component {
             const user = {
               email: this.state.emailSignin,
               password: this.state.passwordSignin,
-              img : 'users.jpg'
+              img : 'user.png'
             };
             var array = [];
             // array.push(user);
@@ -595,13 +595,6 @@ class Header extends Component {
                       </a>
                     </footer>
                   </div>
-                </li>
-
-                <li className="header__navbar-item header__navbar-help">
-                  <a href="" className="header__navbar-item-link">
-                    <HelpIcon className="header__navbar-icon" />
-                    Help
-                  </a>
                 </li>
 
                 {statusLogin ? (

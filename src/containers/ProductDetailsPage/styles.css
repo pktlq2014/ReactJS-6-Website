@@ -171,11 +171,11 @@
   object-fit: contain;
 }
 .question_image {
-  height: 2.25rem;
-  width: 2.25rem;
+  height: 1.75rem;
   margin-right: 0.75rem;
+  width: 1.75rem;
+  object-fit: contain;
   border-radius: 50%;
-  border: 2px solid rgba(0, 0, 0, 0.1);
 }
 .question_input {
   width: 15rem;

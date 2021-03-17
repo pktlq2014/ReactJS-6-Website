@@ -107,6 +107,7 @@ class ProductDetailsPage extends Component {
       countFavourite: 0,
       countDislike: 0,
       countLike: 0,
+      countQuestion: 0,
       localArray: [],
     };
   }
@@ -321,23 +322,46 @@ class ProductDetailsPage extends Component {
     console.log(this.state.question);
     var { product } = this.props;
     var { productId } = this.props.match.params;
-    if (local) {
-      var object = {
-        data: this.state.question,
-        date: this.state.currentDateTime,
-        img: local.img,
-        email: local.email,
-      };
-      console.log(object);
-      this.state.array.push(object);
-      product.forEach((values, index) => {
-        if (values.id === productId) {
-          //values.question = this.state.array;
-          values.question.push(object);
-          console.log(values);
-          this.props.onQuestion(values);
+    var data = product.filter((values, index) => {
+      if (values.id === productId) {
+        return values;
+      }
+    });
+    var count = 0, count2 = 0;
+    var resultDateCurrent = this.state.currentDateTime.split(",");
+    data.forEach((values, index) => {
+      values.question.forEach((valuess, index) => {
+        var resultDate = valuess.date.split(",");
+        if (valuess.email === local.email) {
+          // this.setState({
+          //   countQuestion: this.state.countQuestion + 1,
+          // });
+          count++;
+        }
+        if(resultDate === resultDateCurrent) {
+          count2++;
         }
       });
+    });
+    if (local) {
+      if (count <= 2 && count2 <= 2) {
+        var object = {
+          data: this.state.question,
+          date: this.state.currentDateTime,
+          img: local.img,
+          email: local.email,
+        };
+        console.log(object);
+        this.state.array.push(object);
+        product.forEach((values, index) => {
+          if (values.id === productId) {
+            //values.question = this.state.array;
+            values.question.push(object);
+            console.log(values);
+            this.props.onQuestion(values);
+          }
+        });
+      }
     } else {
       alert("You need to be signin before executing this function ");
     }
@@ -348,25 +372,49 @@ class ProductDetailsPage extends Component {
   onSubmitFeedback = (e) => {
     e.preventDefault();
     var local = JSON.parse(localStorage.getItem("statusLogin"));
+    console.log(this.state.question);
     var { product } = this.props;
     var { productId } = this.props.match.params;
-    if (local) {
-      var object = {
-        data: this.state.feedback,
-        date: this.state.currentDateTime,
-        img: local.img,
-        email: local.email,
-      };
-      console.log(object);
-      this.state.array.push(object);
-      product.forEach((values, index) => {
-        if (values.id === productId) {
-          //values.question = this.state.array;
-          values.feedback.push(object);
-          console.log(values);
-          this.props.onQuestion(values);
+    var data = product.filter((values, index) => {
+      if (values.id === productId) {
+        return values;
+      }
+    });
+    var count = 0, count2 = 0;
+    var resultDateCurrent = this.state.currentDateTime.split(",");
+    data.forEach((values, index) => {
+      values.feedback.forEach((valuess, index) => {
+        var resultDate = valuess.date.split(",");
+        if (valuess.email === local.email) {
+          // this.setState({
+          //   countQuestion: this.state.countQuestion + 1,
+          // });
+          count++;
+        }
+        if(resultDate === resultDateCurrent) {
+          count2++;
         }
       });
+    });
+    if (local) {
+      if (count <= 2 && count2 <= 2) {
+        var object = {
+          data: this.state.feedback,
+          date: this.state.currentDateTime,
+          img: local.img,
+          email: local.email,
+        };
+        console.log(object);
+        this.state.array.push(object);
+        product.forEach((values, index) => {
+          if (values.id === productId) {
+            //values.feedback = this.state.array;
+            values.feedback.push(object);
+            console.log(values);
+            this.props.onQuestion(values);
+          }
+        });
+      }
     } else {
       alert("You need to be signin before executing this function ");
     }
@@ -516,7 +564,7 @@ class ProductDetailsPage extends Component {
 
                     <div className="product__picture" id="product__picture">
                       <div className="picture__container">
-                        {data.map((values, index) => {
+                        {data && data.map((values, index) => {
                           var image = require(`./../../assets/images/${values.productPictures[0].img}`);
                           return (
                             <img
@@ -952,8 +1000,8 @@ class ProductDetailsPage extends Component {
                                 />
                                 <div className="content">
                                   <div className="content_tab">
-                                    {valuesssss.email} : voted 1 like for
-                                    this product
+                                    {valuesssss.email} : voted 1 like for this
+                                    product
                                   </div>
                                   <div>{valuesssss.date}</div>
                                 </div>
@@ -962,7 +1010,7 @@ class ProductDetailsPage extends Component {
                           })}
                       </List>
                     </TabPanel>
- </div>
+                  </div>
                 );
               })}
             </section>

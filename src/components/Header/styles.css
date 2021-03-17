@@ -268,10 +268,11 @@ body {
   position: relative;
 }
 .header__navbar-user-img {
-  height: 22px;
-  width: 22px;
+  height: 1.2rem;
+  width: 1.2rem;
+  margin-top: 0.2rem;
+  object-fit: contain;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 .header__navbar-user-name {
   font-size: 1rem;
