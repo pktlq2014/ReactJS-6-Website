@@ -1,6 +1,7 @@
 import * as types from "./../constants/index";
 import axios from "./../helpers/axios/axios";
 import API from "./../utils/API";
+import APIz from "./../utils/APIz";
 export const categoryAPI = () => {
   return async (dispatch) => {
     return API("category", "GET", null).then((res) => {
@@ -130,6 +131,22 @@ export const questionReducers = (data) => {
 export const favouriteReducers = (data) => {
   return {
     type: types.authConstants.FAVOURITE,
+    data: data,
+  };
+};
+export const notificationShowAPI = () => {
+  return async (dispatch) => {
+    return APIz("notification", "GET", null).then((res) => {
+      console.log(res);
+      if(res && res.data) {
+        dispatch(notificationShowReducers(res.data));
+      }
+    });
+  };
+};
+export const notificationShowReducers = (data) => {
+  return {
+    type: types.authConstants.NOTIFICATION_SHOW,
     data: data,
   };
 };

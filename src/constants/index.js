@@ -8,4 +8,5 @@ export const authConstants = {
   CART : 'CART',
   QUESTION : 'QUESTION',
   FAVOURITE : 'FAVOURITE',
+  NOTIFICATION_SHOW : 'NOTIFICATION_SHOW'
 };

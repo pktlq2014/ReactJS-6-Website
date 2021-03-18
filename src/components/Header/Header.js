@@ -45,6 +45,7 @@ class Header extends Component {
   };
   componentDidMount() {
     this.props.onLogin();
+    this.props.onNotificationShow();
   }
   onChange = (e) => {
     var { target } = e;
@@ -152,7 +153,7 @@ class Header extends Component {
     }
   };
   render() {
-    var { signin, statusLogin } = this.props;
+    var { notification, statusLogin } = this.props;
     console.log(statusLogin);
     // var statusLogin = signin.map((values, index) => {
     //   if (
@@ -437,42 +438,36 @@ class Header extends Component {
                     </header>
                     <div className="space"></div>
                     <ul className="header__notify-list">
-                      <li className="header__notify-item header__notify-item-viewed">
-                        <a className="header__notify-link" href="#">
-                          <img
-                            className="header__notify-img"
-                            src={mypham}
-                            alt=""
-                          />
-                          <div className="header__notify-info">
-                            <span className="header__notify-name">
-                              Loyalty program
-                            </span>
-                            <span className="header__notify-description">
-                              To thank our customers for their support and love
-                              for us, the loyalty program was launched.
-                            </span>
-                          </div>
-                        </a>
-                      </li>
-                      <li className="header__notify-item header__notify-item-viewed">
-                        <a className="header__notify-link" href="#">
-                          <img
-                            className="header__notify-img"
-                            src={mypham}
-                            alt=""
-                          />
-                          <div className="header__notify-info">
-                            <span className="header__notify-name">
-                              Loyalty program
-                            </span>
-                            <span className="header__notify-description">
-                              To thank our customers for their support and love
-                              for us, the loyalty program was launched.
-                            </span>
-                          </div>
-                        </a>
-                      </li>
+                      {
+                        notification.map((values, index) => {
+                          return (
+                            <li key={index} className="header__notify-item header__notify-item-viewed">
+                            <a className="header__notify-link" href="#">
+                              {
+                                values.notificationArray.map((valuess, index) => {
+                                  var image = require(`./../../assets/images/${valuess.img}`);
+                                  return (
+                                    <img
+                                    className="header__notify-img"
+                                    src={image.default}
+                                    alt=""
+                                  />
+                                  )
+                                })
+                              }
+                              <div className="header__notify-info">
+                                <span className="header__notify-name">
+                                  {values.title}
+                                </span>
+                                <span className="header__notify-description">
+                                  {values.description}
+                                </span>
+                              </div>
+                            </a>
+                          </li>
+                          )
+                        })
+                      }
                     </ul>
 
                     <footer className="header__notify-footer">
@@ -638,6 +633,7 @@ const mapStateToProps = (state) => {
     signin: state.signin,
     statusLogin: state.statusLogin,
     cart: state.cart,
+    notification : state.notification
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -651,6 +647,9 @@ const mapDispatchToProps = (dispatch, props) => {
     onStatusLogin: (data) => {
       dispatch(actions.statusLogin(data));
     },
+    onNotificationShow : () => {
+      dispatch(actions.notificationShowAPI());
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
