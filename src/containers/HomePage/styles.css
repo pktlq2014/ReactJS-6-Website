@@ -1,0 +1,154 @@
+:root {
+  --primaryColor: #f1f1f1;
+  --black: #222;
+  --black2: #555;
+  --black3: #252525;
+  --black4: #000;
+  --black5: #212529;
+  --orange: #eb0028;
+  --white: #fff;
+  --grey: #959595;
+  --grey2: #666;
+  --grey3: #ccc;
+  --secondaryColor: #2b1f4d;
+  --yellow: #ffcc00;
+  --green: #59b210;
+  --blue: rgb(56, 10, 223);
+}
+.home_carousel {
+  margin: 1rem 1rem 0 1rem;
+}
+.home_product {
+  border: 1px solid gainsboro;
+  margin: 1rem 1rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.home_product_title {
+  display: flex;
+  padding: 1rem 1.5rem;
+  justify-content: space-between;
+}
+.home_product_title_left {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: black;
+}
+.home_product_title_right {
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  background-color: #0745f1;
+}
+.home_product_title_right:hover {
+  background-color: #1e07f1;
+}
+.home_product_divide {
+  border-bottom: 1px solid #cecece;
+}
+.product {
+  position: relative;
+}
+.product ul {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 42.5%;
+  width: 12rem;
+  height: 2.5rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  /* có giải thích trong word */
+  transform: translate(-50%, -50%) scale(0.7);
+  transition: all 0.5s ease-in-out;
+}
+.product:hover ul {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.product ul li:not(:last-child) {
+  margin-right: 0.75rem;
+}
+.product ul a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eb0028;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.product ul a:hover {
+  background-color: var(--black);
+}
+/* dùng before, after phải kèm thuộc tính content */
+/* custom border đen bên ngoài */
+.product ul a::before {
+  content: "";
+  position: absolute;
+  top: -0.4rem;
+  left: -0.4rem;
+  height: 0;
+  width: 0;
+  border-top: 3px solid var(--orange);
+  border-left: 3px solid var(--orange);
+  transition: 0.5s;
+  opacity: 0;
+  z-index: 1;
+}
+.end {
+    margin-bottom: 1rem;
+}
+/* custom border đen bên ngoài */
+.product ul a::after {
+  content: "";
+  position: absolute;
+  bottom: -0.4rem;
+  right: -0.4rem;
+  width: 0;
+  height: 0;
+  border-bottom: 3px solid var(--orange);
+  border-right: 3px solid var(--orange);
+  z-index: 1;
+  opacity: 0;
+  transition: 0.5s;
+}
+/* custom border đen bên ngoài */
+.product ul a:hover::before {
+  width: 126%;
+  height: 126%;
+  border-top: 3px solid var(--black);
+  border-left: 3px solid var(--black);
+  opacity: 1;
+}
+/* custom border đen bên ngoài */
+.product ul a:hover::after {
+  width: 126%;
+  height: 126%;
+  border-bottom: 3px solid var(--black);
+  border-right: 3px solid var(--black);
+  opacity: 1;
+}
+.product ul li {
+    list-style: none;
+}
+.product__header {
+    height: 10rem;
+    margin: 3rem 0;
+}
+
+.product__header img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.product_icon {
+  color: white;
+}
