@@ -5,6 +5,8 @@ import { IoIosArrowForward, IoIosStar, IoMdCart } from "react-icons/io";
 import * as actions from "./../../actions/index";
 import { BiRupee } from "react-icons/bi";
 import Form from "react-bootstrap/Form";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 import EmailIcon from "@material-ui/icons/Email";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { Link, Redirect } from "react-router-dom";
@@ -109,6 +111,7 @@ class ProductDetailsPage extends Component {
       countLike: 0,
       countQuestion: 0,
       localArray: [],
+      imageData: "",
     };
   }
   onClickLike = () => {
@@ -327,7 +330,8 @@ class ProductDetailsPage extends Component {
         return values;
       }
     });
-    var count = 0, count2 = 0;
+    var count = 0,
+      count2 = 0;
     var resultDateCurrent = this.state.currentDateTime.split(",");
     data.forEach((values, index) => {
       values.question.forEach((valuess, index) => {
@@ -338,7 +342,7 @@ class ProductDetailsPage extends Component {
           // });
           count++;
         }
-        if(resultDate === resultDateCurrent) {
+        if (resultDate === resultDateCurrent) {
           count2++;
         }
       });
@@ -380,7 +384,8 @@ class ProductDetailsPage extends Component {
         return values;
       }
     });
-    var count = 0, count2 = 0;
+    var count = 0,
+      count2 = 0;
     var resultDateCurrent = this.state.currentDateTime.split(",");
     data.forEach((values, index) => {
       values.feedback.forEach((valuess, index) => {
@@ -391,7 +396,7 @@ class ProductDetailsPage extends Component {
           // });
           count++;
         }
-        if(resultDate === resultDateCurrent) {
+        if (resultDate === resultDateCurrent) {
           count2++;
         }
       });
@@ -489,6 +494,13 @@ class ProductDetailsPage extends Component {
     }
     return result;
   };
+  onClickImage = (index, array) => {
+    var data = array[index].img;
+    var image = require(`./../../assets/images/${data}`);
+    this.setState({
+      imageData: image,
+    });
+  };
   render() {
     var resultSplit, resultDateSplitNow, count;
     var { productId } = this.props.match.params;
@@ -533,7 +545,10 @@ class ProductDetailsPage extends Component {
     console.log(nameIdParent);
     console.log(nameCurrent);
     console.log(data);
-
+    var array = [];
+    data.forEach((values, index) => {
+      array = values.productPictures;
+    });
     var result = data.map((values, index) => {
       console.log(values.productPictures);
       var resultImage = values.productPictures.map((valuess, index) => {
@@ -543,6 +558,7 @@ class ProductDetailsPage extends Component {
             <img
               className="picture"
               id="pic1"
+              onClick={() => this.onClickImage(index, array)}
               key={index}
               src={image.default}
               alt={valuess.img}
@@ -564,18 +580,28 @@ class ProductDetailsPage extends Component {
 
                     <div className="product__picture" id="product__picture">
                       <div className="picture__container">
-                        {data && data.map((values, index) => {
-                          var image = require(`./../../assets/images/${values.productPictures[0].img}`);
-                          return (
-                            <img
-                              className="image_product_watch"
-                              key={index}
-                              id="pic"
-                              src={image.default}
-                              alt={`${values.productPictures[0].img}`}
-                            />
-                          );
-                        })}
+                        {this.state.imageData.length <= 0 ? (
+                          data &&
+                          data.map((values, index) => {
+                            var image = require(`./../../assets/images/${values.productPictures[0].img}`);
+                            return (
+                              <img
+                                className="image_product_watch"
+                                key={index}
+                                id="pic"
+                                src={image.default}
+                                alt={`${values.productPictures[0].img}`}
+                              />
+                            );
+                          })
+                        ) : (
+                          <img
+                            className="image_product_watch"
+                            id="pic"
+                            src={this.state.imageData.default}
+                            alt=""
+                          />
+                        )}
                       </div>
                     </div>
 
