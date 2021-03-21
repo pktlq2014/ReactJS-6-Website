@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./styles.css";
 import { Card, ThemeProvider } from "react-bootstrap";
-import * as actions from "./../../../actions/index";
+import * as actions from "../../../actions/index";
 import Star from "@material-ui/icons/Star";
 import { Link, Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
