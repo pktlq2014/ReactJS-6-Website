@@ -33,7 +33,7 @@ class MenuHeader extends Component {
       console.log(item);
       return (
         <li key={index} className="category">
-          {item.idParent.length > 0 ? <a href={`/${name.toLowerCase()}?cid=${item.id}&type=${item.type}`}>{item.name}</a> : 
+          {item.idParent.length > 0 ? <Link to={`/${name.toLowerCase()}?cid=${item.id}&type=${item.type}`}>{item.name}</Link> : 
             <span>{item.name}</span>
           }
           {

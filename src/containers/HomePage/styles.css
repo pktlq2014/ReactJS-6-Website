@@ -160,10 +160,13 @@
 .product_icon {
   color: white;
 }
-.in_cart {
+.in_cart_home {
   cursor: not-allowed;
   width: 2rem;
   height: 2rem;
   background-color: #eb0028;
   color: var(--white);
+}
+.search_link {
+  margin-right: 0.75rem;
 }

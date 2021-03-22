@@ -15,6 +15,7 @@ import * as actions from "./../../actions/index";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { ArrowRightAltTwoTone, ImageTwoTone } from "@material-ui/icons";
 import Layout from "./../../components/Layout/layout";
+import { Link, Redirect } from "react-router-dom";
 import FilterCenterFocusIcon from "@material-ui/icons/FilterCenterFocus";
 import SearchIcon from "@material-ui/icons/Search";
 const responsive = {
@@ -59,9 +60,10 @@ class HomePage extends Component {
     };
     this.props.onCart(object);
   };
-  showCart = (product, cart, id, name) => {
+  showCart = (product, cart, id, name, category) => {
     var result = product.map((valuess, index2) => {
       var count = 0;
+      var string = "";
       if (id === valuess.parentID) {
         var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
         return (
@@ -76,8 +78,8 @@ class HomePage extends Component {
                   if (valuessss.id === valuess.id) {
                     count = 1;
                     return (
-                      <li className="in_cart">
-                        <AddShoppingCartIcon className="in_cart" />
+                      <li className="in_cart_home">
+                        <AddShoppingCartIcon className="in_cart_home" />
                       </li>
                     );
                   }
@@ -103,11 +105,22 @@ class HomePage extends Component {
               ) : (
                 ""
               )}
-              <li>
-                <a>
-                  <SearchIcon className="product_icon" />
-                </a>
-              </li>
+              {category.map((valuesss, index) => {
+                if (valuesss.id === valuess.categoryID) {
+                  string = valuesss.name.toLowerCase();
+                }
+              })}
+              <Link
+                className="search_link"
+                style={{ textDecoration: "none" }}
+                to={`/${string}/${valuess.id}/p`}
+              >
+                <li>
+                  <a>
+                    <SearchIcon className="product_icon" />
+                  </a>
+                </li>
+              </Link>
               <li>
                 <a>
                   <FilterCenterFocusIcon className="product_icon" />
@@ -197,7 +210,13 @@ class HomePage extends Component {
                   containerClass="carousel-container"
                   keyBoardControl={true}
                 >
-                  {this.showCart(product, cart, values.id, values.name)}
+                  {this.showCart(
+                    product,
+                    cart,
+                    values.id,
+                    values.name,
+                    category
+                  )}
                 </CarouselMulti>
               </div>
               <div className="end"></div>
