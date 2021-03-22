@@ -425,3 +425,9 @@
 .product-details__btn .hidden {
   display: none;
 }
+.image_product_watch {
+  image-rendering: pixelated;
+  width: 24.5rem;
+  height: 24.5rem;
+  object-fit: contain;
+}
