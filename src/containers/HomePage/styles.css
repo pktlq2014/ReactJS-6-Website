@@ -58,8 +58,9 @@
   align-items: center;
   justify-content: center;
   top: 50%;
-  left: 42.5%;
+  left: 48%;
   width: 12rem;
+  padding-right: 2rem;
   height: 2.5rem;
   background-color: rgba(255, 255, 255, 0.5);
   opacity: 0;
@@ -158,4 +159,11 @@
 }
 .product_icon {
   color: white;
+}
+.in_cart {
+  cursor: not-allowed;
+  width: 2rem;
+  height: 2rem;
+  background-color: #eb0028;
+  color: var(--white);
 }

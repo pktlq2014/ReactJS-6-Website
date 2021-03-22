@@ -47,10 +47,84 @@ class HomePage extends Component {
     this.props.onProductAPI();
     this.props.onTypeAPI();
   }
+  onAddShoppingCart = (id, name, price, img, quantity, category, cart) => {
+    var object = {};
+    object = {
+      id: id,
+      name: name,
+      price: price,
+      img: img,
+      quantity: quantity,
+      nameIdParent: category,
+    };
+    this.props.onCart(object);
+  };
+  showCart = (product, cart, id, name) => {
+    var result = product.map((valuess, index2) => {
+      var count = 0;
+      if (id === valuess.parentID) {
+        var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
+        return (
+          <div className="product" key={index2}>
+            <div className="product__header">
+              {image && <img src={image.default} alt={image.default} />}
+            </div>
+
+            <ul>
+              {cart &&
+                cart.map((valuessss, index) => {
+                  if (valuessss.id === valuess.id) {
+                    count = 1;
+                    return (
+                      <li className="in_cart">
+                        <AddShoppingCartIcon className="in_cart" />
+                      </li>
+                    );
+                  }
+                })}
+              {count === 0 ? (
+                <li
+                  onClick={() =>
+                    this.onAddShoppingCart(
+                      valuess.id,
+                      valuess.name,
+                      valuess.price,
+                      valuess.productPictures[0].img,
+                      1,
+                      name,
+                      cart
+                    )
+                  }
+                >
+                  <a>
+                    <AddShoppingCartIcon className="product_icon" />
+                  </a>
+                </li>
+              ) : (
+                ""
+              )}
+              <li>
+                <a>
+                  <SearchIcon className="product_icon" />
+                </a>
+              </li>
+              <li>
+                <a>
+                  <FilterCenterFocusIcon className="product_icon" />
+                </a>
+              </li>
+            </ul>
+          </div>
+        );
+      }
+    });
+    return result;
+  };
   render() {
-    var { type, product, category } = this.props;
+    var { type, product, category, cart } = this.props;
     console.log(category);
     console.log(product);
+    var count = 0;
     console.log(type);
     var data = [];
     var temp = 0;
@@ -123,38 +197,7 @@ class HomePage extends Component {
                   containerClass="carousel-container"
                   keyBoardControl={true}
                 >
-                  {product.map((valuess, index2) => {
-                    if (values.id === valuess.parentID) {
-                      var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
-                      return (
-                        <div className="product" key={index2}>
-                          <div className="product__header">
-                            {image && (
-                              <img src={image.default} alt={image.default} />
-                            )}
-                          </div>
-
-                          <ul>
-                            <li>
-                              <a>
-                                <AddShoppingCartIcon className="product_icon" />
-                              </a>
-                            </li>
-                            <li>
-                              <a>
-                                <SearchIcon className="product_icon" />
-                              </a>
-                            </li>
-                            <li>
-                              <a>
-                                <FilterCenterFocusIcon className="product_icon" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      );
-                    }
-                  })}
+                  {this.showCart(product, cart, values.id, values.name)}
                 </CarouselMulti>
               </div>
               <div className="end"></div>
@@ -170,6 +213,7 @@ const mapStateToProps = (state) => {
     type: state.type,
     product: state.product,
     category: state.category,
+    cart: state.cart,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -179,6 +223,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onProductAPI: () => {
       dispatch(actions.productAPI());
+    },
+    onCart: (data) => {
+      dispatch(actions.cartReducers(data));
     },
   };
 };
