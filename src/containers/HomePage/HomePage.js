@@ -61,10 +61,12 @@ class HomePage extends Component {
     this.props.onCart(object);
   };
   showCart = (product, cart, id, name, category) => {
-    var result = product.map((valuess, index2) => {
-      var count = 0;
-      var string = "";
-      if (id === valuess.parentID) {
+    var result = product
+      .filter((valuess) => id === valuess.parentID)
+      .map((valuess, index2) => {
+        var count = 0;
+        var string = "";
+        var stringParent = "";
         var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
         return (
           <div className="product" key={index2}>
@@ -108,6 +110,7 @@ class HomePage extends Component {
               {category.map((valuesss, index) => {
                 if (valuesss.id === valuess.categoryID) {
                   string = valuesss.name.toLowerCase();
+                  stringParent = valuesss.id;
                 }
               })}
               <Link
@@ -121,16 +124,17 @@ class HomePage extends Component {
                   </a>
                 </li>
               </Link>
-              <li>
-                <a>
-                  <FilterCenterFocusIcon className="product_icon" />
-                </a>
-              </li>
+              <Link to={`/${name.toLowerCase()}?cid=${id}&type=store`}>
+                <li>
+                  <a>
+                    <FilterCenterFocusIcon className="product_icon" />
+                  </a>
+                </li>
+              </Link>
             </ul>
           </div>
         );
-      }
-    });
+      });
     return result;
   };
   render() {
@@ -173,15 +177,27 @@ class HomePage extends Component {
                 values.banners.map((valuess, index99) => {
                   console.log(valuess.img);
                   var image = require(`./../../assets/images/${valuess.img}`);
-                  return (
-                    <a
-                      href={valuess.navigateTo}
-                      style={{ display: "block" }}
-                      key={index99}
-                    >
-                      <img src={image.default} alt="" />
-                    </a>
-                  );
+                  if (valuess.img.indexOf("Laptop") !== -1) {
+                    return (
+                      <Link
+                        to={`/laptops?cid=7&type=store`}
+                        style={{ display: "block" }}
+                        key={index99}
+                      >
+                        <img src={image.default} alt="" />
+                      </Link>
+                    );
+                  } else {
+                    return (
+                      <Link
+                        to={`/mobiles?cid=6&type=store`}
+                        style={{ display: "block" }}
+                        key={index99}
+                      >
+                        <img src={image.default} alt="" />
+                      </Link>
+                    );
+                  }
                 })}
             </Carousel>
           );
@@ -194,7 +210,11 @@ class HomePage extends Component {
                   <div className="home_product_title_left">
                     {values.name !== "" ? values.name : ""}
                   </div>
-                  <button className="home_product_title_right">View All</button>
+                  <Link to={`/${values.name.toLowerCase()}?cid=${values.id}&type=store`}>
+                    <button className="home_product_title_right">
+                      View All
+                    </button>
+                  </Link>
                 </div>
                 <div className="home_product_divide"></div>
                 <CarouselMulti

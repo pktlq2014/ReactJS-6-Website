@@ -150,3 +150,9 @@ export const notificationShowReducers = (data) => {
     data: data,
   };
 };
+export const searchProductNameReducers = (data) => {
+  return {
+    type: types.authConstants.SEARCH_PRODUCT_NAME,
+    data: data,
+  };
+};

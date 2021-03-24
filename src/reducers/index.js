@@ -7,6 +7,7 @@ import statusLogin from './statusLogin';
 import cart from './cart';
 import favourite from './favourite';
 import notification from './notification';
+import search_product_name from './search_product_name';
 const rootReducers = combineReducers({
     category : category,
     product : product,
@@ -15,6 +16,7 @@ const rootReducers = combineReducers({
     statusLogin : statusLogin,
     cart : cart,
     favourite : favourite,
-    notification : notification
+    notification : notification,
+    search_product_name : search_product_name
 });
 export default rootReducers;

@@ -3,6 +3,7 @@ import getParams from "./../../utils/getParams";
 import Layout from "./../../components/Layout/layout";
 import ProductStore from "./ProductStore/productStore";
 import ProductPage from "./ProductPage/ProductPage";
+import Product from './Product/Product';
 class ProductListPage extends Component {
   renderProduct = () => {
     console.log(this.props);
@@ -15,7 +16,7 @@ class ProductListPage extends Component {
         break;
       }
       case "product" : {
-        content = <ProductStore {...this.props}/>;
+        content = <Product {...this.props}/>;
         break;
       }
       case "page" : {
