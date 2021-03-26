@@ -29,41 +29,43 @@ class ProductStore extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search_product_name: "",
-      sort_price: "-1",
-      range_price: "",
-      star: 0,
-      statusSales: 0,
-      sales: 0,
+      search_product_name_local: "",
+      sort_price_local: "-1",
+      range_price_local: "",
+      star_local: 0,
+      statusSales_local: 0,
+      sales_local: 0,
     };
   }
   onClickSales = (data, value) => {
     this.setState({
-      statusSales: value,
-      sales: data,
+      statusSales_local: value,
+      sales_local: data,
     });
     var tasks = {
-      name: this.state.search_product_name,
-      sort_price: this.state.sort_price,
-      range_price: this.state.range_price,
-      star: this.state.star,
-      sales: data,
-      status: 0,
+      search_product_name_local: this.state.search_product_name_local,
+      sort_price_local: this.state.sort_price_local,
+      range_price_local: this.state.range_price_local,
+      star_local: this.state.star_local,
+      sales_local: data,
+      status: this.state.status,
+      statusSales_local : value
     };
     console.log(tasks);
     this.props.searchProductNameReducers(tasks);
   };
   onClickStar = (data, value) => {
     this.setState({
-      star: data,
+      star_local: data,
       status: value,
     });
     var tasks = {
-      name: this.state.search_product_name,
-      sort_price: this.state.sort_price,
-      range_price: this.state.range_price,
-      star: data,
-      sales: this.state.sales,
+      search_product_name_local: this.state.search_product_name_local,
+      sort_price_local: this.state.sort_price_local,
+      range_price_local: this.state.range_price_local,
+      star_local: data,
+      sales_local: this.state.sales_local,
+      status: value
     };
     console.log(tasks);
     this.props.searchProductNameReducers(tasks);
@@ -76,10 +78,16 @@ class ProductStore extends Component {
       [name]: value,
     });
     var tasks = {
-      name:
-        name === "search_product_name" ? value : this.state.search_product_name,
-      sort_price: name === "sort_price" ? value : this.state.sort_price,
-      range_price: name === "range_price" ? value : this.state.range_price,
+      search_product_name_local:
+        name === "search_product_name_local"
+          ? value
+          : this.state.search_product_name_local,
+      sort_price_local:
+        name === "sort_price_local" ? value : this.state.sort_price_local,
+      range_price_local:
+        name === "range_price_local" ? value : this.state.range_price_local,
+      star_local: this.state.star_local,
+      sales_local: this.state.sales_local,
     };
     console.log(tasks);
     this.props.searchProductNameReducers(tasks);
@@ -226,60 +234,87 @@ class ProductStore extends Component {
   render() {
     var { match, product, category, cart, product_name_search } = this.props;
     console.log(this.props);
+    console.log(product_name_search);
     console.log(match.params.slug);
     var id;
     category.forEach((values, index) => {
-      if (values.name.toLowerCase() === match.params.slug) {
+      if (values.name.toLowerCase() === match.params.slug.toLowerCase()) {
         id = values.id;
       }
     });
-    console.log(id);
-    var array = product.filter((values, index) => {
-      return values.parentID === id;
-    });
+    var array;
+    if (
+      match.params.slug.toLowerCase() === "mobiles" ||
+      match.params.slug.toLowerCase() === "laptops" ||
+      match.params.slug.toLowerCase() === "keyboard"
+    ) {
+      console.log(id);
+      array = product.filter((values, index) => {
+        return values.parentID === id;
+      });
+    } else {
+      console.log(id);
+      array = product.filter((values, index) => {
+        return values.categoryID === id;
+      });
+    }
+    // var array = product.filter((values, index) => {
+    //   return values.parentID === id;
+    // });
     console.log(array);
     console.log(product_name_search);
-    if (product_name_search.sort_price === "-1") {
+    if (product_name_search.sort_price_local === "-1") {
       array = array;
-    } else if (product_name_search.sort_price === "0") {
+    } else if (product_name_search.sort_price_local === "0") {
       array = array.sort((a, b) => {
-        console.log(a);
+        // console.log(a);
         return (
           a.price * ((100 - a.sales) / 100) - b.price * ((100 - b.sales) / 100)
         );
       });
-    } else if (product_name_search.sort_price === "1") {
+    } else if (product_name_search.sort_price_local === "1") {
       array = array.sort((a, b) => {
-        console.log(a);
+        // console.log(a);
         return (
           b.price * ((100 - b.sales) / 100) - a.price * ((100 - a.sales) / 100)
         );
       });
     }
-    if (product_name_search.range_price) {
+
+    if (product_name_search.range_price_local) {
       array = array.filter((values, index) => {
         return (
           values.price * ((100 - values.sales) / 100) <
-          Number(product_name_search.range_price)
+          Number(product_name_search.range_price_local)
         );
       });
     }
+
     console.log(array);
-    if (product_name_search.star && product_name_search.star > 0) {
+    if (product_name_search.star_local && product_name_search.star_local > 0) {
       array = array.filter((values, index) => {
-        return Number(values.star) === product_name_search.star;
+        return Number(values.star) === product_name_search.star_local;
       });
     }
-    if (product_name_search.sales && product_name_search.sales > 0) {
+
+    if (
+      product_name_search.sales_local &&
+      product_name_search.sales_local > 0
+    ) {
       array = array.filter((values, index) => {
         console.log(values);
-        return Number(values.sales) === product_name_search.sales;
+        return Number(values.sales) === product_name_search.sales_local;
       });
     }
-    if (product_name_search.name) {
+
+    if (product_name_search.search_product_name_local) {
       array = array.filter((values, index) => {
         return (
-          values.name.toLowerCase().indexOf(product_name_search.name) !== -1
+          values.name
+            .toLowerCase()
+            .indexOf(
+              product_name_search.search_product_name_local.toLowerCase()
+            ) !== -1
         );
       });
     }
@@ -293,8 +328,8 @@ class ProductStore extends Component {
           <div className="store_product_left_price">
             <select
               className="form-control"
-              name="sort_price"
-              value={this.state.sort_price}
+              name="sort_price_local"
+              value={product_name_search.sort_price_local}
               onChange={this.onChange}
             >
               <option value="-1">Price</option>
@@ -310,10 +345,10 @@ class ProductStore extends Component {
               <label className="store_product_left_price_range_name">
                 <input
                   type="radio"
-                  name="range_price"
+                  name="range_price_local"
                   id="input"
                   onChange={this.onChange}
-                  checked={this.state.range_price === "200"}
+                  checked={product_name_search.range_price_local === "200"}
                   value="200"
                 />
                 <div className="store_product_left_price_range_name_under">
@@ -323,10 +358,10 @@ class ProductStore extends Component {
               <label className="store_product_left_price_range_name">
                 <input
                   type="radio"
-                  name="range_price"
+                  name="range_price_local"
                   id="input"
                   onChange={this.onChange}
-                  checked={this.state.range_price === "400"}
+                  checked={product_name_search.range_price_local === "400"}
                   value="400"
                 />
                 <div className="store_product_left_price_range_name_under">
@@ -336,10 +371,10 @@ class ProductStore extends Component {
               <label className="store_product_left_price_range_name">
                 <input
                   type="radio"
-                  name="range_price"
+                  name="range_price_local"
                   id="input"
                   onChange={this.onChange}
-                  checked={this.state.range_price === "600"}
+                  checked={product_name_search.range_price_local === "600"}
                   value="600"
                 />
                 <div className="store_product_left_price_range_name_under">
@@ -349,10 +384,10 @@ class ProductStore extends Component {
               <label className="store_product_left_price_range_name">
                 <input
                   type="radio"
-                  name="range_price"
+                  name="range_price_local"
                   id="input"
                   onChange={this.onChange}
-                  checked={this.state.range_price === "800"}
+                  checked={product_name_search.range_price_local === "800"}
                   value="800"
                 />
                 <div className="store_product_left_price_range_name_under">
@@ -362,10 +397,10 @@ class ProductStore extends Component {
               <label className="store_product_left_price_range_name">
                 <input
                   type="radio"
-                  name="range_price"
+                  name="range_price_local"
                   id="input"
                   onChange={this.onChange}
-                  checked={this.state.range_price === "999"}
+                  checked={product_name_search.range_price_local === "999"}
                   value="999"
                 />
                 <div className="store_product_left_price_range_name_under">
@@ -383,27 +418,37 @@ class ProductStore extends Component {
               >
                 <Star
                   className={
-                    this.state.status === 1 ? "star_left_press" : "star_left"
+                    product_name_search.status === 1
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 1 ? "star_left_press" : "star_left"
+                    product_name_search.status === 1
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 1 ? "star_left_press" : "star_left"
+                    product_name_search.status === 1
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 1 ? "star_left_press" : "star_left"
+                    product_name_search.status === 1
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 1 ? "star_left_press" : "star_left"
+                    product_name_search.status === 1
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
               </div>
@@ -413,27 +458,37 @@ class ProductStore extends Component {
               >
                 <Star
                   className={
-                    this.state.status === 2 ? "star_left_press" : "star_left"
+                    product_name_search.status === 2
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 2 ? "star_left_press" : "star_left"
+                    product_name_search.status === 2
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 2 ? "star_left_press" : "star_left"
+                    product_name_search.status === 2
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 2 ? "star_left_press" : "star_left"
+                    product_name_search.status === 2
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 2 ? "star_left_press" : "star_left"
+                    product_name_search.status === 2
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
               </div>
@@ -443,27 +498,37 @@ class ProductStore extends Component {
               >
                 <Star
                   className={
-                    this.state.status === 3 ? "star_left_press" : "star_left"
+                    product_name_search.status === 3
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 3 ? "star_left_press" : "star_left"
+                    product_name_search.status === 3
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 3 ? "star_left_press" : "star_left"
+                    product_name_search.status === 3
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 3 ? "star_left_press" : "star_left"
+                    product_name_search.status === 3
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 3 ? "star_left_press" : "star_left"
+                    product_name_search.status === 3
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
               </div>
@@ -473,27 +538,37 @@ class ProductStore extends Component {
               >
                 <Star
                   className={
-                    this.state.status === 4 ? "star_left_press" : "star_left"
+                    product_name_search.status === 4
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <Star
                   className={
-                    this.state.status === 4 ? "star_left_press" : "star_left"
+                    product_name_search.status === 4
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 4 ? "star_left_press" : "star_left"
+                    product_name_search.status === 4
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 4 ? "star_left_press" : "star_left"
+                    product_name_search.status === 4
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 4 ? "star_left_press" : "star_left"
+                    product_name_search.status === 4
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
               </div>
@@ -503,27 +578,37 @@ class ProductStore extends Component {
               >
                 <Star
                   className={
-                    this.state.status === 5 ? "star_left_press" : "star_left"
+                    product_name_search.status === 5
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 5 ? "star_left_press" : "star_left"
+                    product_name_search.status === 5
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 5 ? "star_left_press" : "star_left"
+                    product_name_search.status === 5
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 5 ? "star_left_press" : "star_left"
+                    product_name_search.status === 5
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
                 <StarBorder
                   className={
-                    this.state.status === 5 ? "star_left_press" : "star_left"
+                    product_name_search.status === 5
+                      ? "star_left_press"
+                      : "star_left"
                   }
                 />
               </div>
@@ -535,7 +620,7 @@ class ProductStore extends Component {
               <div
                 onClick={() => this.onClickSales(10, 6)}
                 className={
-                  this.state.statusSales === 6
+                  product_name_search.statusSales_local === 6
                     ? "store_product_left_sales_press"
                     : "store_product_left_sales"
                 }
@@ -546,7 +631,7 @@ class ProductStore extends Component {
               <div
                 onClick={() => this.onClickSales(15, 7)}
                 className={
-                  this.state.statusSales === 7
+                  product_name_search.statusSales_local === 7
                     ? "store_product_left_sales_press"
                     : "store_product_left_sales"
                 }
@@ -564,8 +649,8 @@ class ProductStore extends Component {
             </div>
             <div className="store_product_right_top_right">
               <TextField
-                name="search_product_name"
-                value={this.props.search_product_name}
+                name="search_product_name_local"
+                value={product_name_search.search_product_name_local}
                 onChange={this.onChange}
                 id="standard-basic"
                 size="small"
@@ -596,7 +681,8 @@ const mapStateToProps = (state) => {
     product: state.product,
     category: state.category,
     cart: state.cart,
-    product_name_search: state.search_product_name,
+    // product_name_search: state.search_product_name,
+    product_name_search: state.search_local,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -611,7 +697,7 @@ const mapDispatchToProps = (dispatch, props) => {
       dispatch(actions.cartReducers(data));
     },
     searchProductNameReducers: (data) => {
-      dispatch(actions.searchProductNameReducers(data));
+      dispatch(actions.searchLocalReducers(data));
     },
   };
 };

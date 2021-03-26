@@ -8,6 +8,11 @@ import Form from "react-bootstrap/Form";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import EmailIcon from "@material-ui/icons/Email";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import CarouselMulti from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { Link, Redirect } from "react-router-dom";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
@@ -46,13 +51,32 @@ import HelpIcon from "@material-ui/icons/Help";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import Badge from "@material-ui/core/Badge";
 import MailIcon from "@material-ui/icons/Mail";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import FilterCenterFocusIcon from "@material-ui/icons/FilterCenterFocus";
+import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasket from "@material-ui/icons/ShoppingBasket";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import "./styles.css";
-
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 5,
+    slidesToSlide: 3, // optional, default to 1.
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 4,
+    slidesToSlide: 2, // optional, default to 1.
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 3,
+    slidesToSlide: 1, // optional, default to 1.
+  },
+};
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -114,6 +138,254 @@ class ProductDetailsPage extends Component {
       imageData: "",
     };
   }
+  onAddShoppingCart = (id, name, price, img, quantity, category, cart) => {
+    var object = {};
+    object = {
+      id: id,
+      name: name,
+      price: price,
+      img: img,
+      quantity: quantity,
+      nameIdParent: category,
+    };
+    this.props.onCart(object);
+  };
+  showCartType = (product, cart, id, name, category) => {
+    var result = product
+      .filter((valuess) => id === valuess.categoryID)
+      .map((valuess, index2) => {
+        var count = 0;
+        var string = "";
+        var stringParent = "";
+        var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
+        return (
+          <div className="product" key={index2}>
+            <div className="product__header">
+              {image && <img src={image.default} alt={image.default} />}
+            </div>
+
+            <ul>
+              {cart &&
+                cart.map((valuessss, index) => {
+                  if (valuessss.id === valuess.id) {
+                    count = 1;
+                    return (
+                      <li className="in_cart_home">
+                        <AddShoppingCartIcon className="in_cart_home" />
+                      </li>
+                    );
+                  }
+                })}
+              {count === 0 ? (
+                <li
+                  onClick={() =>
+                    this.onAddShoppingCart(
+                      valuess.id,
+                      valuess.name,
+                      valuess.price,
+                      valuess.productPictures[0].img,
+                      1,
+                      name,
+                      cart
+                    )
+                  }
+                >
+                  <a>
+                    <AddShoppingCartIcon className="product_icon" />
+                  </a>
+                </li>
+              ) : (
+                ""
+              )}
+              {category.map((valuesss, index) => {
+                if (valuesss.id === valuess.categoryID) {
+                  string = valuesss.name.toLowerCase();
+                  stringParent = valuesss.id;
+                }
+              })}
+              <Link
+                className="search_link"
+                style={{ textDecoration: "none" }}
+                to={`/${string}/${valuess.id}/p`}
+              >
+                <li>
+                  <a>
+                    <SearchIcon className="product_icon" />
+                  </a>
+                </li>
+              </Link>
+              <Link to={`/${name.toLowerCase()}?cid=${id}&type=store`}>
+                <li>
+                  <a>
+                    <FilterCenterFocusIcon className="product_icon" />
+                  </a>
+                </li>
+              </Link>
+            </ul>
+          </div>
+        );
+      });
+    return result;
+  };
+  showCartSimilar = (product, cart, id, name, category) => {
+    var result = product
+      .filter((valuess) => id === valuess.parentID)
+      .map((valuess, index2) => {
+        var count = 0;
+        var string = "";
+        var stringParent = "";
+        var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
+        return (
+          <div className="product" key={index2}>
+            <div className="product__header">
+              {image && <img src={image.default} alt={image.default} />}
+            </div>
+
+            <ul>
+              {cart &&
+                cart.map((valuessss, index) => {
+                  if (valuessss.id === valuess.id) {
+                    count = 1;
+                    return (
+                      <li className="in_cart_home">
+                        <AddShoppingCartIcon className="in_cart_home" />
+                      </li>
+                    );
+                  }
+                })}
+              {count === 0 ? (
+                <li
+                  onClick={() =>
+                    this.onAddShoppingCart(
+                      valuess.id,
+                      valuess.name,
+                      valuess.price,
+                      valuess.productPictures[0].img,
+                      1,
+                      name,
+                      cart
+                    )
+                  }
+                >
+                  <a>
+                    <AddShoppingCartIcon className="product_icon" />
+                  </a>
+                </li>
+              ) : (
+                ""
+              )}
+              {category.map((valuesss, index) => {
+                if (valuesss.id === valuess.categoryID) {
+                  string = valuesss.name.toLowerCase();
+                  stringParent = valuesss.id;
+                }
+              })}
+              <Link
+                className="search_link"
+                style={{ textDecoration: "none" }}
+                to={`/${string}/${valuess.id}/p`}
+              >
+                <li>
+                  <a>
+                    <SearchIcon className="product_icon" />
+                  </a>
+                </li>
+              </Link>
+              <Link to={`/${name.toLowerCase()}?cid=${id}&type=store`}>
+                <li>
+                  <a>
+                    <FilterCenterFocusIcon className="product_icon" />
+                  </a>
+                </li>
+              </Link>
+            </ul>
+          </div>
+        );
+      });
+    return result;
+  };
+  showCartAll = (product, cart, id, name, category) => {
+    var result = product.map((valuess, index2) => {
+      var count = 0;
+      var string = "";
+      var stringParent = "";
+      var nameFilter;
+      var { category } = this.props;
+      category.forEach((valuesss, index) => {
+        if (valuesss.id === valuess.parentID) {
+          nameFilter = valuesss.name;
+        }
+      });
+      var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
+      return (
+        <div className="product" key={index2}>
+          <div className="product__header">
+            {image && <img src={image.default} alt={image.default} />}
+          </div>
+
+          <ul>
+            {cart &&
+              cart.map((valuessss, index) => {
+                if (valuessss.id === valuess.id) {
+                  count = 1;
+                  return (
+                    <li className="in_cart_home">
+                      <AddShoppingCartIcon className="in_cart_home" />
+                    </li>
+                  );
+                }
+              })}
+            {count === 0 ? (
+              <li
+                onClick={() =>
+                  this.onAddShoppingCart(
+                    valuess.id,
+                    valuess.name,
+                    valuess.price,
+                    valuess.productPictures[0].img,
+                    1,
+                    nameFilter,
+                    cart
+                  )
+                }
+              >
+                <a>
+                  <AddShoppingCartIcon className="product_icon" />
+                </a>
+              </li>
+            ) : (
+              ""
+            )}
+            {category.map((valuesss, index) => {
+              if (valuesss.id === valuess.categoryID) {
+                string = valuesss.name.toLowerCase();
+                stringParent = valuesss.id;
+              }
+            })}
+            <Link
+              className="search_link"
+              style={{ textDecoration: "none" }}
+              to={`/${string}/${valuess.id}/p`}
+            >
+              <li>
+                <a>
+                  <SearchIcon className="product_icon" />
+                </a>
+              </li>
+            </Link>
+            <Link to={`/product?cid=1&type=page`}>
+            <li>
+              <a>
+                <FilterCenterFocusIcon className="product_icon" />
+              </a>
+            </li>
+            </Link>
+          </ul>
+        </div>
+      );
+    });
+    return result;
+  };
   onClickLike = () => {
     this.setState({
       countLike: this.state.countLike + 1,
@@ -534,6 +806,12 @@ class ProductDetailsPage extends Component {
     });
     console.log(objectNameCategory);
     nameCurrent = objectNameCategory.name;
+    var typeID;
+    category.forEach((values, index) => {
+      if(values.name === nameCurrent) {
+        typeID = values.id; 
+      }
+    });
     idParent = objectNameCategory.idParent;
     category.forEach((values, index) => {
       if (values.id === idParent) {
@@ -542,6 +820,12 @@ class ProductDetailsPage extends Component {
     });
     console.log(objectNameIdParent);
     nameIdParent = objectNameIdParent.name;
+    var id;
+    category.forEach((values, index) => {
+      if (values.name === nameIdParent) {
+        id = values.id;
+      }
+    });
     console.log(nameIdParent);
     console.log(nameCurrent);
     console.log(data);
@@ -1039,6 +1323,117 @@ class ProductDetailsPage extends Component {
                   </div>
                 );
               })}
+
+              <div>
+                <div className="home_product_detail">
+                  <div className="home_product_title">
+                    <div className="home_product_title_left">
+                      Products of the same type "{nameCurrent}"
+                    </div>
+                    <Link to={`/${nameCurrent}?cid=1&type=store`}>
+                      <button className="home_product_title_right">
+                        View All
+                      </button>
+                    </Link>
+                  </div>
+                  <div className="home_product_divide"></div>
+                  <CarouselMulti
+                    responsive={responsive}
+                    swipeable={false}
+                    draggable={false}
+                    // showDots={true}
+                    ssr={true} // means to render carousel on server-side.
+                    // infinite={true}
+                    transitionDuration={500}
+                    dotListClass="custom-dot-list-style"
+                    itemClass="carousel-item-padding-40-px"
+                    containerClass="carousel-container"
+                    keyBoardControl={true}
+                  >
+                    {this.showCartType(
+                      product,
+                      cart,
+                      typeID,
+                      nameCurrent,
+                      category
+                    )}
+                  </CarouselMulti>
+                </div>
+              </div>
+
+              <div>
+                <div className="home_product_detail">
+                  <div className="home_product_title">
+                    <div className="home_product_title_left">
+                      Similar products "{nameIdParent}" of the shop
+                    </div>
+                    <Link to={`/${nameIdParent}?cid=1&type=store`}>
+                      <button className="home_product_title_right">
+                        View All
+                      </button>
+                    </Link>
+                  </div>
+                  <div className="home_product_divide"></div>
+                  <CarouselMulti
+                    responsive={responsive}
+                    swipeable={false}
+                    draggable={false}
+                    // showDots={true}
+                    ssr={true} // means to render carousel on server-side.
+                    // infinite={true}
+                    transitionDuration={500}
+                    dotListClass="custom-dot-list-style"
+                    itemClass="carousel-item-padding-40-px"
+                    containerClass="carousel-container"
+                    keyBoardControl={true}
+                  >
+                    {this.showCartSimilar(
+                      product,
+                      cart,
+                      id,
+                      nameIdParent,
+                      category
+                    )}
+                  </CarouselMulti>
+                </div>
+              </div>
+
+              <div>
+                <div className="home_product_detail">
+                  <div className="home_product_title">
+                    <div className="home_product_title_left">
+                      Other products of the shop
+                    </div>
+                    <Link to={`/product?cid=1&type=page`}>
+                      <button className="home_product_title_right">
+                        View All
+                      </button>
+                    </Link>
+                  </div>
+                  <div className="home_product_divide"></div>
+                  <CarouselMulti
+                    responsive={responsive}
+                    swipeable={false}
+                    draggable={false}
+                    // showDots={true}
+                    ssr={true} // means to render carousel on server-side.
+                    // infinite={true}
+                    transitionDuration={500}
+                    dotListClass="custom-dot-list-style"
+                    itemClass="carousel-item-padding-40-px"
+                    containerClass="carousel-container"
+                    keyBoardControl={true}
+                  >
+                    {this.showCartAll(
+                      product,
+                      cart,
+                      id,
+                      nameIdParent,
+                      category
+                    )}
+                  </CarouselMulti>
+                </div>
+              </div>
             </section>
           </div>
         </main>

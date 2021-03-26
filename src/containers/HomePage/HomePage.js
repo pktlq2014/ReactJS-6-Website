@@ -67,6 +67,13 @@ class HomePage extends Component {
         var count = 0;
         var string = "";
         var stringParent = "";
+        var nameProduct = "";
+        var {category} = this.props;
+        category.forEach((values, index) => {
+          if(values.id === valuess.categoryID) {
+            nameProduct = values.name;
+          }
+        });
         var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
         return (
           <div className="product" key={index2}>
@@ -124,7 +131,7 @@ class HomePage extends Component {
                   </a>
                 </li>
               </Link>
-              <Link to={`/${name.toLowerCase()}?cid=${id}&type=store`}>
+              <Link to={`/${nameProduct.toLowerCase()}?cid=${id}&type=store`}>
                 <li>
                   <a>
                     <FilterCenterFocusIcon className="product_icon" />
@@ -210,7 +217,11 @@ class HomePage extends Component {
                   <div className="home_product_title_left">
                     {values.name !== "" ? values.name : ""}
                   </div>
-                  <Link to={`/${values.name.toLowerCase()}?cid=${values.id}&type=store`}>
+                  <Link
+                    to={`/${values.name.toLowerCase()}?cid=${
+                      values.id
+                    }&type=store`}
+                  >
                     <button className="home_product_title_right">
                       View All
                     </button>

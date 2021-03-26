@@ -37,6 +37,7 @@ class Header extends Component {
       passwordSignin: "",
       status: 0,
       emailStatus: "",
+      search_total: "",
     };
   }
   onSignout = () => {
@@ -54,6 +55,20 @@ class Header extends Component {
     this.setState({
       [name]: value,
     });
+    // if (this.state.search_total) {
+    //   var data = {
+    //     key: name === "search_total" ? value : this.state.search_total,
+    //   };
+    //   localStorage.setItem("key", JSON.stringify(data));
+    // }
+  };
+  onSubmitSearch = (e) => {
+    e.preventDefault();
+    console.log(this.state.search_total);
+    var data = {
+      key: this.state.search_total,
+    };
+    this.props.onSearchTotal(data);
   };
   onSubmit = (e) => {
     e.preventDefault();
@@ -438,23 +453,25 @@ class Header extends Component {
                     </header>
                     <div className="space"></div>
                     <ul className="header__notify-list">
-                      {
-                        notification.map((values, index) => {
-                          return (
-                            <li key={index} className="header__notify-item header__notify-item-viewed">
+                      {notification.map((values, index) => {
+                        return (
+                          <li
+                            key={index}
+                            className="header__notify-item header__notify-item-viewed"
+                          >
                             <a className="header__notify-link" href="#">
-                              {
-                                values.notificationArray.map((valuess, index) => {
+                              {values.notificationArray.map(
+                                (valuess, index) => {
                                   var image = require(`./../../assets/images/${valuess.img}`);
                                   return (
                                     <img
-                                    className="header__notify-img"
-                                    src={image.default}
-                                    alt=""
-                                  />
-                                  )
-                                })
-                              }
+                                      className="header__notify-img"
+                                      src={image.default}
+                                      alt=""
+                                    />
+                                  );
+                                }
+                              )}
                               <div className="header__notify-info">
                                 <span className="header__notify-name">
                                   {values.title}
@@ -465,9 +482,8 @@ class Header extends Component {
                               </div>
                             </a>
                           </li>
-                          )
-                        })
-                      }
+                        );
+                      })}
                     </ul>
 
                     <footer className="header__notify-footer">
@@ -532,20 +548,29 @@ class Header extends Component {
               </Link>
             </div>
 
-            <div className="header-search">
-              <div className="header-search-contaier">
-                <input
-                  className="header-search-input"
-                  type="text"
-                  placeholder="search for products, brands and more..."
-                ></input>
-              </div>
+            <div>
+              <form className="header-search" onSubmit={this.onSubmitSearch}>
+                <div className="header-search-contaier">
+                  <input
+                    className="header-search-input"
+                    type="text"
+                    name="search_total"
+                    value={this.state.search_total}
+                    onChange={this.onChange}
+                    placeholder="search for products, brands and more..."
+                  ></input>
+                </div>
 
-              <div className="header-search-select"></div>
-
-              <button className="header-search-container-icon-search">
-                <SearchIcon className="search_icon" />
-              </button>
+                <div className="header-search-select"></div>
+                {/* <Link to={`/key=${this.state.search_total}?cid=1&type=page`}> */}
+                <a
+                  href={`/key=${this.state.search_total.toLowerCase()}?cid=1&type=page`}
+                  className="header-search-container-icon-search"
+                >
+                  <SearchIcon type="submit" className="search_icon" />
+                </a>
+                {/* </Link> */}
+              </form>
             </div>
 
             <div className="header__cart">
@@ -633,7 +658,7 @@ const mapStateToProps = (state) => {
     signin: state.signin,
     statusLogin: state.statusLogin,
     cart: state.cart,
-    notification : state.notification
+    notification: state.notification,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -647,9 +672,12 @@ const mapDispatchToProps = (dispatch, props) => {
     onStatusLogin: (data) => {
       dispatch(actions.statusLogin(data));
     },
-    onNotificationShow : () => {
+    onNotificationShow: () => {
       dispatch(actions.notificationShowAPI());
-    }
+    },
+    onSearchTotal: (data) => {
+      dispatch(actions.searchTotalReducers(data));
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -934,7 +934,6 @@ body {
   display: flex;
   text-align: center;
   justify-content: center;
-
   border-left: 1px solid #ccc;
   align-items: center;
   position: relative;
@@ -992,6 +991,7 @@ body {
   border-radius: 3px;
   background-color: #2874f0;
   display: flex;
+  padding: 0.25rem 0;
   text-align: center;
   justify-content: center;
   align-items: center;

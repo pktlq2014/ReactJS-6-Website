@@ -156,3 +156,15 @@ export const searchProductNameReducers = (data) => {
     data: data,
   };
 };
+export const searchTotalReducers = (data) => {
+  return {
+    type: types.authConstants.SEARCH_TOTAL,
+    data: data,
+  };
+};
+export const searchLocalReducers = (data) => {
+  return {
+    type: types.authConstants.SEARCH_LOCAL,
+    data: data,
+  };
+};
