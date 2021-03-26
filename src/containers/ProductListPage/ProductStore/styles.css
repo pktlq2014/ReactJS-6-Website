@@ -286,3 +286,20 @@
   color: #ee4d2d;
   margin-left: 0.25rem;
 }
+.reset {
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  margin-top: 0.5rem;
+  color: white;
+  border-radius: 0.25rem;
+  background-color: rgb(233, 52, 52);
+  padding: 0.5rem 2.5rem;
+}
+.position {
+  margin: 0.25rem 0;
+}
+.reset:hover {
+  color: white;
+  background-color: red;
+}

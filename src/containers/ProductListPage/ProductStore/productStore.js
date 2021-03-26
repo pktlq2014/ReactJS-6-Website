@@ -15,6 +15,7 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import { DropdownButton, Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import ButtonMaterial from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Visibility from "@material-ui/icons/Visibility";
 import Avatar from "@material-ui/core/Avatar";
@@ -37,6 +38,19 @@ class ProductStore extends Component {
       sales_local: 0,
     };
   }
+  onClickReset = () => {
+    var tasks = {
+      search_product_name_local: "",
+      sort_price_local: "-1",
+      range_price_local: "",
+      star_local: 0,
+      sales_local: 0,
+      status: 0,
+      statusSales_local: 0,
+    };
+    console.log(tasks);
+    this.props.searchProductNameReducers(tasks);
+  };
   onClickSales = (data, value) => {
     this.setState({
       statusSales_local: value,
@@ -49,7 +63,7 @@ class ProductStore extends Component {
       star_local: this.state.star_local,
       sales_local: data,
       status: this.state.status,
-      statusSales_local : value
+      statusSales_local: value,
     };
     console.log(tasks);
     this.props.searchProductNameReducers(tasks);
@@ -65,7 +79,7 @@ class ProductStore extends Component {
       range_price_local: this.state.range_price_local,
       star_local: data,
       sales_local: this.state.sales_local,
-      status: value
+      status: value,
     };
     console.log(tasks);
     this.props.searchProductNameReducers(tasks);
@@ -640,6 +654,18 @@ class ProductStore extends Component {
                 <div className="sales">15%</div>
               </div>
             </div>
+          </div>
+          <div>
+            <div className="store_product_left_price_range position">
+              Reset Filter
+            </div>
+            <button
+              onClick={this.onClickReset}
+              className="reset"
+              variant="danger"
+            >
+              Reset
+            </button>
           </div>
         </div>
         <div className="store_product_right">
