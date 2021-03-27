@@ -915,11 +915,17 @@ body {
   cursor: pointer;
 }
 .header__cart-container-btn {
-  margin-bottom: 1rem;
-}
-.header__cart-container-btn .header__cart-btn-footer {
+  color: black;
+  font-weight: 600;
   font-size: 1rem;
-  padding-bottom: 2rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.header__cart-container-btn:hover {
+  color: red;
+}
+.header__cart-btn-footer:hover .header__cart-list {
+  display: block;
 }
 .header__cart-item:hover {
   background-color: #eee;

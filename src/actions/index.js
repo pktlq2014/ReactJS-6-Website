@@ -168,3 +168,10 @@ export const searchLocalReducers = (data) => {
     data: data,
   };
 };
+export const quantityUpdateReducers = (data, index) => {
+  return {
+    type: types.authConstants.QUANTITY_UPDATE,
+    data: data,
+    index: index
+  };
+};

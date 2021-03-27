@@ -639,11 +639,7 @@ class Header extends Component {
                     })}
                   </ul>
 
-                  <div className="header__cart-container-btn">
-                    <button className="header__cart-btn-footer btn btn--primary">
-                      View Cart
-                    </button>
-                  </div>
+                  <div className="header__cart-container-btn">View Cart</div>
                 </div>
               </Link>
             </div>

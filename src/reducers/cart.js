@@ -12,14 +12,17 @@ var cart = (state = initialState, action) => {
             localStorage.setItem('cart', JSON.stringify(state));
             return [...state];
         }
-        // case types.authConstants.SIGNOUT: {
-        //     console.log(action);
-        //     if(action.data === 0) {
-        //         localStorage.clear();
-        //         state = null;
-        //     }
-        //     return state;
-        // }
+        case types.authConstants.QUANTITY_UPDATE: {
+            console.log(action);
+            state[action.index] = action.data;
+            localStorage.setItem('cart', JSON.stringify(state));
+            return [...state];
+            // if(action.data === 0) {
+            //     localStorage.clear();
+            //     state = null;
+            // }
+            // return state;
+        }
         default : return state;
     }
 }

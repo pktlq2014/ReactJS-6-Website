@@ -44,7 +44,7 @@
 }
 .shopping_cart_left_space {
   border-bottom: 1px solid #cecece;
-  margin: 1rem 2.5rem 1rem 1.75rem;
+  margin: 1rem 1.5rem 1rem 0rem;
 }
 .shopping_cart_right_space {
   border-bottom: 1px solid #cecece;
@@ -121,18 +121,39 @@
 .shopping_cart_left_item_parent_three_delete:hover div {
   color: red;
 }
+.place_order_bottom {
+  display: flex;
+  justify-content: space-between;
+}
 .place_order {
   font-size: 1rem;
   font-weight: 600;
   color: white;
   background-color: tomato;
-  width: 7.5rem;
+  width: 10rem;
+  text-align: center;
   margin: 1rem 0 0.25rem 0;
   border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem;
 }
 .place_order:hover {
   color: white;
   background-color: rgb(245, 80, 51);
+  text-decoration: none;
+}
+.continue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: yellowgreen;
+  width: 10rem;
+  text-align: center;
+  margin: 1rem 0 0.25rem 0;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.5rem;
+}
+.continue:hover {
+  color: white;
+  background-color: rgb(162, 224, 36);
   text-decoration: none;
 }
