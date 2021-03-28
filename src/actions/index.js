@@ -175,3 +175,9 @@ export const quantityUpdateReducers = (data, index) => {
     index: index
   };
 };
+export const deleteProductReducers = (index) => {
+  return {
+    type: types.authConstants.DELETE_PRODUCT,
+    index: index,
+  };
+};

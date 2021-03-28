@@ -10,19 +10,42 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AddIcon from "@material-ui/icons/Add";
 class CartPage extends Component {
+  onClickRemoveProductCart = (index) => {
+    this.props.onDeleteProductCart(index);
+  };
+  onClickRemove = (quantity, values, index) => {
+    var object = {};
+    var data = values.quantity;
+    data -= quantity;
+    if (data <= 0) {
+      this.props.onDeleteProductCart(index);
+    } else {
+      object = {
+        id: values.id,
+        name: values.name,
+        price: values.price,
+        img: values.img,
+        quantity: data,
+        nameIdParent: values.nameIdParent,
+      };
+      this.props.onCart(object, index);
+    }
+  };
   onClickAdd = (quantity, values, index) => {
     var object = {};
     var data = values.quantity;
     data += quantity;
-    object = {
-      id: values.id,
-      name: values.name,
-      price: values.price,
-      img: values.img,
-      quantity: data,
-      nameIdParent: values.nameIdParent,
-    };
-    this.props.onCart(object, index);
+    if (data <= 10) {
+      object = {
+        id: values.id,
+        name: values.name,
+        price: values.price,
+        img: values.img,
+        quantity: data,
+        nameIdParent: values.nameIdParent,
+      };
+      this.props.onCart(object, index);
+    }
   };
   render() {
     var { cart } = this.props;
@@ -36,7 +59,7 @@ class CartPage extends Component {
       <Layout>
         <div className="shopping_cart">
           <div className="shopping_cart_left">
-            <div className="shopping_cart_left_length">Cart (2 items)</div>
+            <div className="shopping_cart_left_length">Cart ({cart.length} items)</div>
             <div className="shopping_cart_left_scroll">
               {cart.map((values, index) => {
                 var image = require(`./../../assets/images/${values.img}`);
@@ -55,7 +78,12 @@ class CartPage extends Component {
                           </div>
                           <div className="shopping_cart_left_item_parent_one_quantity">
                             <div className="shopping_cart_left_item_parent_one_quantity_sub">
-                              <RemoveIcon className="shopping_cart_left_item_parent_one_quantity_sub_minus" />
+                              <RemoveIcon
+                                onClick={() =>
+                                  this.onClickRemove(1, values, index)
+                                }
+                                className="shopping_cart_left_item_parent_one_quantity_sub_minus"
+                              />
                             </div>
                             <div className="shopping_cart_left_item_parent_one_quantity_sub">
                               <div className="value">{values.quantity}</div>
@@ -74,7 +102,10 @@ class CartPage extends Component {
                           <div>{values.nameIdParent}</div>
                         </div>
                         <div className="shopping_cart_left_item_parent_three">
-                          <div className="shopping_cart_left_item_parent_three_delete">
+                          <div
+                            onClick={() => this.onClickRemoveProductCart(index)}
+                            className="shopping_cart_left_item_parent_three_delete"
+                          >
                             <DeleteForeverIcon className="shopping_cart_left_item_parent_three_remove" />
                             <div>Remove to cart</div>
                           </div>
@@ -106,7 +137,7 @@ class CartPage extends Component {
                 The total amount of (including VAT):{" "}
               </div>
               <div className="shopping_cart_left_item_parent_one_name_total">
-                {money + 6}$
+                {money <= 6 ? 0 : money + 6}$
               </div>
             </div>
             <div className="place_order_bottom">
@@ -132,6 +163,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     onCart: (data, index) => {
       dispatch(actions.quantityUpdateReducers(data, index));
+    },
+    onDeleteProductCart: (index) => {
+      dispatch(actions.deleteProductReducers(index));
     },
   };
 };
