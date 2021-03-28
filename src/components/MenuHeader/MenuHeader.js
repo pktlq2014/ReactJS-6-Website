@@ -77,7 +77,7 @@ class MenuHeader extends Component {
     console.log(categorySort);
     return (
       <div>
-        <Container fluid>
+        <div fluid>
           <Row className="side_bar">
             <Col
               md={12}
@@ -86,7 +86,7 @@ class MenuHeader extends Component {
               <ul>{this.getMenu(categorySort, category)}</ul>
             </Col>
           </Row>
-        </Container>
+        </div>
       </div>
     );
   }

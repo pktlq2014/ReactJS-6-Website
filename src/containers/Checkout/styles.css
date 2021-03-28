@@ -1,0 +1,31 @@
+.checkout_parent {
+    margin: 1rem;
+}
+#panel1a-header, #panel2a-header {
+    border: 1px solid grey;
+}
+#panel1a-header-child {
+    background-color:  lemonchiffon;
+}
+.checkout_parent_title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.checkout_parent_title_stt {
+    background-color: lightgray;
+    color: black;
+    font-weight: 600;
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+}
+.checkout_parent_title_right {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+.checkout_parent_content {
+    padding-top: 0.5rem;
+    font-size: 1rem;
+    text-align: justify;
+    color: black;
+}

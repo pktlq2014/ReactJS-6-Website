@@ -26,6 +26,7 @@ class CartPage extends Component {
   };
   render() {
     var { cart } = this.props;
+    const dataLogin = JSON.parse(localStorage.getItem("statusLogin"));
     console.log(cart);
     var money = 0;
     cart.forEach((values, index) => {
@@ -109,9 +110,9 @@ class CartPage extends Component {
               </div>
             </div>
             <div className="place_order_bottom">
-              <a href="" className="place_order">
-                Place Order
-              </a>
+              <Link to="/checkout" className="place_order">
+                Checkout
+              </Link>
               <Link to="/" className="continue">
                 Continue shopping
               </Link>

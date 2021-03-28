@@ -139,7 +139,7 @@ class ProductPage extends Component {
     var result = product.map((values, index) => {
       var temp = 0;
       return (
-        <Card
+        <div
           key={index}
           border="primary"
           className="card_parent"
@@ -182,24 +182,24 @@ class ProductPage extends Component {
               })}
             </div>
           </Link>
-          <Card.Body className="productInfo">
+          <div className="productInfo">
             <Link
               style={{ textDecoration: "none" }}
               to={`/${match.params.slug}/${values.id}/p`}
             >
-              <Card.Title className="productInfo_name product">
+              <div className="productInfo_name product">
                 {values.name}
-              </Card.Title>
-              <div className="productInfo_display product">
-                <Card.Text>{this.showStar(values.star)}</Card.Text>
-                <Card.Text className="showQuantity">
-                  ({values.quantity})
-                </Card.Text>
               </div>
-              <Card.Text className="productPrice product">
+              <div className="productInfo_display product">
+                <div>{this.showStar(values.star)}</div>
+                <div className="showQuantity">
+                  ({values.quantity})
+                </div>
+              </div>
+              <div className="productPrice product">
                 <p>{values.price * ((100 - values.sales) / 100)}$</p>
                 <p className="Oldprice">{values.price}$</p>
-              </Card.Text>
+              </div>
             </Link>
             {cart &&
               cart.map((valuessss, index6) => {
@@ -226,8 +226,8 @@ class ProductPage extends Component {
             ) : (
               ""
             )}
-          </Card.Body>
-        </Card>
+          </div>
+        </div>
       );
     });
     return result;
