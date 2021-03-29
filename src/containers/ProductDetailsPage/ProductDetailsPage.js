@@ -1135,7 +1135,7 @@ class ProductDetailsPage extends Component {
                             onChange={this.onChange}
                             placeholder="Question input here.."
                           />
-                          <button type="submit" class="button">
+                          <button type="submit" className="button">
                             Sent
                           </button>
                         </form>

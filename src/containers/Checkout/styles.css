@@ -1,31 +1,108 @@
 .checkout_parent {
-    margin: 1rem;
+  margin: 1rem;
 }
-#panel1a-header, #panel2a-header {
-    border: 1px solid grey;
+#panel1a-header,
+#panel2a-header {
+  border: 1px solid grey;
 }
 #panel1a-header-child {
-    background-color:  lemonchiffon;
+  background-color: lemonchiffon;
 }
 .checkout_parent_title {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 .checkout_parent_title_stt {
-    background-color: lightgray;
-    color: black;
-    font-weight: 600;
-    margin-right: 1rem;
-    padding: 0.5rem 1rem;
+  background-color: lightgray;
+  color: black;
+  font-weight: 600;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
 }
 .checkout_parent_title_right {
-    font-weight: 600;
-    font-size: 1.25rem;
+  font-weight: 600;
+  font-size: 1.25rem;
 }
 .checkout_parent_content {
-    padding-top: 0.5rem;
-    font-size: 1rem;
-    text-align: justify;
-    color: black;
+  padding-top: 0.5rem;
+  font-size: 1rem;
+  text-align: justify;
+  color: black;
+}
+.address_input {
+  width: 43.5rem;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: white;
+  font-weight: 600;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  transition: width 0.4s ease-in-out;
+}
+.address_input:focus {
+  width: 69vw;
+}
+.button_address:hover {
+  background-color: var(--black4);
+}
+.button_address {
+  background-color: var(--black3); /* Green */
+  border: 1px solid black;
+  color: white;
+  padding: 0.75rem 3rem;
+  border-radius: 0.5rem;
+  margin-left: 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.address {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.25rem;
+  margin-left: 0.25rem;
+}
+#input {
+  margin-top: 0.75rem;
+}
+.address_select {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.address_select_name {
+  padding-top: 0.75rem;
+  max-width: 48.5rem;
+  overflow: auto;
+  padding-left: 0.5rem;
+}
+.address_full {
+  display: flex;
+  justify-content: space-between;
+}
+.address_full_edit {
+  cursor: pointer;
+  margin-top: 0.75rem;
+}
+.address_full_edit:hover {
+  color: blue;
+}
+.address_full_delete {
+  cursor: pointer;
+  margin-left: 0.25rem;
+  margin-top: 0.75rem;
+}
+.address_full_delete:hover {
+  color: red;
+}
+.edit_status {
+  display: flex;
+  justify-content: flex-start;
 }

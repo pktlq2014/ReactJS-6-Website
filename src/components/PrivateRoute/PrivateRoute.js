@@ -12,7 +12,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
           return <Component {...props} />;
         } else {
           alert('You need to signin first to use this function!!!');
-          return <Redirect to={`/`} />;
+          return <Redirect to={`/cart`} />;
         }
       }}
     />

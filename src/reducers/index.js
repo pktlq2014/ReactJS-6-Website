@@ -9,7 +9,7 @@ import favourite from './favourite';
 import notification from './notification';
 import search_product_name from './search_product_name';
 import search_total from './search_total';
-import search_local from './search_local'
+import search_local from './search_local';
 const rootReducers = combineReducers({
     category : category,
     product : product,

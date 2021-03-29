@@ -911,6 +911,9 @@ body {
   color: red;
   cursor: pointer;
 }
+.form-group {
+  margin-bottom: 1.5rem;
+}
 .header__cart-item-remove:hover {
   cursor: pointer;
 }
@@ -1562,7 +1565,7 @@ body {
 .register {
   background: -webkit-linear-gradient(left, #3931af, #00c6ff);
   position: fixed;
-  top: 15%;
+  top: 12.5%;
   left: 6%;
   /* toàn bộ cái popup màu xám */
   z-index: 99999999999;
@@ -1639,7 +1642,6 @@ body {
 }
 .btnRegister {
   float: right;
-  margin-top: 10%;
   border: none;
   border-radius: 1.5rem;
   padding: 2%;

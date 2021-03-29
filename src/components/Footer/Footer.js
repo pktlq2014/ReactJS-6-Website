@@ -13,29 +13,29 @@ class Footer extends Component {
           <div className="footer__top">
             <div className="footer-top__box">
               <h5>EXTRAS</h5>
-              <a href="#">Brands</a>
-              <a href="#">Gift Certificates</a>
-              <a href="#">Affiliate</a>
-              <a href="#">Specials</a>
-              <a href="#">Site Map</a>
+              <div>Brands</div>
+              <div>Gift Certificates</div>
+              <div>Affiliate</div>
+              <div>Specials</div>
+              <div>Site Map</div>
             </div>
 
             <div className="footer-top__box">
               <h5>INFORMATION</h5>
-              <a href="#">About Us</a>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms & Conditions</a>
-              <a href="#">Contact Us</a>
-              <a href="#">Site Map</a>
+              <div>About Us</div>
+              <div>Privacy Policy</div>
+              <div>Terms & Conditions</div>
+              <div>Contact Us</div>
+              <div>Site Map</div>
             </div>
 
             <div className="footer-top__box">
               <h5>MY ACCOUNT</h5>
-              <a href="#">My Account</a>
-              <a href="#">Order History</a>
-              <a href="#">Wish List</a>
-              <a href="#">Newsletter</a>
-              <a href="#">Returns</a>
+              <div>My Account</div>
+              <div>Order History</div>
+              <div>Wish List</div>
+              <div>Newsletter</div>
+              <div>Returns</div>
             </div>
 
             <div className="footer-top__box">
