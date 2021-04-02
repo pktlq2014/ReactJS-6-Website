@@ -12,6 +12,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { connect } from "react-redux";
+import Paypal from "./Paypal";
 import * as actions from "./../../actions/index";
 class Checkout extends Component {
   constructor(props) {
@@ -26,6 +27,25 @@ class Checkout extends Component {
       currentDateTime: new Date().toLocaleString(),
     };
   }
+  onPaypal = (object, total) => {
+    if (
+      object.address === "" ||
+      object.payment === "" ||
+      object.order.length === 0
+    ) {
+      alert("Order information is incomplete. Please check again!!!");
+    } else {
+      var phone = object.address.split(" - ");
+      //this.props.onOrder(object);
+      // localStorage.removeItem("cart");
+      //this.props.onCartDelete([]);
+      //this.props.history.push(`/`);
+      // alert(
+      //   `The order has been saved in the system. We will contact you by phone number ${phone[1]}, thank you for your order.`
+      // );
+      return <Paypal object={object} api={this.props.onOrder} total={total} history={this.props.history} number={phone[1]} resetCart={this.props.onCartDelete}/>;
+    }
+  };
   onClickOrder = (object) => {
     console.log(object);
     if (
@@ -47,8 +67,8 @@ class Checkout extends Component {
   };
   onClickRemoveProductCart = (index) => {
     if (
-      confirm("Are you sure you want to remove this product from the cart?")       // eslint-disable-line
-    ) { 
+      confirm("Are you sure you want to remove this product from the cart?") // eslint-disable-line
+    ) {
       this.props.onDeleteProductCart(index);
     }
   };
@@ -547,12 +567,19 @@ class Checkout extends Component {
                       </tr>
                     </thead>
                   </Table>
-                  <button
-                    onClick={() => this.onClickOrder(object)}
-                    className="confirmation_button"
-                  >
-                    I have checked order carefully, confirmation
-                  </button>
+                  <div className="checkout_button">
+                  {this.state.payment === "online" ? (
+                    this.onPaypal(object, money + 6)
+                  ) : (
+                    // <Paypal onClick={() => this.onClickOrder(object)}/>
+                    <button
+                      onClick={() => this.onClickOrder(object)}
+                      className="confirmation_button"
+                    >
+                      I have checked order carefully, confirmation
+                    </button>
+                  )}
+                  </div>
                 </div>
               </Typography>
             </AccordionDetails>

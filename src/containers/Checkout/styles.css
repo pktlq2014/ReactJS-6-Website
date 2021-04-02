@@ -317,11 +317,15 @@
   background-color: #0745f1;
   color: white;
   margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   padding: 0.5rem 1rem;
   text-align: center;
 }
 .confirmation_button:hover {
   background-color: #1e07f1;
+}
+.checkout_button {
+  text-align: center;
 }
 .order_table {
   margin-top: 1rem;
