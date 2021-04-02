@@ -29,6 +29,10 @@ var cart = (state = initialState, action) => {
       localStorage.setItem("cart", JSON.stringify(state));
       return [...state];
     }
+    case types.authConstants.CART_DELETE: {
+      state = action.data;
+      return state;
+    }
     default:
       return state;
   }

@@ -11,8 +11,13 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AddIcon from "@material-ui/icons/Add";
 class CartPage extends Component {
   onClickRemoveProductCart = (index) => {
-    this.props.onDeleteProductCart(index);
+    if(confirm('Are you sure you want to remove this product from the cart? ')) { //eslint-disable-line
+      this.props.onDeleteProductCart(index);
+    }
   };
+  onClickCartNull = () => {
+    alert("Cannot use checkout function. Please check the cart again!!!");
+  }
   onClickRemove = (quantity, values, index) => {
     var object = {};
     var data = values.quantity;
@@ -59,7 +64,9 @@ class CartPage extends Component {
       <Layout>
         <div className="shopping_cart">
           <div className="shopping_cart_left">
-            <div className="shopping_cart_left_length">Cart ({cart.length} items)</div>
+            <div className="shopping_cart_left_length">
+              Cart ({cart.length} items)
+            </div>
             <div className="shopping_cart_left_scroll">
               {cart.map((values, index) => {
                 var image = require(`./../../assets/images/${values.img}`);
@@ -141,9 +148,15 @@ class CartPage extends Component {
               </div>
             </div>
             <div className="place_order_bottom">
-              <Link to="/checkout" className="place_order">
-                Checkout
-              </Link>
+              {money <= 6 ? (
+                <a onClick={this.onClickCartNull} href="#" className="place_order">
+                  Checkout
+                </a>
+              ) : (
+                <Link to="/checkout" className="place_order">
+                  Checkout
+                </Link>
+              )}
               <Link to="/" className="continue">
                 Continue shopping
               </Link>

@@ -739,7 +739,7 @@ class ProductDetailsPage extends Component {
     }
     console.log(object);
   };
-  onClickAddToCart = (data) => {
+  onClickAddToCart = (data, quantity, nameIdParent) => {
     var object = {};
     console.log(data);
     data.forEach((values, index) => {
@@ -748,6 +748,8 @@ class ProductDetailsPage extends Component {
         name: values.name,
         price: values.price,
         img: values.productPictures[0].img,
+        quantity: quantity,
+        nameIdParent: nameIdParent
       };
     });
     this.props.onCart(object);
@@ -911,7 +913,7 @@ class ProductDetailsPage extends Component {
                       })}
                     {temp === 0 ? (
                       <a
-                        onClick={() => this.onClickAddToCart(data)}
+                        onClick={() => this.onClickAddToCart(data, 1, nameIdParent)}
                         className={`product__btn_product add`}
                         data-id=""
                       >

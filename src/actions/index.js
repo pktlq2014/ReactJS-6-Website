@@ -225,3 +225,31 @@ export const deleteAddressReducers = (data) => {
     data: data,
   };
 };
+export const orderAPI = (data) => {
+  return (dispatch) => {
+    // thời gian lấy dữ liệu từ server về lâu hơn thời gian lấy dữ liệu
+    // rồi truyền vào dispatch, nên sinh ra lỗi middleware
+    // hay nói cách khác là khi truyền dữ liệu từ server vào dispatch nhanh quá
+    // lúc này chưa có dữ liệu để truyền vào dispatch
+    // middleware là lớp nằm giữa reducers và dispatch actions
+    // giúp fetch dữ liệu xong mới dispatch actions
+    return APIz("order", "POST", data).then((res) => {
+      console.log(data);
+      if (res && res.data) {
+        dispatch(orderReducers(res.data));
+      }
+    });
+  };
+};
+export const orderReducers = (data) => {
+  return {
+    type: types.authConstants.ORDER,
+    data: data,
+  };
+};
+export const cartDeleteReducers = (data) => {
+  return {
+    type: types.authConstants.CART_DELETE,
+    data: data,
+  };
+};

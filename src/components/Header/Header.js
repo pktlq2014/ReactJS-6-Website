@@ -118,6 +118,7 @@ class Header extends Component {
               email: this.state.emailSignin,
               password: this.state.passwordSignin,
               img: "user.png",
+              phone: values.phone
             };
             var array = [];
             // array.push(user);
