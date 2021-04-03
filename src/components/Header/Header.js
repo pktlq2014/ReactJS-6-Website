@@ -4,10 +4,12 @@ import AppStore from "./../../assets/images/AppStore.png";
 import Google_play from "./../../assets/images/google_play.png";
 import users from "./../../assets/images/user.png";
 import mypham from "./../../assets/images/mypham.png";
+import TextField from "@material-ui/core/TextField";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link, Redirect } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
+import Skeleton from "@material-ui/lab/Skeleton";
 import cart from "./../../assets/images/no-cart.png";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
@@ -40,6 +42,11 @@ class Header extends Component {
       search_total: "",
     };
   }
+  onClickSearchTotal = (name) => {
+    this.setState({
+      search_total: name,
+    });
+  };
   onSignout = () => {
     //localStorage.clear();
     localStorage.removeItem("statusLogin");
@@ -69,6 +76,10 @@ class Header extends Component {
       key: this.state.search_total,
     };
     this.props.onSearchTotal(data);
+    // this.setState({
+    //   search_total : ''
+    // })
+    //  this.mainInput.value = "";
   };
   onSubmit = (e) => {
     e.preventDefault();
@@ -118,7 +129,7 @@ class Header extends Component {
               email: this.state.emailSignin,
               password: this.state.passwordSignin,
               img: "user.png",
-              phone: values.phone
+              phone: values.phone,
             };
             var array = [];
             // array.push(user);
@@ -169,8 +180,20 @@ class Header extends Component {
     }
   };
   render() {
-    var { notification, statusLogin } = this.props;
+    var { notification, statusLogin, product } = this.props;
+    console.log(product);
     console.log(statusLogin);
+    var arraySearch = [];
+    product.forEach((values, index) => {
+      if (
+        values.name
+          .toLowerCase()
+          .indexOf(this.state.search_total.toLowerCase()) !== -1
+      ) {
+        arraySearch.push(values);
+      }
+    });
+    console.log(arraySearch);
     // var statusLogin = signin.map((values, index) => {
     //   if (
     //     values.email === this.state.emailSignin &&
@@ -550,7 +573,12 @@ class Header extends Component {
             </div>
 
             <div>
-              <form className="header-search" onSubmit={this.onSubmitSearch}>
+              <form
+                noValidate
+                autoComplete="off"
+                className="header-search"
+                onSubmit={this.onSubmitSearch}
+              >
                 <div className="header-search-contaier">
                   <input
                     className="header-search-input"
@@ -560,6 +588,30 @@ class Header extends Component {
                     onChange={this.onChange}
                     placeholder="search for products, brands and more..."
                   ></input>
+                  {this.state.search_total && (
+                    <ul className="header-search-input-list">
+                      <h5 className="header-search-input-heading">
+                        Suggestions
+                      </h5>
+                      {this.state.search_total &&
+                        arraySearch &&
+                        arraySearch.map((valuesss, index7) => {
+                          return (
+                            <div
+                              key={index7}
+                              className="header-search-input-item"
+                              onClick={() =>
+                                this.onClickSearchTotal(valuesss.name)
+                              }
+                            >
+                              <div className="header-search-input-link">
+                                {valuesss.name}
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </ul>
+                  )}
                 </div>
 
                 <div className="header-search-select"></div>
@@ -656,6 +708,7 @@ const mapStateToProps = (state) => {
     statusLogin: state.statusLogin,
     cart: state.cart,
     notification: state.notification,
+    product: state.product,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {

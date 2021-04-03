@@ -525,7 +525,7 @@ body {
   font-weight: 400;
   border-radius: 0.25rem;
   color: white;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   padding: 0.75rem 6rem;
   background-color: orangered;
 }
@@ -672,10 +672,7 @@ body {
   padding: 0px 5px;
   border-radius: 3px;
 }
-.header-search-input:focus ~ .header-search-input-list {
-  display: block;
-  z-index: 1;
-}
+
 /* .header-search-input-history{
 	position: absolute;
 	top: 50px;
@@ -687,29 +684,36 @@ body {
 .header-search-input-list {
   list-style: none;
   position: absolute;
-  top: 2rem;
+  top: 3rem;
+  max-height: 20rem;
+  overflow: auto;
   left: 0;
   padding-left: 0;
   padding-bottom: 0.5rem;
   background-color: #fff;
-  display: none;
+  z-index: 111111;
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
   width: 100%;
 }
 .header-search-input-heading {
-  color: #333;
-  margin: 1rem 1rem 0.5rem 1rem;
+  color: black;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: justify;
+  
 }
 
 .header-search-input-item {
   color: #8d8888;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-align: justify;
+  cursor: pointer;
   background-color: #fff;
 }
 .header-search-input-item:hover,
 .header-search-input-item:hover .header-search-input-link {
   background-color: #eee;
+  color: #2874f0;
 }
 .header-search-input-link {
   list-style: none;
@@ -868,7 +872,7 @@ body {
 .header__cart-item-header {
   display: flex;
   font-size: 1rem;
-  padding-right: 1rem;;
+  padding-right: 1rem;
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
@@ -1573,7 +1577,7 @@ body {
   display: none;
 }
 .register_active {
-	display: block;
+  display: block;
   transition: all ease-in-out 0.5s;
 }
 .register .register_child {
@@ -1686,4 +1690,22 @@ body {
   margin-top: 8%;
   margin-bottom: -15%;
   color: #495057;
+}
+
+
+
+
+
+.header-search-input-heading{
+	color: #333;
+	margin: 1rem 1rem 0.5rem 1rem;
+}
+.header-search-input-link{
+	list-style: none;
+	text-decoration: none;
+	padding: 8px 16px;
+	color: #333;
+	background-color: #FFF;
+	width: 100%;
+	display: block;
 }

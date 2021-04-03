@@ -1,0 +1,51 @@
+#vidBtn {
+  animation: shadow-pulse 2s infinite;
+  position: fixed;
+  margin-right: 1.75rem;
+  cursor: pointer;
+  bottom: 1.5rem;
+  right: 0;
+  z-index: 1;
+  border-radius: 50%;
+  text-align: center;
+  background-color: #eb0028;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+@keyframes shadow-pulse {
+  0% {
+    box-shadow: 0 0 0 0px red;
+  }
+  100% {
+    box-shadow: 0 0 0 1.5rem rgba(0, 0, 0, 0);
+  }
+}
+.goto-top:link,
+.goto-top:visited {
+  position: fixed;
+  right: 2.5%;
+  bottom: 5%;
+  padding: 0.8rem 1.4rem;
+  border-radius: 50%;
+  background-color: #eb0028;
+  visibility: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+  animation: bounce 2s ease-in-out infinite;
+}
+/* class của js */
+.show-top:link,
+.show-top:visited {
+  visibility: visible;
+  z-index: 1999;
+}
+.icon_scroll {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.5rem;
+  font-weight: 600;
+  color: white;
+}
+.goto-top:hover {
+  background-color: red;
+}
