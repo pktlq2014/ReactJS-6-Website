@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import getParams from "./../../utils/getParams";
 import Layout from "./../../components/Layout/layout";
-import ProductStore from "./ProductStore/productStore";
+import ProductStoreList from "./ProductStore/ProductStoreList/ProductStoreList";
 import ProductPage from "./ProductPage/ProductPage";
 import Product from './Product/Product';
 class ProductListPage extends Component {
@@ -12,7 +12,7 @@ class ProductListPage extends Component {
     var content = null;
     switch (params.type) {
       case "store" : {
-        content = <ProductStore {...this.props}/>;
+        content = <ProductStoreList {...this.props}/>;
         break;
       }
       case "product" : {
