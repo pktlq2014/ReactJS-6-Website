@@ -14,8 +14,13 @@ class orders extends Component {
       data: {},
     };
   }
-  onClickDeleteOrders = (values, index) => {
-    this.props.onOrdersDeleteAPI(values);
+  onClickDeleteOrders = (values, index, status) => {
+    if(status >= 2) {
+      alert('It is too late, orders are shipped or delivered so you cannot delete!!!');
+    }
+    else {
+      this.props.onOrdersDeleteAPI(values);
+    }
   };
   componentDidMount() {
     this.props.onOrdersAPI();
@@ -48,7 +53,7 @@ class orders extends Component {
                     <div className="nearest_orders_parent">
                       <div className="order_title">{`Order number : ${object.id}`}</div>
                       <CloseIcon
-                        onClick={() => this.onClickDeleteOrders(object, index)}
+                        onClick={() => this.onClickDeleteOrders(object, index, object.status)}
                         fontSize="large"
                         className="orders_delete"
                       />
