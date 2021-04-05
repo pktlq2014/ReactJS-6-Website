@@ -5,6 +5,7 @@ import Google_play from "./../../assets/images/google_play.png";
 import users from "./../../assets/images/user.png";
 import mypham from "./../../assets/images/mypham.png";
 import TextField from "@material-ui/core/TextField";
+import image from './../../assets/images/no-cart.png'
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link, Redirect } from "react-router-dom";
@@ -640,61 +641,56 @@ class Header extends Component {
                 <div className="header__cart-list">
                   <h3 className="header__cart-heading">Product List Added</h3>
 
-                  {/* <div className="no-cart">
-                    <img
-                      src={cart}
-                      className="header__cart-no-cart-img"
-                      alt=""
-                    />
-                    <span className="header__cart-list--no-cart-msg">
-                    The Cart Is Empty 
-                    </span>
-                  </div> */}
-
                   <ul className="header__cart-list-item">
-                    {this.props.cart.map((values, index) => {
-                      var image = require(`./../../assets/images/${values.img}`);
-                      return (
-                        <li key={index} className="header__cart-item">
-                          <div className="header__cart-item-container-img">
-                            <img
-                              src={image.default}
-                              className="header__cart-item-img"
-                              alt=""
-                            />
-                          </div>
+                    {this.props.cart.length <= 0 ? (
+               
+                        <img className="no_cart" src={image} alt=""/>
+           
+                    ) : (
+                      this.props.cart.map((values, index) => {
+                        var image = require(`./../../assets/images/${values.img}`);
+                        return (
+                          <li key={index} className="header__cart-item">
+                            <div className="header__cart-item-container-img">
+                              <img
+                                src={image.default}
+                                className="header__cart-item-img"
+                                alt=""
+                              />
+                            </div>
 
-                          <div className="header__cart-item-container-text">
-                            <div className="header__cart-item-header">
-                              <div className="header__cart-item-info">
-                                {values.name}
+                            <div className="header__cart-item-container-text">
+                              <div className="header__cart-item-header">
+                                <div className="header__cart-item-info">
+                                  {values.name}
+                                </div>
+
+                                <div className="header__cart-item-container-price">
+                                  <div className="header__cart-item-price">
+                                    {values.price}$
+                                  </div>
+                                  <div className="header__cart-item-multiple">
+                                    x
+                                  </div>
+                                  <div className="header__cart-item-quantity">
+                                    {values.quantity}
+                                  </div>
+                                </div>
                               </div>
 
-                              <div className="header__cart-item-container-price">
-                                <div className="header__cart-item-price">
-                                  {values.price}$
-                                </div>
-                                <div className="header__cart-item-multiple">
-                                  x
-                                </div>
-                                <div className="header__cart-item-quantity">
-                                  {values.quantity}
+                              <div className="header__cart-item-body">
+                                <div className="header__cart-item-description">
+                                  <div>Category: </div>
+                                  <div className="name_product">
+                                    {values.nameIdParent}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-
-                            <div className="header__cart-item-body">
-                              <div className="header__cart-item-description">
-                                <div>Category: </div>
-                                <div className="name_product">
-                                  {values.nameIdParent}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      );
-                    })}
+                          </li>
+                        );
+                      })
+                    )}
                   </ul>
 
                   <div className="header__cart-container-btn">View Cart</div>

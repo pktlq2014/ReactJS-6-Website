@@ -838,7 +838,7 @@ body {
 .header__cart-list-item {
   padding-left: 0;
   margin-left: 0;
-  height: 10rem;
+  height: 11.5rem;
   overflow: scroll;
 }
 .header__cart-item {
@@ -1708,4 +1708,12 @@ body {
 	background-color: #FFF;
 	width: 100%;
 	display: block;
+}
+.no_cart {
+  width: 10rem;
+  height: 10rem;
+  padding-top: 0;
+  margin-top: 0;
+  top: 0;
+  object-fit: contain;
 }
