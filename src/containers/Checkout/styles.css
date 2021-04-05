@@ -333,17 +333,6 @@
   text-align: justify;
   padding-bottom: 0.5rem;
 }
-.order_table_item {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.order_table_item_order_name {
-  flex: 1;
-}
-.order_table_item_order_content {
-  flex: 5.5;
-}
 .order_table_item_available {
   color: red;
 }

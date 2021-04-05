@@ -101,7 +101,7 @@ class Checkout extends Component {
         price: values.price,
         img: values.img,
         quantity: data,
-        nameIdParent: values.nameIdParent,
+        nameIdParent: values.nameIdParent
       };
       this.props.onCart(object, index);
     }
@@ -237,6 +237,8 @@ class Checkout extends Component {
       total: money,
       payment: this.state.payment,
       date: this.state.currentDateTime,
+      status: "",
+      cart: cart
     };
     return (
       <Layout>

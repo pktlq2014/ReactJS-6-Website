@@ -535,6 +535,11 @@ class Header extends Component {
                         </a>
                       </li>
                       <li className="header__navbar-user-item">
+                        <Link to="/orders" className="header__navbar-user-link">
+                          Orders
+                        </Link>
+                      </li>
+                      <li className="header__navbar-user-item">
                         <a
                           href=""
                           onClick={this.onSignout}

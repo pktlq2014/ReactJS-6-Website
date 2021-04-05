@@ -6,6 +6,7 @@ import CartPage from "./containers/CartPage/CartPage";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Checkout from "./containers/Checkout/Checkout";
 import GoTop from "./components/ScrollToTop/ScrollToTop";
+import Orders from './containers/Orders/orders';
 import ProductListPage from "./containers/ProductListPage/ProductListPage";
 import ProductDetailsPage from "./containers/ProductDetailsPage/ProductDetailsPage";
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <GoTop scrollStepInPx="9999999" delayInMs="500" />
         <Switch>
           <Route path="/" exact component={HomePage} />
+          <PrivateRoute path="/orders" component={Orders} />
           <PrivateRoute path="/checkout" component={Checkout} />
           <Route path="/cart" component={CartPage} />
           <Route
