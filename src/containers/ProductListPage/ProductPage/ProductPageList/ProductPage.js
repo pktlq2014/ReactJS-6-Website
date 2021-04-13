@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./styles.css";
 import { Card, ThemeProvider } from "react-bootstrap";
-import * as actions from "./../../../actions/index";
+import * as actions from "./../../../../actions/index";
 import Star from "@material-ui/icons/Star";
 import { Link, Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
+import StarBorder from "@material-ui/icons/StarBorder";
 import Input from "@material-ui/core/Input";
 import FilledInput from "@material-ui/core/FilledInput";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -19,11 +20,11 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Visibility from "@material-ui/icons/Visibility";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
+import ProductPageItem from "./../ProductPageItem/ProductPageItem";
 import FaceIcon from "@material-ui/icons/Face";
 import DoneIcon from "@material-ui/icons/Done";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import StarBorder from "@material-ui/icons/StarBorder";
 import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 class ProductPage extends Component {
   constructor(props) {
@@ -93,141 +94,19 @@ class ProductPage extends Component {
     });
     this.props.searchProductNameReducers(tasks);
   };
-  componentDidMount() {
-    this.props.onProductAPI();
-  }
-  onClick = (values) => {
-    var object = {};
-    var { match, category } = this.props;
-    var name = match.params.slug;
-    var idParent;
-    var type;
-    category.forEach((values, index) => {
-      if (values.name.toLowerCase() === name) {
-        idParent = values.idParent;
-      }
-    });
-    console.log(idParent);
-    category.forEach((values, index) => {
-      if (values.id === idParent) {
-        type = values.name;
-      }
-    });
-    console.log(values);
-    object = {
-      id: values.id,
-      name: values.name,
-      price: values.price,
-      img: values.productPictures[0].img,
-      quantity: 1,
-      nameIdParent: type,
-    };
-    console.log(object);
-    this.props.onCart(object);
-  };
-  showStar = (data) => {
-    var result = [];
-    for (var i = 0; i < data; i++) {
-      result.push(<Star className="star" />);
-    }
-    for (var j = 0; j < 5 - data; j++) {
-      result.push(<StarBorder />);
-    }
-    return result;
-  };
   showProduct = (product, category, match, slug, slugProduct, cart) => {
     var result = product.map((values, index) => {
       var temp = 0;
       return (
-        <div
-          key={index}
-          border="primary"
-          className="card_parent"
-          style={{ width: "18rem" }}
-        >
-          <div className="home-product-item__favourite product">
-            <CheckCircleOutline
-              className="checkOutline"
-              style={{ fontSize: 17.5 }}
-            />
-            favourite
-          </div>
-
-          <div className="home-product-item__sale-off product">
-            <span className="home-product-item__sale-off-percent">
-              {values.sales}%
-            </span>
-            <span className="home-product-item__sale-off-label">SALE</span>
-          </div>
-          <Link
-            style={{ textDecoration: "none" }}
-            to={`/${match.params.slug}/${values.id}/p`}
-          >
-            <div className="productImgContainer product">
-              {values.productPictures.map((valuess, index3) => {
-                var index = valuess.img.indexOf("samsung");
-                if (index === 1) {
-                }
-                //var image = require(`./../../assets/images/${values.productPictures[index].img}`);
-                var image = require(`./../../../assets/images/${valuess.img}`);
-                return (
-                  <img
-                    key={index3}
-                    className="img"
-                    //src={`${process.env.PUBLIC_URL}/${truoc}`}
-                    src={image.default}
-                    alt="logo"
-                  />
-                );
-              })}
-            </div>
-          </Link>
-          <div className="productInfo">
-            <Link
-              style={{ textDecoration: "none" }}
-              to={`/${match.params.slug}/${values.id}/p`}
-            >
-              <div className="productInfo_name product">
-                {values.name}
-              </div>
-              <div className="productInfo_display product">
-                <div>{this.showStar(values.star)}</div>
-                <div className="showQuantity">
-                  ({values.quantity})
-                </div>
-              </div>
-              <div className="productPrice product">
-                <p>{values.price * ((100 - values.sales) / 100)}$</p>
-                <p className="Oldprice">{values.price}$</p>
-              </div>
-            </Link>
-            {cart &&
-              cart.map((valuessss, index6) => {
-                if (valuessss.id === values.id) {
-                  temp = 1;
-                  return (
-                    <button
-                      key={index6}
-                      disabled
-                      className="add_to_cart in_cart"
-                    >
-                      In Cart
-                    </button>
-                  );
-                }
-              })}
-            {temp === 0 ? (
-              <button
-                className="add_to_cart"
-                onClick={() => this.onClick(values)}
-              >
-                Add To Cart
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
+        <ProductPageItem
+          category={category}
+          values={values}
+          temp={temp}
+          onCart={this.props.onCart}
+          cart={cart}
+          match={match}
+          index={index}
+        />
       );
     });
     return result;
@@ -238,19 +117,6 @@ class ProductPage extends Component {
     var temp = 0;
     console.log(product);
     console.log(match.params.slug);
-    // var key = match.params.slug.split("=");
-    // console.log(key[1]);
-    //var key = JSON.parse(localStorage.getItem('key'));
-    // var id;
-    // category.forEach((values, index) => {
-    //   if (values.name.toLowerCase() === match.params.slug) {
-    //     id = values.id;
-    //   }
-    // });
-    // console.log(id);
-    // var array = product.filter((values, index) => {
-    //   return values.parentID === id;
-    // });
     var array = [];
     array = product;
     console.log(array);
@@ -611,29 +477,4 @@ class ProductPage extends Component {
     );
   }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    product: state.product,
-    category: state.category,
-    cart: state.cart,
-    product_name_search: state.search_product_name,
-  };
-};
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    onProductAPI: () => {
-      dispatch(actions.productAPI());
-    },
-    onCategoryAPI: () => {
-      dispatch(actions.categoryAPI());
-    },
-    onCart: (data) => {
-      dispatch(actions.cartReducers(data));
-    },
-    searchProductNameReducers: (data) => {
-      dispatch(actions.searchProductNameReducers(data));
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);
+export default ProductPage;

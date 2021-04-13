@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import getParams from "./../../utils/getParams";
 import Layout from "./../../components/Layout/layout";
-import ProductStoreList from "./ProductStore/ProductStoreList/ProductStoreList";
-import ProductPage from "./ProductPage/ProductPage";
-import Product from './Product/Product';
+import ProductStoreContainer from "./ProductStore/ProductStoreContainer/ProductStoreContainer";
+import ProductPageContainer from "./ProductPage/ProductPageContainer/ProductPageContainer";
+import Product from "./Product/Product";
 class ProductListPage extends Component {
   renderProduct = () => {
     console.log(this.props);
@@ -11,19 +11,20 @@ class ProductListPage extends Component {
     console.log(params);
     var content = null;
     switch (params.type) {
-      case "store" : {
-        content = <ProductStoreList {...this.props}/>;
+      case "store": {
+        content = <ProductStoreContainer {...this.props} />;
         break;
       }
-      case "product" : {
-        content = <Product {...this.props}/>;
+      case "product": {
+        content = <Product {...this.props} />;
         break;
       }
-      case "page" : {
-        content = <ProductPage {...this.props}/>;
+      case "page": {
+        content = <ProductPageContainer {...this.props} />;
         break;
       }
-      default : content = null;
+      default:
+        content = null;
     }
     return content;
   };

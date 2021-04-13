@@ -28,18 +28,18 @@ class Product extends Component {
   // }
   onClick = (values) => {
     var object = {};
-    var {match, category} = this.props;
+    var { match, category } = this.props;
     var name = match.params.slug;
     var idParent;
     var type;
     category.forEach((values, index) => {
-      if(values.name.toLowerCase() === name) {
+      if (values.name.toLowerCase() === name) {
         idParent = values.idParent;
       }
     });
     console.log(idParent);
     category.forEach((values, index) => {
-      if(values.id === idParent) {
+      if (values.id === idParent) {
         type = values.name;
       }
     });
@@ -49,12 +49,12 @@ class Product extends Component {
       name: values.name,
       price: values.price,
       img: values.productPictures[0].img,
-      quantity : 1,
-      nameIdParent : type
+      quantity: 1,
+      nameIdParent: type,
     };
     console.log(object);
     this.props.onCart(object);
-  }
+  };
   showStar = (data) => {
     var result = [];
     for (var i = 0; i < data; i++) {
@@ -128,32 +128,38 @@ class Product extends Component {
                 style={{ textDecoration: "none" }}
                 to={`/${match.params.slug}/${values.id}/p`}
               >
-                <div className="productInfo_name product">
-                  {values.name}
-                </div>
+                <div className="productInfo_name product">{values.name}</div>
                 <div className="productInfo_display product">
                   <div>{this.showStar(values.star)}</div>
-                  <div className="showQuantity">
-                    ({values.quantity})
-                  </div>
+                  <div className="showQuantity">({values.quantity})</div>
                 </div>
                 <div className="productPrice product">
                   <p>{values.price * ((100 - values.sales) / 100)}$</p>
                   <p className="Oldprice">{values.price}$</p>
                 </div>
               </Link>
-              {cart && cart.map((valuessss, index6) => {
-                if (valuessss.id === values.id) {
-                  temp = 1;
-                  return (
-                    <button key={index6} disabled className="add_to_cart in_cart">
-                      In Cart
-                    </button>
-                  );
-                }
-              })}
+              {cart &&
+                cart.map((valuessss, index6) => {
+                  if (valuessss.id === values.id) {
+                    temp = 1;
+                    return (
+                      <button
+                        key={index6}
+                        disabled
+                        className="add_to_cart in_cart"
+                      >
+                        In Cart
+                      </button>
+                    );
+                  }
+                })}
               {temp === 0 ? (
-                <button className="add_to_cart" onClick={() => this.onClick(values)}>Add To Cart</button>
+                <button
+                  className="add_to_cart"
+                  onClick={() => this.onClick(values)}
+                >
+                  Add To Cart
+                </button>
               ) : (
                 ""
               )}
@@ -172,7 +178,8 @@ class Product extends Component {
     console.log(match);
     var { sortPrice } = this.state;
     var slug = "";
-    var temp = 0, temp2 = 0;
+    var temp = 0,
+      temp2 = 0;
     var array1 = [];
     var array2 = [];
     var result = product.filter((values, index) => {
@@ -189,7 +196,7 @@ class Product extends Component {
       console.log(slug);
       return (
         <div key={index3}>
-          <div as="h5" className="cardHeader">
+          {/* <div as="h5" className="cardHeader">
             <div className="cartHeader_marginTop">
               {match.params.slug} - under {valuessss.price}$
             </div>
@@ -215,6 +222,7 @@ class Product extends Component {
                   cart
                 )}
           </div>
+       */}
         </div>
       );
     });
@@ -227,7 +235,7 @@ const mapStateToProps = (state) => {
   return {
     product: state.product,
     category: state.category,
-    cart : state.cart
+    cart: state.cart,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -238,9 +246,9 @@ const mapDispatchToProps = (dispatch, props) => {
     onCategoryAPI: () => {
       dispatch(actions.categoryAPI());
     },
-    onCart : (data) => {
+    onCart: (data) => {
       dispatch(actions.cartReducers(data));
-    }
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

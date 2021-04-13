@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./styles.css";
-import Layout from "./../../components/Layout/layout";
+import Layout from "../../../components/Layout/layout";
 import Table from "react-bootstrap/Table";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -11,9 +11,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { connect } from "react-redux";
-import Paypal from "./Paypal";
-import * as actions from "./../../actions/index";
+import Paypal from "./../Paypal";
+import CheckoutItem from "../CheckoutItem/CheckoutItem";
 class Checkout extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +42,16 @@ class Checkout extends Component {
       // alert(
       //   `The order has been saved in the system. We will contact you by phone number ${phone[1]}, thank you for your order.`
       // );
-      return <Paypal object={object} api={this.props.onOrder} total={total} history={this.props.history} number={phone[1]} resetCart={this.props.onCartDelete}/>;
+      return (
+        <Paypal
+          object={object}
+          api={this.props.onOrder}
+          total={total}
+          history={this.props.history}
+          number={phone[1]}
+          resetCart={this.props.onCartDelete}
+        />
+      );
     }
   };
   onClickOrder = (object) => {
@@ -101,7 +109,7 @@ class Checkout extends Component {
         price: values.price,
         img: values.img,
         quantity: data,
-        nameIdParent: values.nameIdParent
+        nameIdParent: values.nameIdParent,
       };
       this.props.onCart(object, index);
     }
@@ -238,7 +246,7 @@ class Checkout extends Component {
       payment: this.state.payment,
       date: this.state.currentDateTime,
       status: "",
-      cart: cart
+      cart: cart,
     };
     return (
       <Layout>
@@ -364,63 +372,19 @@ class Checkout extends Component {
                 <div className="order_summary">
                   <div className="shopping_cart_left_scroll_child">
                     {cart.map((values, index) => {
-                      var image = require(`./../../assets/images/${values.img}`);
+                      var image = require(`./../../../assets/images/${values.img}`);
                       return (
-                        <div>
-                          <div className="shopping_cart_left_item">
-                            <img
-                              className="shopping_cart_left_item_image"
-                              src={image.default}
-                              alt=""
-                            />
-                            <div className="shopping_cart_left_item_parent">
-                              <div className="shopping_cart_left_item_parent_one_child">
-                                <div className="shopping_cart_left_item_parent_one_name">
-                                  {values.name}
-                                </div>
-                                <div className="shopping_cart_left_item_parent_one_quantity">
-                                  <div className="shopping_cart_left_item_parent_one_quantity_sub">
-                                    <RemoveIcon
-                                      onClick={() =>
-                                        this.onClickRemove(1, values, index)
-                                      }
-                                      className="shopping_cart_left_item_parent_one_quantity_sub_minus"
-                                    />
-                                  </div>
-                                  <div className="shopping_cart_left_item_parent_one_quantity_sub">
-                                    <div className="value">
-                                      {values.quantity}
-                                    </div>
-                                  </div>
-                                  <div className="shopping_cart_left_item_parent_one_quantity_sub">
-                                    <AddIcon
-                                      onClick={() =>
-                                        this.onClickAdd(1, values, index)
-                                      }
-                                      className="shopping_cart_left_item_parent_one_quantity_sub_add"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="shopping_cart_left_item_parent_two_child">
-                                <div>{values.nameIdParent}</div>
-                              </div>
-                              <div className="shopping_cart_left_item_parent_three_child">
-                                <div
-                                  onClick={() =>
-                                    this.onClickRemoveProductCart(index)
-                                  }
-                                  className="shopping_cart_left_item_parent_three_delete"
-                                >
-                                  <DeleteForeverIcon className="shopping_cart_left_item_parent_three_remove" />
-                                  <div>Remove to cart</div>
-                                </div>
-                                <div> {values.price * values.quantity}$</div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="shopping_cart_left_space_child"></div>
-                        </div>
+                        <CheckoutItem
+                          values={values}
+                          onDeleteAddress={this.props.onDeleteAddress}
+                          onAddress={this.props.onAddress}
+                          onDeleteProductCart={this.props.onDeleteProductCart}
+                          index={index}
+                          onCart={this.props.onCart}
+                          onCartDelete={this.props.onCartDelete}
+                          onOrder={this.props.onOrder}
+                          image={image}
+                        />
                       );
                     })}
                   </div>
@@ -570,17 +534,17 @@ class Checkout extends Component {
                     </thead>
                   </Table>
                   <div className="checkout_button">
-                  {this.state.payment === "online" ? (
-                    this.onPaypal(object, money + 6)
-                  ) : (
-                    // <Paypal onClick={() => this.onClickOrder(object)}/>
-                    <button
-                      onClick={() => this.onClickOrder(object)}
-                      className="confirmation_button"
-                    >
-                      I have checked order carefully, confirmation
-                    </button>
-                  )}
+                    {this.state.payment === "online" ? (
+                      this.onPaypal(object, money + 6)
+                    ) : (
+                      // <Paypal onClick={() => this.onClickOrder(object)}/>
+                      <button
+                        onClick={() => this.onClickOrder(object)}
+                        className="confirmation_button"
+                      >
+                        I have checked order carefully, confirmation
+                      </button>
+                    )}
                   </div>
                 </div>
               </Typography>
@@ -591,33 +555,4 @@ class Checkout extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    address: state.address,
-    signin: state.signin,
-    cart: state.cart,
-  };
-};
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    onAddress: (data) => {
-      dispatch(actions.updateCategoryAPI(data));
-    },
-    onDeleteAddress: (data) => {
-      dispatch(actions.deleteCategoryAPI(data));
-    },
-    onCart: (data, index) => {
-      dispatch(actions.quantityUpdateReducers(data, index));
-    },
-    onDeleteProductCart: (index) => {
-      dispatch(actions.deleteProductReducers(index));
-    },
-    onOrder: (data) => {
-      dispatch(actions.orderAPI(data));
-    },
-    onCartDelete: (data) => {
-      dispatch(actions.cartDeleteReducers(data));
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+export default Checkout;

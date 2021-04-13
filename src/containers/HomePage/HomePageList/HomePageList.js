@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import { connect } from "react-redux";
 import "./styles.css";
 import Slider from "react-slick";
 import CarouselMulti from "react-multi-carousel";
@@ -9,12 +8,12 @@ import "react-multi-carousel/lib/styles.css";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import HomePageItem from "./../HomePageItem/HomePageItem";
 import ItemsCarousel from "react-items-carousel";
 import CreateIcon from "@material-ui/icons/Create";
-import * as actions from "./../../actions/index";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { ArrowRightAltTwoTone, ImageTwoTone } from "@material-ui/icons";
-import Layout from "./../../components/Layout/layout";
+import Layout from "../../../components/Layout/layout";
 import { Link, Redirect } from "react-router-dom";
 import FilterCenterFocusIcon from "@material-ui/icons/FilterCenterFocus";
 import SearchIcon from "@material-ui/icons/Search";
@@ -35,7 +34,7 @@ const responsive = {
     slidesToSlide: 1, // optional, default to 1.
   },
 };
-class HomePage extends Component {
+class HomePageList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,10 +42,6 @@ class HomePage extends Component {
       temp: 0,
       data: [],
     };
-  }
-  componentDidMount() {
-    this.props.onProductAPI();
-    this.props.onTypeAPI();
   }
   onAddShoppingCart = (id, name, price, img, quantity, category, cart) => {
     var object = {};
@@ -68,78 +63,28 @@ class HomePage extends Component {
         var string = "";
         var stringParent = "";
         var nameProduct = "";
-        var {category} = this.props;
+        var { category } = this.props;
         category.forEach((values, index) => {
-          if(values.id === valuess.categoryID) {
+          if (values.id === valuess.categoryID) {
             nameProduct = values.name;
           }
         });
-        var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
+        var image = require(`./../../../assets/images/${valuess.productPictures[0].img}`);
         return (
-          <div className="product" key={index2}>
-            <div className="product__header">
-              {image && <img src={image.default} alt={image.default} />}
-            </div>
-
-            <ul>
-              {cart &&
-                cart.map((valuessss, index) => {
-                  if (valuessss.id === valuess.id) {
-                    count = 1;
-                    return (
-                      <li className="in_cart_home">
-                        <AddShoppingCartIcon className="in_cart_home" />
-                      </li>
-                    );
-                  }
-                })}
-              {count === 0 ? (
-                <li
-                  onClick={() =>
-                    this.onAddShoppingCart(
-                      valuess.id,
-                      valuess.name,
-                      valuess.price,
-                      valuess.productPictures[0].img,
-                      1,
-                      name,
-                      cart
-                    )
-                  }
-                >
-                  <a>
-                    <AddShoppingCartIcon className="product_icon" />
-                  </a>
-                </li>
-              ) : (
-                ""
-              )}
-              {category.map((valuesss, index) => {
-                if (valuesss.id === valuess.categoryID) {
-                  string = valuesss.name.toLowerCase();
-                  stringParent = valuesss.id;
-                }
-              })}
-              <Link
-                className="search_link"
-                style={{ textDecoration: "none" }}
-                to={`/${string}/${valuess.id}/p`}
-              >
-                <li>
-                  <a>
-                    <SearchIcon className="product_icon" />
-                  </a>
-                </li>
-              </Link>
-              <Link to={`/${nameProduct.toLowerCase()}?cid=${id}&type=store`}>
-                <li>
-                  <a>
-                    <FilterCenterFocusIcon className="product_icon" />
-                  </a>
-                </li>
-              </Link>
-            </ul>
-          </div>
+          <HomePageItem
+            id={id}
+            onCart={this.props.onCart}
+            string={string}
+            stringParent={stringParent}
+            nameProduct={nameProduct}
+            name={name}
+            category={category}
+            count={count}
+            cart={cart}
+            valuess={valuess}
+            index2={index2}
+            image={image}
+          />
         );
       });
     return result;
@@ -183,7 +128,7 @@ class HomePage extends Component {
               {values.banners &&
                 values.banners.map((valuess, index99) => {
                   console.log(valuess.img);
-                  var image = require(`./../../assets/images/${valuess.img}`);
+                  var image = require(`./../../../assets/images/${valuess.img}`);
                   if (valuess.img.indexOf("Laptop") !== -1) {
                     return (
                       <Link
@@ -258,25 +203,4 @@ class HomePage extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    type: state.type,
-    product: state.product,
-    category: state.category,
-    cart: state.cart,
-  };
-};
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    onTypeAPI: () => {
-      dispatch(actions.typeAPI());
-    },
-    onProductAPI: () => {
-      dispatch(actions.productAPI());
-    },
-    onCart: (data) => {
-      dispatch(actions.cartReducers(data));
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default HomePageList;

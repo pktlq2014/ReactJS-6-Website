@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import Layout from "./../../components/Layout/layout";
-import { connect } from "react-redux";
+import Layout from "./../../../components/Layout/layout";
 import { IoIosArrowForward, IoIosStar, IoMdCart } from "react-icons/io";
-import * as actions from "./../../actions/index";
 import { BiRupee } from "react-icons/bi";
+import ProductDetailsPageItem from "./../ProductDetailPageItem/ProductDetailPageItem";
 import Form from "react-bootstrap/Form";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
@@ -25,12 +24,11 @@ import TextField from "@material-ui/core/TextField";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import Star from "@material-ui/icons/Star";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
-import { MaterialButton } from "./../../components/MaterialUI/materialUI";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import FaceIcon from "@material-ui/icons/Face";
-import store from "./../../assets/images/store.jpg";
+import store from "./../../../assets/images/store.jpg";
 import DoneIcon from "@material-ui/icons/Done";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -110,7 +108,7 @@ function a11yProps(index) {
   };
 }
 
-class ProductDetailsPage extends Component {
+class ProductDetailsPageList extends Component {
   constructor(props) {
     super(props);
     var today = new Date(),
@@ -157,72 +155,21 @@ class ProductDetailsPage extends Component {
         var count = 0;
         var string = "";
         var stringParent = "";
-        var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
+        var image = require(`./../../../assets/images/${valuess.productPictures[0].img}`);
         return (
-          <div className="product" key={index2}>
-            <div className="product__header">
-              {image && <img src={image.default} alt={image.default} />}
-            </div>
-
-            <ul>
-              {cart &&
-                cart.map((valuessss, index) => {
-                  if (valuessss.id === valuess.id) {
-                    count = 1;
-                    return (
-                      <li className="in_cart_home">
-                        <AddShoppingCartIcon className="in_cart_home" />
-                      </li>
-                    );
-                  }
-                })}
-              {count === 0 ? (
-                <li
-                  onClick={() =>
-                    this.onAddShoppingCart(
-                      valuess.id,
-                      valuess.name,
-                      valuess.price,
-                      valuess.productPictures[0].img,
-                      1,
-                      name,
-                      cart
-                    )
-                  }
-                >
-                  <a>
-                    <AddShoppingCartIcon className="product_icon" />
-                  </a>
-                </li>
-              ) : (
-                ""
-              )}
-              {category.map((valuesss, index) => {
-                if (valuesss.id === valuess.categoryID) {
-                  string = valuesss.name.toLowerCase();
-                  stringParent = valuesss.id;
-                }
-              })}
-              <Link
-                className="search_link"
-                style={{ textDecoration: "none" }}
-                to={`/${string}/${valuess.id}/p`}
-              >
-                <li>
-                  <a>
-                    <SearchIcon className="product_icon" />
-                  </a>
-                </li>
-              </Link>
-              <Link to={`/${name.toLowerCase()}?cid=${id}&type=store`}>
-                <li>
-                  <a>
-                    <FilterCenterFocusIcon className="product_icon" />
-                  </a>
-                </li>
-              </Link>
-            </ul>
-          </div>
+          <ProductDetailsPageItem
+            id={id}
+            string={string}
+            stringParent={stringParent}
+            category={category}
+            name={name}
+            count={count}
+            onAddShoppingCart={this.onAddShoppingCart}
+            cart={cart}
+            valuess={valuess}
+            index2={index2}
+            image={image}
+          />
         );
       });
     return result;
@@ -234,7 +181,7 @@ class ProductDetailsPage extends Component {
         var count = 0;
         var string = "";
         var stringParent = "";
-        var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
+        var image = require(`./../../../assets/images/${valuess.productPictures[0].img}`);
         return (
           <div className="product" key={index2}>
             <div className="product__header">
@@ -316,7 +263,7 @@ class ProductDetailsPage extends Component {
           nameFilter = valuesss.name;
         }
       });
-      var image = require(`./../../assets/images/${valuess.productPictures[0].img}`);
+      var image = require(`./../../../assets/images/${valuess.productPictures[0].img}`);
       return (
         <div className="product" key={index2}>
           <div className="product__header">
@@ -374,11 +321,11 @@ class ProductDetailsPage extends Component {
               </li>
             </Link>
             <Link to={`/product?cid=1&type=page`}>
-            <li>
-              <a>
-                <FilterCenterFocusIcon className="product_icon" />
-              </a>
-            </li>
+              <li>
+                <a>
+                  <FilterCenterFocusIcon className="product_icon" />
+                </a>
+              </li>
             </Link>
           </ul>
         </div>
@@ -749,15 +696,12 @@ class ProductDetailsPage extends Component {
         price: values.price,
         img: values.productPictures[0].img,
         quantity: quantity,
-        nameIdParent: nameIdParent
+        nameIdParent: nameIdParent,
       };
     });
     this.props.onCart(object);
     console.log(object);
   };
-  componentDidMount() {
-    this.props.onProductAPI();
-  }
   showStar = (data) => {
     var result = [];
     for (var i = 0; i < data; i++) {
@@ -770,7 +714,7 @@ class ProductDetailsPage extends Component {
   };
   onClickImage = (index, array) => {
     var data = array[index].img;
-    var image = require(`./../../assets/images/${data}`);
+    var image = require(`./../../../assets/images/${data}`);
     this.setState({
       imageData: image,
     });
@@ -810,8 +754,8 @@ class ProductDetailsPage extends Component {
     nameCurrent = objectNameCategory.name;
     var typeID;
     category.forEach((values, index) => {
-      if(values.name === nameCurrent) {
-        typeID = values.id; 
+      if (values.name === nameCurrent) {
+        typeID = values.id;
       }
     });
     idParent = objectNameCategory.idParent;
@@ -838,7 +782,7 @@ class ProductDetailsPage extends Component {
     var result = data.map((values, index) => {
       console.log(values.productPictures);
       var resultImage = values.productPictures.map((valuess, index) => {
-        var image = require(`./../../assets/images/${valuess.img}`);
+        var image = require(`./../../../assets/images/${valuess.img}`);
         return (
           <div key={index} className="pictures__container">
             <img
@@ -869,7 +813,7 @@ class ProductDetailsPage extends Component {
                         {this.state.imageData.length <= 0 ? (
                           data &&
                           data.map((values, index) => {
-                            var image = require(`./../../assets/images/${values.productPictures[0].img}`);
+                            var image = require(`./../../../assets/images/${values.productPictures[0].img}`);
                             return (
                               <img
                                 className="image_product_watch"
@@ -913,7 +857,9 @@ class ProductDetailsPage extends Component {
                       })}
                     {temp === 0 ? (
                       <a
-                        onClick={() => this.onClickAddToCart(data, 1, nameIdParent)}
+                        onClick={() =>
+                          this.onClickAddToCart(data, 1, nameIdParent)
+                        }
                         className={`product__btn_product add`}
                         data-id=""
                       >
@@ -1025,7 +971,7 @@ class ProductDetailsPage extends Component {
               </div>
 
               {data.map((values, index) => {
-                var image = require(`./../../assets/images/${values.productPictures[0].img}`);
+                var image = require(`./../../../assets/images/${values.productPictures[0].img}`);
                 return (
                   <div className="root">
                     <AppBar position="static" color="default">
@@ -1143,7 +1089,7 @@ class ProductDetailsPage extends Component {
                         </form>
                         {values.question &&
                           values.question.map((valuesssss, index) => {
-                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            var image = require(`./../../../assets/images/${valuesssss.img}`);
                             return (
                               <ListItem className="list_question" key={index}>
                                 <img
@@ -1186,7 +1132,7 @@ class ProductDetailsPage extends Component {
                         </form>
                         {values.feedback &&
                           values.feedback.map((valuesssss, index) => {
-                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            var image = require(`./../../../assets/images/${valuesssss.img}`);
                             return (
                               <ListItem className="list_question" key={index}>
                                 <img
@@ -1224,7 +1170,7 @@ class ProductDetailsPage extends Component {
                       <List className="child_tab">
                         {values.favourite &&
                           values.favourite.map((valuesssss, index) => {
-                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            var image = require(`./../../../assets/images/${valuesssss.img}`);
                             return (
                               <ListItem className="list_question" key={index}>
                                 <img
@@ -1263,7 +1209,7 @@ class ProductDetailsPage extends Component {
                       <List className="child_tab">
                         {values.dislike &&
                           values.dislike.map((valuesssss, index) => {
-                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            var image = require(`./../../../assets/images/${valuesssss.img}`);
                             return (
                               <ListItem className="list_question" key={index}>
                                 <img
@@ -1302,7 +1248,7 @@ class ProductDetailsPage extends Component {
                       <List className="child_tab">
                         {values.like &&
                           values.like.map((valuesssss, index) => {
-                            var image = require(`./../../assets/images/${valuesssss.img}`);
+                            var image = require(`./../../../assets/images/${valuesssss.img}`);
                             return (
                               <ListItem className="list_question" key={index}>
                                 <img
@@ -1443,29 +1389,4 @@ class ProductDetailsPage extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    product: state.product,
-    category: state.category,
-    cart: state.cart,
-    favourite: state.favourite,
-    signin: state.signin,
-  };
-};
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    onProductAPI: () => {
-      dispatch(actions.productAPI());
-    },
-    onCart: (data) => {
-      dispatch(actions.cartReducers(data));
-    },
-    onQuestion: (data) => {
-      dispatch(actions.questionAPI(data));
-    },
-    onFavourite: (data) => {
-      dispatch(actions.favouriteReducers(data));
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDetailsPage);
+export default ProductDetailsPageList;

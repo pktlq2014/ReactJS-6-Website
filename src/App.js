@@ -1,27 +1,27 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import HomePage from "./containers/HomePage/HomePage";
-import CartPage from "./containers/CartPage/CartPage";
+import HomePageContainer from "./containers/HomePage/HomePageContainer/HomePageContainer";
+import CartPageContainer from "./containers/CartPage/CartPageContainer/CartPageContainer";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import Checkout from "./containers/Checkout/Checkout";
+import CheckoutContainer from "./containers/Checkout/CheckoutContainer/CheckoutContainer";
 import GoTop from "./components/ScrollToTop/ScrollToTop";
-import Orders from './containers/Orders/orders';
+import OrdersContainer from "./containers/Orders/OrdersContainer/OrdersContainer";
 import ProductListPage from "./containers/ProductListPage/ProductListPage";
-import ProductDetailsPage from "./containers/ProductDetailsPage/ProductDetailsPage";
+import ProductDetailsPageContainer from "./containers/ProductDetailsPage/ProductDetailsPageContainer/ProductDetailsPageContainer";
 function App() {
   return (
     <div className="App">
       <Router>
         <GoTop scrollStepInPx="9999999" delayInMs="500" />
         <Switch>
-          <Route path="/" exact component={HomePage} />
-          <PrivateRoute path="/orders" component={Orders} />
-          <PrivateRoute path="/checkout" component={Checkout} />
-          <Route path="/cart" component={CartPage} />
+          <Route path="/" exact component={HomePageContainer} />
+          <PrivateRoute path="/orders" component={OrdersContainer} />
+          <PrivateRoute path="/checkout" component={CheckoutContainer} />
+          <Route path="/cart" component={CartPageContainer} />
           <Route
             path="/:productSlug/:productId/p"
-            component={ProductDetailsPage}
+            component={ProductDetailsPageContainer}
           />
           <Route path="/:slug" component={ProductListPage} />
         </Switch>
