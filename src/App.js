@@ -13,6 +13,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        {/* dasdas 123*/}
         <GoTop scrollStepInPx="9999999" delayInMs="500" />
         <Switch>
           <Route path="/" exact component={HomePageContainer} />
